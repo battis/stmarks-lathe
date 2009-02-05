@@ -11,7 +11,7 @@ public class VisualizerRenderer extends Renderer
 
 	public void init ()
 	{
-		Material.enableBlending (gl);
+		// Material.enableBlending (gl);
 		translucentPlastic = new Material (gl);
 		translucentPlastic.setDiffuse (1, 1, 1, 0.75);
 		translucentPlastic.setSpecular (.9, .9, 1, 0.85);
@@ -26,8 +26,8 @@ public class VisualizerRenderer extends Renderer
 		
 		gl.glClearColor (0.5f, 0.5f, 0.5f, 1);
 
-		enableAxes ();
-		setAxisLength (visual.work.length() * 1.2);
+		// enableAxes ();
+		// setAxisLength (visual.work.length() * 1.2);
 	}
 
 	public void display ()
