@@ -8,10 +8,11 @@ public class VisualizerRenderer extends Renderer
 	private VisualWorkPiece visual;
 	private Material translucentPlastic;
 	private Light light;
+	private double rotation;
 
 	public void init ()
 	{
-		// Material.enableBlending (gl);
+		Material.enableBlending (gl);
 		translucentPlastic = new Material (gl);
 		translucentPlastic.setDiffuse (1, 1, 1, 0.75);
 		translucentPlastic.setSpecular (.9, .9, 1, 0.85);
@@ -34,6 +35,7 @@ public class VisualizerRenderer extends Renderer
 	{
 		glu.gluLookAt (visual.work.length () / 2, 0, visual.work.maxRadius() * 7, visual.work.length () / 2, 0, 0, 0, 1, 0);
 
+		gl.glRotated (rotation++, 0, 1, 0);
 		visual.draw ();
 	}
 }
