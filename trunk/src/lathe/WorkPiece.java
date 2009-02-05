@@ -5,9 +5,9 @@ import java.util.*;
 
 import simplerjogl.*;
 
-public class WorkPiece
+public class WorkPiece implements Iterable<Vertex>
 {
-	protected ArrayList<Vertex> surface;
+	protected ArrayList<Vertex> surface, iterableSurface;
 
 	/**
 	 * pre: length and radius are non-negative values
@@ -100,7 +100,7 @@ public class WorkPiece
 	 */
 	public double length ()
 	{
-		return surface.get (surface.size () - 1).getY ();
+		return surface.get (surface.size () - 1).getX ();
 	}
 
 	/**
@@ -144,5 +144,39 @@ public class WorkPiece
 			return false;
 		}
 		return radius (v.getX ()) >= v.getY ();
+	}
+
+	public double maxRadius ()
+	{
+		Vertex max = surface.get(0);
+		for (Vertex v : surface)
+		{
+			if (v.getY () > max.getY ())
+			{
+				max = v;
+			}
+		}
+		return max.getY ();
+	}
+
+	public Iterator<Vertex> iterator ()
+	{
+		final Iterator<Vertex> surfaceIterator = surface.iterator ();
+		return new Iterator<Vertex>() {
+
+			public boolean hasNext ()
+			{
+				return surfaceIterator.hasNext ();
+			}
+
+			public Vertex next ()
+			{
+				return new Vertex (surfaceIterator.next ());
+			}
+
+			public void remove ()
+			{}
+			
+		};
 	}
 }

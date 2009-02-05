@@ -1,7 +1,6 @@
 
 package arduino;
 
-import helpers.*;
 import processing.core.*;
 import processing.serial.*;
 
