@@ -146,9 +146,17 @@ public class WorkPiece implements Iterable<Vertex>
 		return radius (v.getX ()) >= v.getY ();
 	}
 
+	/**
+	 * @return the largest radius found on the surface
+	 * 
+	 *         TODO This could be improved by caching the most recently
+	 *         found maximum radius and only re-searching if the surface
+	 *         has changed -- possibly only if the surface has changed near
+	 *         the maximum
+	 */
 	public double maxRadius ()
 	{
-		Vertex max = surface.get(0);
+		Vertex max = surface.get (0);
 		for (Vertex v : surface)
 		{
 			if (v.getY () > max.getY ())
@@ -162,7 +170,8 @@ public class WorkPiece implements Iterable<Vertex>
 	public Iterator<Vertex> iterator ()
 	{
 		final Iterator<Vertex> surfaceIterator = surface.iterator ();
-		return new Iterator<Vertex>() {
+		return new Iterator<Vertex> ()
+		{
 
 			public boolean hasNext ()
 			{
@@ -176,7 +185,7 @@ public class WorkPiece implements Iterable<Vertex>
 
 			public void remove ()
 			{}
-			
+
 		};
 	}
 }
