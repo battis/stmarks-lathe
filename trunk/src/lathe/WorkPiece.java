@@ -18,7 +18,6 @@ public class WorkPiece implements Iterable<Vertex>
 	public WorkPiece (double length, double radius)
 	{
 		surface = new ArrayList<Vertex> ();
-		surface.add (new Vertex (0, radius));
 		surface.add (new Vertex (length, radius));
 	}
 
