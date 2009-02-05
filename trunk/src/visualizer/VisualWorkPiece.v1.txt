@@ -1,0 +1,170 @@
+
+package visualizer;
+
+import java.util.*;
+
+import javax.media.opengl.*;
+
+import lathe.*;
+
+import simplerjogl.*;
+
+public class VisualWorkPiece extends Model
+{
+	private WorkPiece work;
+	protected Material aluminum;
+
+	public VisualWorkPiece (GL gl, double radius, double length, int slices, int stacks)
+	{
+		super (gl);
+
+		work = new WorkPiece (radius, length, slices, stacks);
+
+		aluminum = new Material (gl);
+		aluminum.setDiffuse (0.25f, 0.25f, 0.30f, 1);
+		aluminum.setAmbient (.4, .4, .4, 1);
+		aluminum.setSpecular (1, 1, 1, 1);
+		aluminum.setShininess (128);
+	}
+
+	public void draw ()
+	{
+		double stack = getStackHeight ();
+		double slice = getSliceArc ();
+		gl.glPushMatrix ();
+		{
+			aluminum.use ();
+			gl.glBegin (GL.GL_TRIANGLES);
+			{
+				for (double t = 1; t < surface.size (); t++ )
+				{
+					double r0 = surface.get ((int) t - 1);
+					double r1 = surface.get ((int) t);
+					for (double s = 0; s < slices; s++ )
+					{
+						Vertex v1, v2, v3, v4;
+						v1 = new Vertex ( (r0 * Math.cos (s * slice)), (r0 * Math.sin (s * slice)), ( (t - 1) * stack));
+						v2 = new Vertex ( (r1 * Math.cos (s * slice)), (r1 * Math.sin (s * slice)), (t * stack));
+						v3 = new Vertex ( (r0 * Math.cos ( (s + 1) * slice)), (r0 * Math.sin ( (s + 1) * slice)), ( (t - 1) * stack));
+						v4 = new Vertex ( (r1 * Math.cos ( (s + 1) * slice)), (r1 * Math.sin ( (s + 1) * slice)), (t * stack));
+						Vertex norm1, norm2;
+						norm1 = Vertex.normalVector (v1, v2, v3);
+						norm2 = Vertex.normalVector (v3, v2, v4);
+						gl.glNormal3dv (norm1.getXYZ (), 0);
+						gl.glVertex3dv (v1.getXYZ (), 0);
+						gl.glVertex3dv (v2.getXYZ (), 0);
+						gl.glVertex3dv (v3.getXYZ (), 0);
+						gl.glNormal3dv (norm2.getXYZ (), 0);
+						gl.glVertex3dv (v2.getXYZ (), 0);
+						gl.glVertex3dv (v3.getXYZ (), 0);
+						gl.glVertex3dv (v4.getXYZ (), 0);
+					}
+				}
+			}
+			gl.glEnd ();
+		}
+		gl.glPopMatrix ();
+	}
+
+	/**
+	 * @param v
+	 *            is a vertex in coordinates relative to the work piece's
+	 *            zero point
+	 * @return true if v is within the work piece, false otherwise
+	 */
+	public boolean isContained (Vertex v)
+	{
+		return v.getY () < getRadius (v.getX ());
+	}
+
+	/**
+	 * @return distance spanned by a single stack
+	 */
+	protected double getStackHeight ()
+	{
+		return length / stacks;
+	}
+
+	/**
+	 * @return arc spanned by a single slice (in radians)
+	 */
+	protected double getSliceArc ()
+	{
+		return Math.toRadians (360.0 / slices);
+	}
+
+	/**
+	 * @param distance
+	 *            from the zero point of the work piece
+	 * @return radius if distance is within work piece, -1 otherwise
+	 */
+	public double getRadius (double distance)
+	{
+		if (distance <= length)
+		{
+			int xUnit = (int) Math.floor (distance / getStackHeight ());
+			Vertex l, r;
+			l = new Vertex (xUnit * getStackHeight (), surface.get (xUnit));
+			r = new Vertex ( (xUnit + 1) * getStackHeight (), surface.get (xUnit + 1));
+			double m = (l.getY () - r.getY ()) / (l.getX () - r.getX ());
+			double b = l.getY () - (m * l.getX ());
+			return m * distance + b;
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
+	public void cut (double depth, double y)
+	{
+		int i = (int) ( (y / length) * surface.size ());
+		surface.set (i, surface.get (i) - Math.abs (depth));
+	}
+
+	protected double setRadius (double r)
+	{
+		double old = radius;
+		radius = Math.abs (r);
+		return old;
+	}
+
+	protected double setLength (double l)
+	{
+		double old = length;
+		length = Math.abs (l);
+		return old;
+	}
+
+	protected int setSlices (int s)
+	{
+		int old = slices;
+		slices = Math.abs (s);
+		return old;
+	}
+
+	protected int setStacks (int s)
+	{
+		int old = stacks;
+		stacks = Math.abs (s);
+		return old;
+	}
+
+	public double getLength ()
+	{
+		return length;
+	}
+
+	public double getMaxRadius ()
+	{
+		double max = surface.get(0);
+		for (Double r : surface)
+		{
+			if (r > max)
+			{
+				max = r;
+			}
+		}
+		return max;
+	}
+}
