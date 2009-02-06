@@ -3,6 +3,8 @@ package lathe;
 
 public class LatheOperator
 {
+	private Lathe lathe;
+	
 	/*
 	 * 1. scan shape from largest to smallest radius, cutting large radii
 	 * first, and finishing with the smallest, finishing with the faceplate
