@@ -29,6 +29,8 @@ public class Lathe
 	private MotorController transverseMotor, parallelMotor, latheMotor;
 	private DirectionalRotationEncoder transverseEncoder, parallelEncoder;
 	private IndexEncoder latheEncoder;
+	private WorkPiece work;
+	private Tool tool;
 
 	public Lathe ()
 	{
