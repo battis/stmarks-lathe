@@ -42,5 +42,8 @@ public class Arduino extends PApplet
 
 	public void draw ()
 	{
+		// sending instructions about how to control the lathe
+		// collecting information about the encoders
+		// communicating with the rest of the lathe software on the computer
 	}
 }
