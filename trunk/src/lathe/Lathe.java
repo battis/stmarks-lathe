@@ -26,21 +26,12 @@ import arduino.*;
 public class Lathe
 {
 	private Arduino usb;
-	private MotorController transverseMotor, parallelMotor, latheMotor;
-	private DirectionalRotationEncoder transverseEncoder, parallelEncoder;
-	private IndexEncoder latheEncoder;
 	private WorkPiece work;
 	private Tool tool;
 
 	public Lathe ()
 	{
 		usb = new Arduino ();
-		transverseMotor = new MotorController (usb);
-		parallelMotor = new MotorController (usb);
-		latheMotor = new MotorController (usb);
-		transverseEncoder = new DirectionalRotationEncoder (usb);
-		parallelEncoder = new DirectionalRotationEncoder (usb);
-		latheEncoder = new IndexEncoder (usb);
 	}
 
 	/**
