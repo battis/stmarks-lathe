@@ -48,4 +48,7 @@ void setup()
 void loop()
 {
   // body of the program
+  // collect input from the encoders -- it will need to store some of this until the next time it surfaces to communicate
+  // pass instructions to the gear motors
+  // communicate back and forth with the computer
 }
