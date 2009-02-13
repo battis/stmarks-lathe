@@ -8,7 +8,6 @@ public class VisualizerRenderer extends Renderer
 	private VisualWorkPiece visual;
 	private Material translucentPlastic;
 	private Light light;
-	private double rotation;
 
 	public void init ()
 	{
@@ -27,15 +26,14 @@ public class VisualizerRenderer extends Renderer
 		
 		gl.glClearColor (0.5f, 0.5f, 0.5f, 1);
 
-		// enableAxes ();
-		// setAxisLength (visual.work.length() * 1.2);
+		enableAxes ();
+		setAxisLength (visual.work.length() * 1.2);
 	}
 
 	public void display ()
 	{
 		glu.gluLookAt (visual.work.length () / 2, 0, visual.work.maxRadius() * 7, visual.work.length () / 2, 0, 0, 0, 1, 0);
 
-		gl.glRotated (rotation++, 0, 1, 0);
 		visual.draw ();
 	}
 }
