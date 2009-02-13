@@ -18,8 +18,10 @@ public class WorkPiece implements Iterable<Vertex>
 	public WorkPiece (double length, double radius)
 	{
 		surface = new ArrayList<Vertex> ();
-		surface.add(new Vertex (0, radius));
+		surface.add (new Vertex (0, 0));
+		surface.add (new Vertex (0, radius));
 		surface.add (new Vertex (length, radius));
+		surface.add (new Vertex (length, 0));
 	}
 
 	/**
@@ -103,33 +105,6 @@ public class WorkPiece implements Iterable<Vertex>
 		return surface.get (surface.size () - 1).getX ();
 	}
 
-	/**
-	 * pre: 0 <= distance < length; 0 <= depth < radius
-	 * 
-	 * @param distance
-	 *            from zero of work piece to face plate
-	 * @param depth
-	 *            of cut
-	 * @param tool
-	 *            being used to make the cut
-	 */
-	public void cutFacePlate (double distance, double depth, Tool tool)
-	{}
-
-	/**
-	 * pre: 0 <= distance < length; 0 <= depth < radius
-	 * 
-	 * @param distance
-	 *            from zero of work piece to cylinder turn
-	 * @param depth
-	 *            of cut
-	 * @param tool
-	 *            being used to make the cut
-	 */
-	public void turnCylinder (double distance, double depth, Tool tool)
-	{
-
-	}
 
 	/**
 	 * @param v
