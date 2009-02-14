@@ -1,26 +1,6 @@
-/* digital I/O pin assignments */
-int X1 =	0; // X-axis encoder #1 (input)
-int X2 =	1; // X-axis encoder #2 (input)
-int Y1 =	2; // Y-axis encoder #1 (input)
-int XCW =	3; // X-axis clockwise PWM motor control (output)
-int Y2 =	4; // Y-axis encoder #2 (input)
-int YCW =	5; // Y-axis clockwise PWM motor control (output)
-// int ZCW =	6; // Z-axis clockwise PWM encoder (output)
-// int Z1 =	7; // Z-axis encoder #1 (input)
-// int Z2 =	8; // Z-axis encoder #2 (input)
-int XCCW =	9; // X-axis counter-clockwise PWM motor control (output)
-int YCCW =	10; // Y-axis counter-clockwise PWM motor control (output)
-// int ZCCW =	11; // Z-axis counter-clockwise PWM motor control (output)
-int OP =	12; // Operator feedback LED
-int EM =	13; // Emergency drive motor shut-off relay
-
-/* analog input pins */
-int XSENS =		0; // X-axis motor sensor
-int YSENS =		1; // Y-axis motor sensor
-// int ZSENS =		2; // Z-axis motor sensor
-int ANLG3 =		3;
-int ANLG4 =		4;
-int EMSENS =	5; // Emergency drive shut-off sensor
+int RCW = 3; // enable clockwise radius motor control
+int RPWM = 5; // control radius motor power level (PWM)
+int RCCW = 9; // enable counter-clockwise radius motor control
 
 char ARDUINO_HANDSHAKE = '@';
 
@@ -31,18 +11,9 @@ void setup()
 	/* send handshake to computer */
 	Serial.print (ARDUINO_HANDSHAKE);
 
-	pinMode (X1, INPUT);
-	pinMode (X2, INPUT);
-	pinMode (XCW, OUTPUT);
-	pinMode (XCCW, OUTPUT);
-  
-	pinMode (Y1, INPUT);
-	pinMode (Y2, INPUT);
-	pinMode (YCW, OUTPUT);
-	pinMode (YCCW, OUTPUT);
-	
-	pinMode (OP, OUTPUT);
-	pinMode (EM, OUTPUT);
+        pinMode (RCW, OUTPUT);
+        pinMode (RCCW, OUTPUT);
+        pinMode (RPWM, OUTPUT);
 }
 
 void loop()
@@ -51,4 +22,32 @@ void loop()
   // collect input from the encoders -- it will need to store some of this until the next time it surfaces to communicate
   // pass instructions to the gear motors
   // communicate back and forth with the computer
+  
+    if (Serial.available()) {
+    char val = Serial.read();
+    if (val == 'A') {
+      RadiusClockwise (255, 500);
+    } 
+    if (val == 'B') {
+      RadiusCounterClockwise (255, 500);
+    }
+  }
+}
+
+void RadiusClockwise (int power, int duration)
+{
+      digitalWrite (RCW, HIGH);
+      analogWrite (RPWM, power);
+      delay (duration);
+      analogWrite (RPWM, 0);
+      digitalWrite (RCW, LOW);
+}
+
+void RadiusCounterClockwise (int power, int duration)
+{
+      digitalWrite (RCCW, HIGH);
+      analogWrite (RPWM, 255);
+      delay (500);
+      analogWrite (RPWM, 0);
+      digitalWrite (RCCW, LOW);
 }
