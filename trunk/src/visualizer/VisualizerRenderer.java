@@ -6,6 +6,7 @@ import simplerjogl.*;
 public class VisualizerRenderer extends Renderer
 {
 	private VisualWorkPiece visual;
+	private VisualTool tool;
 	private Material translucentPlastic;
 	private Light light;
 
@@ -18,6 +19,8 @@ public class VisualizerRenderer extends Renderer
 		translucentPlastic.setShininess (35);
 		
 		visual = new VisualWorkPiece (gl, 5, 1, 100, translucentPlastic);
+		
+		tool = new VisualTool (gl);
 
 		light = new Light (gl);
 		light.setPosition (1, 1, 1, 0);
@@ -35,5 +38,6 @@ public class VisualizerRenderer extends Renderer
 		glu.gluLookAt (visual.work.length () / 2, 0, visual.work.maxRadius() * 7, visual.work.length () / 2, 0, 0, 0, 1, 0);
 
 		visual.draw ();
+		tool.draw();
 	}
 }
