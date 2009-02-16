@@ -6,6 +6,15 @@ public class LatheOperator
 	private Lathe lathe;
 	
 	/*
+	 * one possibility: gives the lathe the curve to work with.
+	 * find the equation of a curve (perhaps little pieces of linear segments, y=mx+b)
+	 * graph the curve on the visualizer.
+	 * begin to cut out little pieces according the the graph.
+	 *
+	 *another possibility: find the volume of the obj. and the outlining curve.
+	 *cuting segments pieces by pieces according to the volume and shape.
+	 *(disc method in calculus)
+	 * 
 	 * 1. scan shape from largest to smallest radius, cutting large radii
 	 * first, and finishing with the smallest, finishing with the faceplate
 	 * turn
