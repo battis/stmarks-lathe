@@ -29,12 +29,27 @@ public class Tool implements Iterable<Vertex>
 	
 	/* TODO Things to add
 	 * 
-	 * Need to be able to move the tool (a method to do this?)
-	 * 
 	 * Need to be able to create vertices at the intersection of the tool edges and the work piece edges
 	 * 
 	 * Need to be able to add vertices to the workpiece to represent cuts (this may require updating the workpiece as well)
 	 */
+	
+	public void move(double dx, double dy, WorkPiece work) //Chris Becker
+	{
+		for (Vertex v: surface)
+		{
+			v.setX(v.getX()+dx);
+			v.setY(v.getY()+dy);
+		}
+		
+		for (Vertex v : surface)
+		{
+			if (work.contains(v))
+			{
+				// we're cutting into the workpiece with this vertex
+			}
+		}
+	}
 	
 	public Iterator<Vertex> iterator ()
 	{
@@ -57,5 +72,7 @@ public class Tool implements Iterable<Vertex>
 
 		};
 	}
+	
+	
 }
 

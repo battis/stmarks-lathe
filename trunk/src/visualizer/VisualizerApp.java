@@ -11,6 +11,7 @@ public class VisualizerApp
 		Renderer renderer = new VisualizerRenderer ();
 		ShellFrame frame = ShellFrame.createFrame ("Lathe Visualizer/Simulator", false);
 		frame.addGLEventListener (renderer);
+		frame.addKeyListener (renderer);
 		frame.addShellListener (renderer);
 		frame.start ();
 	}
