@@ -1,6 +1,8 @@
 
 package visualizer;
 
+import java.awt.event.KeyEvent;
+
 import simplerjogl.*;
 
 public class VisualizerRenderer extends Renderer
@@ -36,8 +38,28 @@ public class VisualizerRenderer extends Renderer
 	public void display ()
 	{
 		glu.gluLookAt (visual.work.length () / 2, 0, visual.work.maxRadius() * 7, visual.work.length () / 2, 0, 0, 0, 1, 0);
-
-		visual.draw ();
 		tool.draw();
+		visual.draw ();
+	
+	}
+	
+	public void keyPressed(KeyEvent e) //Chris Becker
+	{
+		if(e.getKeyCode()== KeyEvent.VK_UP)
+		{
+			tool.tool.move(0, .01);
+		}
+		if(e.getKeyCode()== KeyEvent.VK_DOWN)
+		{
+			tool.tool.move(0, -.01);
+		}
+		if(e.getKeyCode()== KeyEvent.VK_RIGHT)
+		{
+			tool.tool.move(.01, 0);
+		}
+		if(e.getKeyCode()== KeyEvent.VK_LEFT)
+		{
+			tool.tool.move(-.01, 0);
+		}
 	}
 }

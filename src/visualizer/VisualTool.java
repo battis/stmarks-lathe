@@ -8,7 +8,7 @@ import simplerjogl.*;
 
 public class VisualTool extends Model
 {
-	protected Tool tool;
+	public Tool tool;
 	
 	public VisualTool (GL gl)
 	{
