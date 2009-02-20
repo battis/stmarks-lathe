@@ -65,7 +65,7 @@ public class VisualWorkPiece extends Model
 						 * computing lighting and shadows
 						 */
 						Vertex n1, n2;
-						n1 = Vertex.normalVector (v1, v2, v3);
+						n1 = Vertex.normalVector (v1, v2, v4);
 						n2 = Vertex.normalVector (v4, v3, v1);
 
 						gl.glNormal3dv (n1.getXYZ (), 0);

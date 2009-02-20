@@ -23,8 +23,8 @@ public class Tool implements Iterable<Vertex>
 		
 		// these are totally arbitrary values!
 		surface.add (new Vertex (1, 2));
-		surface.add (new Vertex (1.3, 1.4));
-		surface.add (new Vertex (1.71, 3.14159));
+		surface.add (new Vertex (2, 1));
+		surface.add (new Vertex (3, 2));
 	}
 	
 	/* TODO Things to add

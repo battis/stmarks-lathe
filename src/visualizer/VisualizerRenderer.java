@@ -47,19 +47,19 @@ public class VisualizerRenderer extends Renderer
 	{
 		if(e.getKeyCode()== KeyEvent.VK_UP)
 		{
-			tool.tool.move(0, .01);
+			tool.tool.move(0.0, .01, visual.work);
 		}
 		if(e.getKeyCode()== KeyEvent.VK_DOWN)
 		{
-			tool.tool.move(0, -.01);
+			tool.tool.move(0, -.01, visual.work);
 		}
 		if(e.getKeyCode()== KeyEvent.VK_RIGHT)
 		{
-			tool.tool.move(.01, 0);
+			tool.tool.move(.01, 0, visual.work);
 		}
 		if(e.getKeyCode()== KeyEvent.VK_LEFT)
 		{
-			tool.tool.move(-.01, 0);
+			tool.tool.move(-.01, 0, visual.work);
 		}
 	}
 }
