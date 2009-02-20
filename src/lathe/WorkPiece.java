@@ -5,10 +5,8 @@ import java.util.*;
 
 import simplerjogl.*;
 
-public class WorkPiece implements Iterable<Vertex>
+public class WorkPiece extends VertexShape implements Iterable<Vertex>
 {
-	protected ArrayList<Vertex> surface, iterableSurface;
-
 	/**
 	 * pre: length and radius are non-negative values
 	 * 
@@ -17,7 +15,7 @@ public class WorkPiece implements Iterable<Vertex>
 	 */
 	public WorkPiece (double length, double radius)
 	{
-		surface = new ArrayList<Vertex> ();
+		super();
 		surface.add (new Vertex (0, 0));
 		surface.add (new Vertex (0, radius));
 		surface.add (new Vertex (length, radius));
@@ -53,58 +51,6 @@ public class WorkPiece implements Iterable<Vertex>
 		}
 		return -1;
 	}
-
-	/**
-	 * pre: 0 <= distance <= length
-	 * 
-	 * @param distance
-	 * @return the rightmost vertex with an x-coordinate less than or equal
-	 *         to distance, null if no such vertex exists
-	 */
-	protected Vertex leftOf (double distance)
-	{
-		Vertex left = null;
-		for (Vertex right : surface)
-		{
-			if (right.getX () <= distance)
-			{
-				left = right;
-			}
-			else
-			{
-				return left;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * pre: 0 <= distance <= length
-	 * 
-	 * @param distance
-	 * @return the leftmost vertex v such that v.x > distance, null if no
-	 *         such vertex exists
-	 */
-	protected Vertex rightOf (double distance)
-	{
-		for (Vertex right : surface)
-		{
-			if (right.getX () > distance)
-			{
-				return right;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * @return length of work piece
-	 */
-	public double length ()
-	{
-		return surface.get (surface.size () - 1).getX ();
-	}
-
 
 	/**
 	 * @param v
@@ -160,7 +106,6 @@ public class WorkPiece implements Iterable<Vertex>
 
 			public void remove ()
 			{}
-
 		};
 	}
 }

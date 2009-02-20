@@ -23,7 +23,7 @@ public class VisualizerRenderer extends Renderer
 		visual = new VisualWorkPiece (gl, 5, 1, 100, translucentPlastic);
 		
 		tool = new VisualTool (gl);
-
+		
 		light = new Light (gl);
 		light.setPosition (1, 1, 1, 0);
 		light.setAmbient (.4f, .4f, .4f, 1);
