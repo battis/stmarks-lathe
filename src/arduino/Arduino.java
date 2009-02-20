@@ -20,6 +20,8 @@ public class Arduino extends PApplet
 		boolean handshake = false;
 		for (int i = 0; i < ports.length && !handshake; i++ )
 		{
+			System.out.println ("Testing " + ports[i] + "...");
+			
 			/* open connection to port */
 			port = new Serial (this, ports[i], 9600);
 			
@@ -37,6 +39,10 @@ public class Arduino extends PApplet
 					handshake = true;
 				}
 			}
+		}
+		if (!handshake)
+		{
+			System.out.println ("Arduino USB was not found.");
 		}
 	}
 
