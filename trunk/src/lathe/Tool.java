@@ -13,13 +13,11 @@ import simplerjogl.Vertex;
  * 
  * @author Seth Battis
  */
-public class Tool implements Iterable<Vertex>
+public class Tool extends VertexShape implements Iterable<Vertex>
 {
-	protected ArrayList<Vertex> surface;
-
 	public Tool()
 	{
-		surface = new ArrayList<Vertex>();
+		super();
 		
 		// these are totally arbitrary values!
 		surface.add (new Vertex (1, 2));
