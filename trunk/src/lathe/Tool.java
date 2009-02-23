@@ -13,7 +13,7 @@ import simplerjogl.Vertex;
  * 
  * @author Seth Battis
  */
-public class Tool extends VertexShape implements Iterable<Vertex>
+public class Tool extends VertexShape
 {
 	public Tool()
 	{
@@ -40,8 +40,9 @@ public class Tool extends VertexShape implements Iterable<Vertex>
 			v.setY(v.getY()+dy);
 		}
 		
-		for (Vertex v : surface) // Chris Becker
+		for (int j = 0; j < surface.size(); j++) // Chris Becker
 		{
+			Vertex v = surface.get(j);
 			if (work.contains(v))
 			{
 				Vertex w= work.leftOf(v.getX());
@@ -70,7 +71,7 @@ public class Tool extends VertexShape implements Iterable<Vertex>
 				double y2= (m3 * x2) + b3;// y value for second poi9nt of intersection
 				
 				
-				int i= surface.indexOf(z);
+				int i= surface.indexOf(v);
 				
 				surface.add(i, new Vertex(x2,y2));
 				surface.add(i, v);
@@ -78,29 +79,5 @@ public class Tool extends VertexShape implements Iterable<Vertex>
 			}
 		}
 	}
-	
-	public Iterator<Vertex> iterator ()
-	{
-		final Iterator<Vertex> surfaceIterator = surface.iterator ();
-		return new Iterator<Vertex> ()
-		{
-
-			public boolean hasNext ()
-			{
-				return surfaceIterator.hasNext ();
-			}
-
-			public Vertex next ()
-			{
-				return new Vertex (surfaceIterator.next ());
-			}
-
-			public void remove ()
-			{}
-
-		};
-	}
-	
-	
 }
 
