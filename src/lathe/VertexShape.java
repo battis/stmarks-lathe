@@ -32,7 +32,7 @@ public class VertexShape implements Iterable<Vertex>
 		Vertex left = null;
 		for (Vertex right : surface)
 		{
-			if (right.getX () <= distance)
+			if (right.getX () < distance)
 			{
 				left = right;
 			}
