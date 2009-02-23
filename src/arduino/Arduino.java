@@ -65,6 +65,21 @@ public class Arduino extends PApplet
 		
 		t.reset();
 		while (t.isRunning()) {}
+		
+		
+		System.out.println ("Testing LCW");
+		port.write('C');
+	
+		t.reset();
+		while (t.isRunning()) {}
+		
+		System.out.println ("Testing LCCW");
+		port.write('D');
+	
+		t.reset();
+		while (t.isRunning()) {}
+		
+		
 
 	}
 }
