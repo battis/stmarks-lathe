@@ -121,7 +121,7 @@ public class Tool extends VertexShape
 					if (this.contains (v1))
 					{
 						work.surface.remove (v1);
-						k--;
+						k-- ;
 					}
 				}
 			}
@@ -130,21 +130,30 @@ public class Tool extends VertexShape
 
 	public boolean contains (Vertex v)
 	{
-		Vertex left = this.leftOf (v.getX ());
-		Vertex right = this.rightOf (v.getX ());
+		Vertex at = this.atX (v.getX ());
 
-		if ( (left != null) && (right != null))
+		if (at != null)
 		{
-			// formula for the ine at distance v.x
-			double m = (left.getY () - right.getY ()) / (left.getX () - right.getX ());
-			double b = left.getY () - (m * left.getX ());
-
-			// true if the line is below v, false otherwise
-			return ( (m * v.getX ()) + b) < v.getY ();
+			return (at.getY () < v.getY ());
 		}
 		else
 		{
-			return false;
+			Vertex left = this.leftOf (v.getX ());
+			Vertex right = this.rightOf (v.getX ());
+
+			if ( (left != null) && (right != null))
+			{
+				// formula for the ine at distance v.x
+				double m = (left.getY () - right.getY ()) / (left.getX () - right.getX ());
+				double b = left.getY () - (m * left.getX ());
+
+				// true if the line is below v, false otherwise
+				return ( (m * v.getX ()) + b) < v.getY ();
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 }

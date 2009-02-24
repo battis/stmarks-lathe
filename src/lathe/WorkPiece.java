@@ -15,7 +15,7 @@ public class WorkPiece extends VertexShape implements Iterable<Vertex>
 	 */
 	public WorkPiece (double length, double radius)
 	{
-		super();
+		super ();
 		surface.add (new Vertex (0, 0));
 		surface.add (new Vertex (0, radius));
 		surface.add (new Vertex (length, radius));
@@ -36,6 +36,11 @@ public class WorkPiece extends VertexShape implements Iterable<Vertex>
 		{
 			if (right.getX () == distance)
 			{
+				/*
+				 * TODO What if there are two vertices at this
+				 * X-coordinate? We should return the one with the greatest
+				 * Y-value
+				 */
 				return right.getY ();
 			}
 			else if (right.getX () < distance)
