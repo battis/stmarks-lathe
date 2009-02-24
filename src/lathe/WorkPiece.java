@@ -64,7 +64,7 @@ public class WorkPiece extends VertexShape implements Iterable<Vertex>
 		{
 			return false;
 		}
-		return radius (v.getX ()) >= v.getY ();
+		return radius (v.getX ()) > v.getY ();
 	}
 
 	/**
@@ -86,26 +86,5 @@ public class WorkPiece extends VertexShape implements Iterable<Vertex>
 			}
 		}
 		return max.getY ();
-	}
-
-	public Iterator<Vertex> iterator ()
-	{
-		final Iterator<Vertex> surfaceIterator = surface.iterator ();
-		return new Iterator<Vertex> ()
-		{
-
-			public boolean hasNext ()
-			{
-				return surfaceIterator.hasNext ();
-			}
-
-			public Vertex next ()
-			{
-				return new Vertex (surfaceIterator.next ());
-			}
-
-			public void remove ()
-			{}
-		};
 	}
 }
