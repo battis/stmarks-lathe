@@ -62,6 +62,24 @@ public class VertexShape implements Iterable<Vertex>
 		}
 		return null;
 	}
+	
+	/**
+	 * TODO There could be more than one vertex at a particular X-coordinate!
+	 * 
+	 * @param distance
+	 * @return the first vertex with X-coordinate at distance
+	 */
+	public Vertex atX (double distance)
+	{
+		for (Vertex v : surface)
+		{
+			if (v.getX () == distance)
+			{
+				return v;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * @return length of work piece
