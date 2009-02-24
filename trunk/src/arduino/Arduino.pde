@@ -29,11 +29,21 @@
 			char val = Serial.read ();
 			if (val == 'A')
 			{
-				RadiusClockwise (255, 500);
+				horizontalClockwise (255, 500);
 			}
 			if (val == 'B')
 			{
-				RadiusCounterClockwise (255, 500);
+				horizontalCounterClockwise (255, 500);
+			}
+			char val = Serial.read ();
+			if (val == 'C')
+			{
+			veritcalClockwise (255,500);
+			}
+			char val = Serial.read ();
+			if (val == 'D')
+			{
+			verticalCounterClockwise (255,500)
 			}
 		}
 	}
