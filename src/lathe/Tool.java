@@ -50,66 +50,31 @@ public class Tool extends VertexShape
 			Vertex v = surface.get (j);
 			if (work.contains (v))
 			{
-				/*
-				 * left vertex of workpiece
-				 */
-				Vertex w = work.leftOf (v.getX ());
-				/*
-				 * right vertex of workpiece
-				 */
-				Vertex z = work.rightOf (v.getX ());
-
-				/*
-				 * left vertex from tool tip
-				 */
-				Vertex u = this.leftOf (v.getX ());
-				/*
-				 * right vertex from tool tip
-				 */
-				Vertex q = this.rightOf (v.getX ());
-
-				double m1 = (v.getY () - u.getY ()) / (v.getX () - u.getX ());
-				double b1 = v.getY () - (m1 * v.getX ());
-
-				// formula for workpiece surface line
-				double m2 = (w.getY () - z.getY ()) / (w.getX () - z.getX ());
-				double b2 = w.getY () - (m2 * w.getY ());
-
-				// formula for the right side of tool line
-				double m3 = (v.getY () - q.getY ()) / (v.getX () - q.getX ());
-				double b3 = v.getY () - (m3 * v.getX ());
-
-				/*
-				 * left point of intersection (left tool side and workpiece
-				 * lines)
-				 * 
-				 * x value for first point of intersection
-				 */
-				double x1 = (b2 - b1) / (m1 - m2);
-				/*
-				 * y value of first point of intersection
-				 */
-				double y1 = (m1 * x1) + b1;
-
-				/*
-				 * right point of intersection (right tool side and
-				 * workpiece lines)
-				 * 
-				 * x value for second point of intersection
-				 */
-				double x2 = (b2 - b3) / (m3 - m2);
-				/*
-				 * y value for second point of intersection
-				 */
-				double y2 = (m3 * x2) + b3;
-
+ 				Vertex workLeft = work.leftOf (v.getX());
+ 				Vertex workRight = work.rightOf (v.getX());
+ 				
+ 				Vertex toolLeft = this.leftOf (v.getX());
+ 				Vertex toolRight = this.rightOf (v.getX());
+				
+				Vertex left = Intersection (workLeft, workRight, toolLeft, v);
+				Vertex right = null;
+				
+				do {
+					right = Intersection (workLeft, workRight, v, toolRight);
+					if (right == null)
+					{
+						workLeft = workRight;
+						workRight = work.rightOf (workRight.getX());
+					}
+				} while (right == null);
+				
 				// index of right workpiece vertex
-				int i = work.surface.indexOf (z);
+				int i = work.surface.indexOf (workRight);
 
 				// inserting new vertices _before_ right workpiece vertex
-				work.surface.add (i, new Vertex (x2, y2));
+				work.surface.add (i, left);
 				work.surface.add (i, new Vertex (v));
-				work.surface.add (i, new Vertex (x1, y1));
+				work.surface.add (i, right);
 
 				/*
 				 * check for workpiece vertices that are within the tool
@@ -125,6 +90,28 @@ public class Tool extends VertexShape
 					}
 				}
 			}
+		}
+	}
+	
+	public Vertex Intersection(Vertex a, Vertex b, Vertex p, Vertex q)
+	{
+		double m1 = (a.getY () - b.getY ()) / (a.getX () - b.getX ());
+		double b1 = a.getY () - (m1 * a.getX ());
+		
+		double m2 = (p.getY () - q.getY ()) / (p.getX () - q.getX ());
+		double b2 = p.getY () - (m2 * p.getY ());
+				
+		double x = (b2 - b1) / (m1 - m2);
+		double y = (m1 * x) + b1;
+				
+		/* TODO what if intersection is outside the volume of the tool and/or work piece? */
+		if(m1==m2)
+		{
+			return null;
+		}
+		else
+		{
+			return new Vertex (x, y);
 		}
 	}
 
