@@ -35,12 +35,10 @@
 			{
 				VerticalOut (255, 500);
 			}
-			char val = Serial.read ();
 			if (val == '3')
 			{
 			HorizontalRight (255,500);
 			}
-			char val = Serial.read ();
 			if (val == '4')
 			{
 			HorizontalLeft (255,500)
