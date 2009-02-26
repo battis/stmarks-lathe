@@ -27,28 +27,29 @@
 		if (Serial.available ())
 		{
 			char val = Serial.read ();
-			if (val == 'A')
+			if (val == '1')
 			{
-				horizontalClockwise (255, 500);
+				VerticalIn (255, 500);
 			}
-			if (val == 'B')
+			if (val == '2')
 			{
-				horizontalCounterClockwise (255, 500);
-			}
-			char val = Serial.read ();
-			if (val == 'C')
-			{
-			veritcalClockwise (255,500);
+				VerticalOut (255, 500);
 			}
 			char val = Serial.read ();
-			if (val == 'D')
+			if (val == '3')
 			{
-			verticalCounterClockwise (255,500)
+			HorizontalRight (255,500);
 			}
+			char val = Serial.read ();
+			if (val == '4')
+			{
+			HorizontalLeft (255,500)
+			}
+			
 		}
 	}
 
-	void RadiusClockwise (int power, int duration)
+	void VeritcalIn (int power, int duration)
 	{
 		analogWrite (RPWM, power);
 		digitalWrite (RCW, HIGH);
@@ -57,8 +58,24 @@
 		digitalWrite (RPWM, LOW);
 	}
 
-	void RadiusCounterClockwise (int power, int duration)
+	void VerticalOut (int power, int duration)
 	{
+		analogWrite (RPWM, power);
+		digitalWrite (RCCW, HIGH);
+		delay (500);
+		digitalWrite (RCCW, LOW);
+		digitalWrite (RPWM, LOW);
+	}
+	void HorizontalRight (int power, int duration)
+	{
+		analogWrite (RPWM, power);
+		digitalWrite (RCCW, HIGH);
+		delay (500);
+		digitalWrite (RCCW, LOW);
+		digitalWrite (RPWM, LOW);
+	}
+	void HorizontalLeft (int power, int duration)
+		{
 		analogWrite (RPWM, power);
 		digitalWrite (RCCW, HIGH);
 		delay (500);
