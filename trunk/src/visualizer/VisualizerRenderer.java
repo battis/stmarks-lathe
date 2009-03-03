@@ -38,7 +38,7 @@ public class VisualizerRenderer extends Renderer
 	public void display ()
 	{
 		// glu.gluLookAt (visual.work.length () / 2, 0, visual.work.maxRadius() * 7, visual.work.length () / 2, 0, 0, 0, 1, 0);
-		glu.gluLookAt(2.5, 0, 10, 2.5, 0, 0, 0, 1, 0);
+		glu.gluLookAt(2, 1, 10, 2, 1, 0, 0, 1, 0);
 		tool.draw();
 		visual.draw ();
 	

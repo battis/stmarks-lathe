@@ -22,15 +22,15 @@ public class Tool extends VertexShape
 		super ();
 
 		// TODO these are totally arbitrary values!
-		surface.add (new Vertex (1.5, 2));
-		surface.add (new Vertex (2, 1));
-		surface.add (new Vertex (2.5, 2));
+		add (new Vertex (1.5, 2));
+		add (new Vertex (2, 1));
+		add (new Vertex (2.5, 2));
 	}
 
 	public void move (double dx, double dy, WorkPiece work) // Chris Becker
 	{
 		/* move every vertex of the tool surface the specified distance */
-		for (Vertex v : surface)
+		for (Vertex v : this)
 		{
 			v.setX (v.getX () + dx);
 			v.setY (v.getY () + dy);
@@ -42,9 +42,9 @@ public class Tool extends VertexShape
 		 * to reflect this, shaping the work piece around the surface of
 		 * the tool.
 		 */
-		for (int j = 0; j < surface.size (); j++ ) // Chris Becker
+		for (int j = 0; j < this.size (); j++ ) // Chris Becker
 		{
-			Vertex v = surface.get (j);
+			Vertex v = this.get (j);
 			if (work.contains (v))
 			{
 				/*
@@ -84,17 +84,38 @@ public class Tool extends VertexShape
 				}
 				else
 				{
-					left = intersection (workLeft, workV, toolLeft, v);
-					right = intersection (workV, workRight, v, toolRight);
-				}
-				
-				// index of right work piece vertex
-				int i = work.surface.indexOf (workRight);
+					Vertex wl = workLeft, wv = workV;
+					do
+					{
+						left = intersection (wl, wv, toolLeft, v);
+						wv = wl;
+						wl = work.leftOf (wv.getX ());
+					} while (left == null);
 
-				// inserting new vertices _before_ right work piece vertex
-				work.surface.add (i, left);
-				work.surface.add (i, new Vertex (v));
-				work.surface.add (i, right);
+					Vertex wr = workRight;
+					wv = workV;
+					do
+					{
+						right = intersection (wv, wr, v, toolRight);
+						wv = wr;
+						wr = work.rightOf (wv.getX ());
+					} while (right == null);
+				}
+
+				/* index of right work piece vertex */
+				int i = work.indexOf (workRight);
+
+				/*
+				 * inserting new vertices _before_ right work piece vertex.
+				 * we make our insertions in reverse order because we as we
+				 * insert at index i, everything shifts to the right, so we
+				 * need to start with our right-most new vertex and insert
+				 * from right to left in order for our vertices to end up
+				 * in left to right order
+				 */
+				work.add (i, right);
+				work.add (i, new Vertex (v));
+				work.add (i, left);
 
 				cullVertices (work);
 			}
@@ -102,25 +123,28 @@ public class Tool extends VertexShape
 	}
 
 	/**
-	 * Remove vertices from the work piece that are contained within the tool
+	 * Remove vertices from the work piece that are contained within the
+	 * tool
 	 * 
 	 * TODO this should maybe in the WorkPiece object
 	 * 
 	 * @param work
 	 */
-	protected void cullVertices (WorkPiece work)
+	protected void cullVertices (VertexShape s)
 	{
 		/*
 		 * check for work piece vertices that are within the tool and need
 		 * to be removed
 		 */
-		for (int k = 0; k < work.surface.size (); k++ )
+		for (int i = 0; i < s.size (); i++ )
 		{
-			Vertex v1 = work.surface.get (k);
-			if (this.contains (v1))
+			Vertex v = s.get (i);
+			if (this.contains (v))
 			{
-				work.surface.remove (v1);
-				k-- ;
+				if (s.remove (v))
+				{
+					i-- ;
+				}
 			}
 		}
 	}
@@ -136,24 +160,35 @@ public class Tool extends VertexShape
 	 */
 	public Vertex intersection (Vertex a, Vertex b, Vertex p, Vertex q)
 	{
+		/* can't compute an intersect with less than four vertices! */
+		if ( (a == null) || (b == null) || (p == null) || (q == null))
+		{
+			return null;
+		}
+
 		/* slope-intercept formula for line ab */
 		double m1 = (a.getY () - b.getY ()) / (a.getX () - b.getX ());
 		double b1 = a.getY () - (m1 * a.getX ());
 
 		/* slope-intercept formula for line pq */
 		double m2 = (p.getY () - q.getY ()) / (p.getX () - q.getX ());
-		double b2 = p.getY () - (m2 * p.getY ());
+		double b2 = p.getY () - (m2 * p.getX ());
 
 		/*
 		 * If the lines are parallel (slopes are equal), there is no
 		 * intersection so we return null -- otherwise we compute the
 		 * intersection and return that vertex
 		 * 
+		 * To compare doubles, we have to allow for the fact that they are
+		 * imprecise values -- if their difference is really close to zero,
+		 * we'll consider them to actually be equal
+		 * 
 		 * TODO what if intersection is outside the volume of the tool
 		 * and/or work piece?
 		 */
-		if (m1 == m2)
+		if (Math.abs (m1 - m2) < 0.0000001)
 		{
+			System.out.println ("no point of intersection: " + a + " to " + b + " is parallel to " + p + " to " + q);
 			return null;
 		}
 		else
@@ -165,6 +200,11 @@ public class Tool extends VertexShape
 		}
 	}
 
+	/**
+	 * The vertex v is contained in the volume of the tool
+	 * @param v
+	 * @return
+	 */
 	public boolean contains (Vertex v)
 	{
 		Vertex at = this.atX (v.getX ());
