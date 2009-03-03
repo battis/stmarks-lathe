@@ -5,9 +5,9 @@ import java.util.*;
 
 import simplerjogl.*;
 
-public class VertexShape implements Iterable<Vertex>
+public class VertexShape extends ArrayList<Vertex>
 {
-	protected ArrayList<Vertex> surface;
+	//protected ArrayList<Vertex> surface;
 
 	/**
 	 * pre: length and radius are non-negative values
@@ -17,7 +17,7 @@ public class VertexShape implements Iterable<Vertex>
 	 */
 	public VertexShape ()
 	{
-		surface = new ArrayList<Vertex> ();
+		super();
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class VertexShape implements Iterable<Vertex>
 	public Vertex leftOf (double distance)
 	{
 		Vertex left = null;
-		for (Vertex right : surface)
+		for (Vertex right : this)
 		{
 			if (right.getX () < distance)
 			{
@@ -53,7 +53,7 @@ public class VertexShape implements Iterable<Vertex>
 	 */
 	public Vertex rightOf (double distance)
 	{
-		for (Vertex right : surface)
+		for (Vertex right : this)
 		{
 			if (right.getX () > distance)
 			{
@@ -71,7 +71,7 @@ public class VertexShape implements Iterable<Vertex>
 	 */
 	public Vertex atX (double distance)
 	{
-		for (Vertex v : surface)
+		for (Vertex v : this)
 		{
 			if (v.getX () == distance)
 			{
@@ -80,33 +80,12 @@ public class VertexShape implements Iterable<Vertex>
 		}
 		return null;
 	}
-
+	
 	/**
 	 * @return length of work piece
 	 */
 	public double length ()
 	{
-		return surface.get (surface.size () - 1).getX ();
-	}
-
-	public Iterator<Vertex> iterator ()
-	{
-		final Iterator<Vertex> surfaceIterator = surface.iterator ();
-		return new Iterator<Vertex> ()
-		{
-
-			public boolean hasNext ()
-			{
-				return surfaceIterator.hasNext ();
-			}
-
-			public Vertex next ()
-			{
-				return new Vertex (surfaceIterator.next ());
-			}
-
-			public void remove ()
-			{}
-		};
+		return this.get (this.size () - 1).getX ();
 	}
 }

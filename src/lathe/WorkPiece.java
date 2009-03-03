@@ -5,7 +5,7 @@ import java.util.*;
 
 import simplerjogl.*;
 
-public class WorkPiece extends VertexShape implements Iterable<Vertex>
+public class WorkPiece extends VertexShape
 {
 	/**
 	 * pre: length and radius are non-negative values
@@ -16,10 +16,10 @@ public class WorkPiece extends VertexShape implements Iterable<Vertex>
 	public WorkPiece (double length, double radius)
 	{
 		super ();
-		surface.add (new Vertex (0, 0));
-		surface.add (new Vertex (0, radius));
-		surface.add (new Vertex (length, radius));
-		surface.add (new Vertex (length, 0));
+		add (new Vertex (0, 0));
+		add (new Vertex (0, radius));
+		add (new Vertex (length, radius));
+		add (new Vertex (length, 0));
 	}
 
 	/**
@@ -32,7 +32,7 @@ public class WorkPiece extends VertexShape implements Iterable<Vertex>
 	public double radius (double distance)
 	{
 		Vertex left = null;
-		for (Vertex right : surface)
+		for (Vertex right : this)
 		{
 			if (right.getX () == distance)
 			{
@@ -82,8 +82,8 @@ public class WorkPiece extends VertexShape implements Iterable<Vertex>
 	 */
 	public double maxRadius ()
 	{
-		Vertex max = surface.get (0);
-		for (Vertex v : surface)
+		Vertex max = get (0);
+		for (Vertex v : this)
 		{
 			if (v.getY () > max.getY ())
 			{
