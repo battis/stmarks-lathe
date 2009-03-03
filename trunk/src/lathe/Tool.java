@@ -27,16 +27,6 @@ public class Tool extends VertexShape
 		surface.add (new Vertex (2.5, 2));
 	}
 
-	/*
-	 * TODO Things to add
-	 * 
-	 * Need to be able to create vertices at the intersection of the tool
-	 * edges and the work piece edges
-	 * 
-	 * Need to be able to add vertices to the work piece to represent cuts
-	 * (this may require updating the work piece as well)
-	 */
-
 	public void move (double dx, double dy, WorkPiece work) // Chris Becker
 	{
 		/* move every vertex of the tool surface the specified distance */
@@ -60,10 +50,8 @@ public class Tool extends VertexShape
 				/*
 				 * the vertices of the work piece surface to the left and
 				 * right of the tool vertex contained in the volume of the
-				 * work piece
-				 * 
-				 * TODO what happens if there is a vertex in the work piece
-				 * surface at exactly the same x-coordinate as v?
+				 * work piece. workV is a vertex immediately above the
+				 * contained vertex (if such a vertex exists).
 				 */
 				Vertex workLeft = work.leftOf (v.getX ());
 				Vertex workRight = work.rightOf (v.getX ());
@@ -99,7 +87,7 @@ public class Tool extends VertexShape
 					left = intersection (workLeft, workV, toolLeft, v);
 					right = intersection (workV, workRight, v, toolRight);
 				}
-
+				
 				// index of right work piece vertex
 				int i = work.surface.indexOf (workRight);
 
@@ -114,6 +102,8 @@ public class Tool extends VertexShape
 	}
 
 	/**
+	 * Remove vertices from the work piece that are contained within the tool
+	 * 
 	 * TODO this should maybe in the WorkPiece object
 	 * 
 	 * @param work
@@ -135,18 +125,30 @@ public class Tool extends VertexShape
 		}
 	}
 
+	/**
+	 * Computes the intersection of lines ab and pq
+	 * 
+	 * @param a
+	 * @param b
+	 * @param p
+	 * @param q
+	 * @return
+	 */
 	public Vertex intersection (Vertex a, Vertex b, Vertex p, Vertex q)
 	{
+		/* slope-intercept formula for line ab */
 		double m1 = (a.getY () - b.getY ()) / (a.getX () - b.getX ());
 		double b1 = a.getY () - (m1 * a.getX ());
 
+		/* slope-intercept formula for line pq */
 		double m2 = (p.getY () - q.getY ()) / (p.getX () - q.getX ());
 		double b2 = p.getY () - (m2 * p.getY ());
 
-		double x = (b2 - b1) / (m1 - m2);
-		double y = (m1 * x) + b1;
-
 		/*
+		 * If the lines are parallel (slopes are equal), there is no
+		 * intersection so we return null -- otherwise we compute the
+		 * intersection and return that vertex
+		 * 
 		 * TODO what if intersection is outside the volume of the tool
 		 * and/or work piece?
 		 */
@@ -156,6 +158,9 @@ public class Tool extends VertexShape
 		}
 		else
 		{
+			/* solve for (x, y) at intersection of pq and ab */
+			double x = (b2 - b1) / (m1 - m2);
+			double y = (m1 * x) + b1;
 			return new Vertex (x, y);
 		}
 	}
