@@ -28,33 +28,11 @@ public class WorkPiece extends VertexShape
 	 * @param distance
 	 *            measured from work piece's zero
 	 * @return the radius at position, -1 if distance > length
+	 * @deprecated use getY()
 	 */
 	public double radius (double distance)
 	{
-		Vertex left = null;
-		for (Vertex right : this)
-		{
-			if (right.getX () == distance)
-			{
-				/*
-				 * TODO What if there are two vertices at this
-				 * X-coordinate? We should return the one with the greatest
-				 * Y-value
-				 */
-				return right.getY ();
-			}
-			else if (right.getX () < distance)
-			{
-				left = right;
-			}
-			else
-			{
-				double m = (left.getY () - right.getY ()) / (left.getX () - right.getX ());
-				double b = left.getY () - (m * left.getX ());
-				return m * distance + b;
-			}
-		}
-		return -1;
+		return this.getY (distance);
 	}
 
 	/**
@@ -65,11 +43,12 @@ public class WorkPiece extends VertexShape
 	 */
 	public boolean contains (Vertex v)
 	{
-		if ( (v.getX () < 0) || (v.getX () > length ()))
+		double y = this.getY (v.getX());
+		if (y == -0.0)
 		{
 			return false;
 		}
-		return radius (v.getX ()) > v.getY ();
+		return (y - v.getY()) > PRECISION;
 	}
 
 	/**
