@@ -186,9 +186,9 @@ public class Tool extends VertexShape
 		 * TODO what if intersection is outside the volume of the tool
 		 * and/or work piece?
 		 */
-		if (Math.abs (m1 - m2) < 0.0000001)
+		if (Math.abs (m1 - m2) < PRECISION)
 		{
-			System.out.println ("no point of intersection: " + a + " to " + b + " is parallel to " + p + " to " + q);
+			System.out.println ("no point of intersection: " + a.toString2D () + " to " + b.toString2D () + " is parallel to " + p.toString2D () + " to " + q.toString2D ());
 			return null;
 		}
 		else
@@ -207,30 +207,11 @@ public class Tool extends VertexShape
 	 */
 	public boolean contains (Vertex v)
 	{
-		Vertex at = this.atX (v.getX ());
-
-		if (at != null)
+		double y = this.getY (v.getX());
+		if (y == -0.0)
 		{
-			return (at.getY () < v.getY ());
+			return false;
 		}
-		else
-		{
-			Vertex left = this.leftOf (v.getX ());
-			Vertex right = this.rightOf (v.getX ());
-
-			if ( (left != null) && (right != null))
-			{
-				// formula for the line at distance v.x
-				double m = (left.getY () - right.getY ()) / (left.getX () - right.getX ());
-				double b = left.getY () - (m * left.getX ());
-
-				// true if the line is below v, false otherwise
-				return ( (m * v.getX ()) + b) < v.getY ();
-			}
-			else
-			{
-				return false;
-			}
-		}
+		return (v.getY() - y) > PRECISION;
 	}
 }

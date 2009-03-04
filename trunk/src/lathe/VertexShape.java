@@ -7,7 +7,7 @@ import simplerjogl.*;
 
 public class VertexShape extends ArrayList<Vertex>
 {
-	//protected ArrayList<Vertex> surface;
+	protected final double PRECISION = 0.0000001;
 
 	/**
 	 * pre: length and radius are non-negative values
@@ -17,7 +17,7 @@ public class VertexShape extends ArrayList<Vertex>
 	 */
 	public VertexShape ()
 	{
-		super();
+		super ();
 	}
 
 	/**
@@ -62,9 +62,10 @@ public class VertexShape extends ArrayList<Vertex>
 		}
 		return null;
 	}
-	
+
 	/**
-	 * TODO There could be more than one vertex at a particular X-coordinate!
+	 * TODO There could be more than one vertex at a particular
+	 * X-coordinate!
 	 * 
 	 * @param distance
 	 * @return the first vertex with X-coordinate at distance
@@ -80,9 +81,45 @@ public class VertexShape extends ArrayList<Vertex>
 		}
 		return null;
 	}
-	
+
+	public double getY (double x)
+	{
+		/*
+		 * make sure that the x is actually within the boundaries of the
+		 * shape
+		 */
+		if (x < this.get (0).getX () || x > this.get (this.size () - 1).getX ())
+		{
+			return -0.0;
+		}
+		else
+		{
+			/*
+			 * check to see if there is a vertex at the point that we're
+			 * looking at
+			 */
+			Vertex v = this.atX (x);
+			if (v != null)
+			{
+				return v.getY ();
+			}
+			else
+			{
+				/*
+				 * draw a line between the vertex to the left of the given
+				 * x-coordinate and the vertex to the right and calculate
+				 * the y-coordinate at the given x-coordinate on that line
+				 */
+				Vertex l = this.leftOf (x), r = this.rightOf (x);
+				double m = (l.getY () - r.getY ()) / (l.getX () - r.getX ());
+				double b = l.getY () - (m * l.getX ());
+				return (m * x) + b;
+			}
+		}
+	}
+
 	/**
-	 * @return length of work piece
+	 * @return length of shape (assumes that shape starts at x = 0)
 	 */
 	public double length ()
 	{
