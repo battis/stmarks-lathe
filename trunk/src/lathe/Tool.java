@@ -22,7 +22,7 @@ public class Tool extends VertexShape
 		super ();
 
 		// TODO these are totally arbitrary values!
-		add (new Vertex (1.5, 2));
+		add (new Vertex (1, 2));
 		add (new Vertex (2, 1));
 		add (new Vertex (2.5, 2));
 	}
@@ -35,6 +35,39 @@ public class Tool extends VertexShape
 			v.setX (v.getX () + dx);
 			v.setY (v.getY () + dy);
 		}
+
+		cut (work);
+	}
+
+	/**
+	 * Remove vertices from the work piece that are contained within the
+	 * tool
+	 * 
+	 * TODO this should maybe in the WorkPiece object
+	 * 
+	 * @param work
+	 */
+	protected void cullVertices (VertexShape s)
+	{
+		/*
+		 * check for work piece vertices that are within the tool and need
+		 * to be removed
+		 */
+		for (int i = 0; i < s.size (); i++ )
+		{
+			Vertex v = s.get (i);
+			if (this.contains (v))
+			{
+				if (s.remove (v))
+				{
+					i-- ;
+				}
+			}
+		}
+	}
+
+	public void cut (WorkPiece work)
+	{
 
 		/*
 		 * check to see if any tool vertices are now within the volume of
@@ -75,12 +108,38 @@ public class Tool extends VertexShape
 				 * from the left vertex of the tool surface to the enclosed
 				 * vertex, and the line from the right vertex of the tool
 				 * surface to the enclosed vertex
+				 * 
+				 * It is possible that our first intersection we get is
+				 * null (as the first line we look at in the work piece may
+				 * be parallel to the face of the tool -- hence: no
+				 * intercept). In this case, we check the next line outward
+				 * from our point of intersection to see if _it_ intersects
+				 * the face of the tool, until we find a line that provides
+				 * a point of intersection.
+				 * 
+				 * TODO we're doing the same thing (more or less) four
+				 * times. This should really be abstracted into a method
+				 * that's called four times instead.
 				 */
 				Vertex left, right;
 				if (workV == null)
 				{
-					left = intersection (workLeft, workRight, toolLeft, v);
-					right = intersection (workLeft, workRight, v, toolRight);
+					Vertex wl = workLeft, wr = workRight;
+					do
+					{
+						left = intersection (wl, wr, toolLeft, v);
+						wr = wl;
+						wl = work.leftOf (wr.getX ());
+					} while (left == null);
+
+					wl = workLeft;
+					wr = workRight;
+					do
+					{
+						right = intersection (wl, wr, v, toolRight);
+						wl = wr;
+						wr = work.rightOf (wl.getX ());
+					} while (right == null);
 				}
 				else
 				{
@@ -123,34 +182,9 @@ public class Tool extends VertexShape
 	}
 
 	/**
-	 * Remove vertices from the work piece that are contained within the
-	 * tool
-	 * 
-	 * TODO this should maybe in the WorkPiece object
-	 * 
-	 * @param work
-	 */
-	protected void cullVertices (VertexShape s)
-	{
-		/*
-		 * check for work piece vertices that are within the tool and need
-		 * to be removed
-		 */
-		for (int i = 0; i < s.size (); i++ )
-		{
-			Vertex v = s.get (i);
-			if (this.contains (v))
-			{
-				if (s.remove (v))
-				{
-					i-- ;
-				}
-			}
-		}
-	}
-
-	/**
 	 * Computes the intersection of lines ab and pq
+	 * 
+	 * TODO what class should this be in?
 	 * 
 	 * @param a
 	 * @param b
@@ -202,16 +236,17 @@ public class Tool extends VertexShape
 
 	/**
 	 * The vertex v is contained in the volume of the tool
+	 * 
 	 * @param v
 	 * @return
 	 */
 	public boolean contains (Vertex v)
 	{
-		double y = this.getY (v.getX());
+		double y = this.getY (v.getX ());
 		if (y == -0.0)
 		{
 			return false;
 		}
-		return (v.getY() - y) > PRECISION;
+		return (v.getY () - y) > PRECISION;
 	}
 }
