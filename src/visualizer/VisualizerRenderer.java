@@ -11,7 +11,6 @@ public class VisualizerRenderer extends Renderer
 	private VisualTool tool;
 	private Material translucentPlastic;
 	private Light light;
-	private LatheLayout lathelayout;
 
 	public void init ()
 	{
@@ -21,11 +20,9 @@ public class VisualizerRenderer extends Renderer
 		translucentPlastic.setSpecular (.9, .9, 1, 0.85);
 		translucentPlastic.setShininess (35);
 		
-		visual = new VisualWorkPiece (gl, 5, .75f, 100, translucentPlastic);
+		visual = new VisualWorkPiece (gl, 5, 1, 100, translucentPlastic);
 		
 		tool = new VisualTool (gl);
-		
-		lathelayout = new LatheLayout (gl);
 		
 		light = new Light (gl);
 		light.setPosition (1, 1, 1, 0);
@@ -41,17 +38,10 @@ public class VisualizerRenderer extends Renderer
 	public void display ()
 	{
 		// glu.gluLookAt (visual.work.length () / 2, 0, visual.work.maxRadius() * 7, visual.work.length () / 2, 0, 0, 0, 1, 0);
-		glu.gluLookAt(2, 1, 14, 2, 1, 0, 0, 1, 0);
+		glu.gluLookAt(2, 1, 10, 2, 1, 0, 0, 1, 0);
 		tool.draw();
 		visual.draw ();
-		
-		gl.glPushMatrix ();
-		gl.glTranslatef(2.25f, -1.3f, -1);
-		gl.glRotatef(90, 0, 0, 1);
-		gl.glRotatef(90, 1, 0, 0);
-		gl.glScalef(1.35f, 1.35f, 1.35f);
-		lathelayout.display ();
-		gl.glPopMatrix();
+	
 	}
 	
 	public void keyPressed(KeyEvent e) //Chris Becker

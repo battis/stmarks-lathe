@@ -14,12 +14,6 @@ public class LatheOperator
 	 *another possibility: find the volume of the obj. and the outlining curve.
 	 *cuting segments pieces by pieces according to the volume and shape.
 	 *(disc method in calculus)
-	 *
-	 *  G02 CW circular interpolation 
-	 *  G03 CCW circular interpolation 
-	 *  G90 Absolute programming (type B and C systems) 
-	 *  G28 Return to home position 
-	 *  
 	 * 
 	 * 1. scan shape from largest to smallest radius, cutting large radii
 	 * first, and finishing with the smallest, finishing with the faceplate
