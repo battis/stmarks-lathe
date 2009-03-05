@@ -55,26 +55,26 @@ public class Arduino extends PApplet
 		// communicating with the rest of the lathe software on the computer
 		
 		System.out.println ("Testing RCW");
-		port.write('A');
+		port.write('1');
 	
 		t.reset();
 		while (t.isRunning()) {}
 		
 		System.out.println ("Testing RCCW");
-		port.write('B');
+		port.write('2');
 		
 		t.reset();
 		while (t.isRunning()) {}
 		
 		
-		System.out.println ("Testing LCW");
-		port.write('C');
+		System.out.println ("Testing XCW");
+		port.write('3');
 	
 		t.reset();
 		while (t.isRunning()) {}
 		
-		System.out.println ("Testing LCCW");
-		port.write('D');
+		System.out.println ("Testing XCCW");
+		port.write('4');
 	
 		t.reset();
 		while (t.isRunning()) {}
