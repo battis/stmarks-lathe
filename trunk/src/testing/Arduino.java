@@ -13,7 +13,7 @@ public class Arduino extends PApplet
 	{
 		/* get a list of all active ports */
 		String ports[] = Serial.list ();
-		Timer t = new Timer (2500);
+		Timer t = new Timer (1500); /* shortest wait that still gets a response from Arduino */
 		
 		/* try every port, looking for the handshake from the Arduino board */
 		boolean handshake = false;
@@ -59,11 +59,11 @@ public class Arduino extends PApplet
 		t.reset();
 		while (t.isRunning()) {}
 		
-		System.out.println ("Testing RCCW");
+		/*System.out.println ("Testing RCCW");
 		port.write('B');
 		
 		t.reset();
-		while (t.isRunning()) {}
+		while (t.isRunning()) {}*/
 
 	}
 }

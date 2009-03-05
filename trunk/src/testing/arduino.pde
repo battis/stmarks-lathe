@@ -1,6 +1,7 @@
 	int RCW = 3; // enable clockwise radius motor control
-	int RPWM = 5; // control radius motor power level (PWM)
+	int RCWPWM = 5; // control radius motor power level (PWM)
 	int RCCW = 9; // enable counter-clockwise radius motor control
+	int RCCWPWM = 10;
 
 	char ARDUINO_HANDSHAKE = '@';
 
@@ -13,7 +14,8 @@
 
 		pinMode (RCW, OUTPUT);
 		pinMode (RCCW, OUTPUT);
-		pinMode (RPWM, OUTPUT);
+		pinMode (RCWPWM, OUTPUT);
+		pinMode (RCCWPWM, OUTPUT);
 	}
 
 	void loop ()
@@ -29,30 +31,36 @@
 			char val = Serial.read ();
 			if (val == 'A')
 			{
-				RadiusClockwise (255, 500);
+				RadiusClockwise (128, 500);
 			}
 			if (val == 'B')
 			{
-				RadiusCounterClockwise (255, 500);
+				RadiusCounterClockwise (128, 500);
 			}
 		}
 	}
 
 	void RadiusClockwise (int power, int duration)
 	{
-		analogWrite (RPWM, power);
 		digitalWrite (RCW, HIGH);
-		delay (duration);
+		for (int i = 0; i < 26; i++ )
+		{
+			analogWrite (RCWPWM, i * 10);
+			delay (50);
+		}
 		digitalWrite (RCW, LOW);
-		digitalWrite (RPWM, LOW);
+		digitalWrite (RCWPWM, LOW);
 	}
 
 	void RadiusCounterClockwise (int power, int duration)
 	{
-		analogWrite (RPWM, power);
-		digitalWrite (RCCW, HIGH);
-		delay (500);
-		digitalWrite (RCCW, LOW);
-		digitalWrite (RPWM, LOW);
-	}
 
+		digitalWrite (RCCW, HIGH);
+		for (int i = 0; i < 26; i++ )
+		{
+			analogWrite (RCCWPWM, i * 10);
+			delay (50);
+		}
+		digitalWrite (RCCW, LOW);
+		digitalWrite (RCCWPWM, LOW);
+	}
