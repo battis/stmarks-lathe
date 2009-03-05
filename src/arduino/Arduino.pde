@@ -64,7 +64,7 @@
 			{
 			HorizontalRight & VerticalIn (255,500)
 			}	
-			if (val=> '128')
+			if (val>= '128')
 			{
 			Stop
 			}		
