@@ -8,6 +8,14 @@ import simplerjogl.*;
 public class WorkPiece extends VertexShape
 {
 	/**
+	 * Default constructor, creates an empty workpiece to be populated at a later time.
+	 */
+	public WorkPiece ()
+	{
+		super();
+	}
+	
+	/**
 	 * pre: length and radius are non-negative values
 	 * 
 	 * @param length
@@ -16,10 +24,10 @@ public class WorkPiece extends VertexShape
 	public WorkPiece (double length, double radius)
 	{
 		super ();
-		add (new Vertex (0, 0));
-		add (new Vertex (0, radius));
-		add (new Vertex (length, radius));
-		add (new Vertex (length, 0));
+		this.add (new Vertex (0, 0));
+		this.add (new Vertex (0, radius));
+		this.add (new Vertex (length, radius));
+		this.add (new Vertex (length, 0));
 	}
 
 	/**
