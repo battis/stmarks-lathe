@@ -54,30 +54,61 @@ public class Arduino extends PApplet
 		// collecting information about the encoders
 		// communicating with the rest of the lathe software on the computer
 		
-		System.out.println ("Testing RCW");
-		port.write('1');
-	
-		t.reset();
-		while (t.isRunning()) {}
-		
-		System.out.println ("Testing RCCW");
-		port.write('2');
-		
-		t.reset();
-		while (t.isRunning()) {}
-		
-		
 		System.out.println ("Testing XCW");
-		port.write('3');
+		port.write(1);
 	
 		t.reset();
 		while (t.isRunning()) {}
 		
 		System.out.println ("Testing XCCW");
-		port.write('4');
+		port.write(2);
 	
 		t.reset();
 		while (t.isRunning()) {}
+		
+		System.out.println ("Testing RCW");
+		port.write(4);
+	
+		t.reset();
+		while (t.isRunning()) {}
+		
+		System.out.println ("Testing XCW + RCW");
+		port.write(5);
+		
+		t.reset ();
+		while (t.isRunning()) {}
+		
+		System.out.println ("Testing XCCW + RCW");
+		port.write(6);
+		
+		t.reset ();
+		while (t.isRunning()) {}
+		
+		System.out.println ("Testing RCCW");
+		port.write(8);
+		
+		t.reset();
+		while (t.isRunning()) {}
+		
+		System.out.println ("Testing XCW + RCCW");
+		port.write (9);
+		
+		t.reset ();
+		while (t.isRunning()) {}
+		
+		System.out.println ("Testing XCCW + RCCW");
+		port.write (10);
+		
+		t.reset ();
+		while (t.isRunning()) {}
+		
+		System.out.println ("Testing STOP");
+		port.write (128);
+		
+		t.reset ();
+		while (t.isRunning()) {}
+		
+			
 		
 		
 
