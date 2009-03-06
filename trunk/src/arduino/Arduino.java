@@ -8,7 +8,7 @@ import processing.serial.*;
 public class Arduino extends PApplet
 {	
 	public static final String ARDUINO_HANDSHAKE = "@";
-	private Serial port;
+	protected Serial port;
 
 	public void setup ()
 	{
