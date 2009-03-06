@@ -64,4 +64,9 @@ public class gcodeParser
 	{
 		return (token.charAt (0) == 'G');
 	}
+	
+	public WorkPiece getTarget()
+	{
+		return target;
+	}
 }

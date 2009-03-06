@@ -9,14 +9,13 @@ public class VisualizerRenderer extends Renderer
 {
 	private VisualWorkPiece visual;
 	private VisualTool tool;
-	private Material translucentPlastic;
 	private Light light;
 	private LatheLayout lathelayout;
 
 	public void init ()
 	{
 		Material.enableBlending (gl);
-		translucentPlastic = new Material (gl);
+		Material translucentPlastic = new Material (gl);
 		translucentPlastic.setDiffuse (1, 1, 1, 0.75);
 		translucentPlastic.setSpecular (.9, .9, 1, 0.85);
 		translucentPlastic.setShininess (35);
