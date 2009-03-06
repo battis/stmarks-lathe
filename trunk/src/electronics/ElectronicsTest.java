@@ -1,12 +1,16 @@
 package electronics;
 
 import arduino.*;
-import processing.core.*;
-import processing.serial.*;
 
-@SuppressWarnings ("serial")
+@SuppressWarnings("serial")
 public class ElectronicsTest extends arduino.Arduino
 {	
+	public void setup()
+	{
+		super.setup();
+		System.out.println ("Starting Electronics Testing sequence");
+	}
+	
 	public void draw ()
 	{
 		Timer t = new Timer (3000);
@@ -21,7 +25,8 @@ public class ElectronicsTest extends arduino.Arduino
 		t.reset();
 		while (t.isRunning()) {}
 		
-		/*System.out.println ("Testing RCCW");
+		/* disabled until wiring is connected
+		System.out.println ("Testing RCCW");
 		port.write('B');
 		
 		t.reset();
