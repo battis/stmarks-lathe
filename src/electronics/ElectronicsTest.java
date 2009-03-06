@@ -1,10 +1,11 @@
 package electronics;
 
+import arduino.*;
 import processing.core.*;
 import processing.serial.*;
 
 @SuppressWarnings ("serial")
-public class Arduino extends arduino.Arduino
+public class ElectronicsTest extends arduino.Arduino
 {	
 	public void draw ()
 	{
