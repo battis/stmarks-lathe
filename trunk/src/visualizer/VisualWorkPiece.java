@@ -9,7 +9,7 @@ import simplerjogl.*;
 
 public class VisualWorkPiece extends Model
 {
-	protected WorkPiece work;
+	public WorkPiece work;
 	protected Material material;
 	protected double slices;
 
@@ -22,6 +22,14 @@ public class VisualWorkPiece extends Model
 		this.material = new Material (material);
 	}
 
+	public VisualWorkPiece (GL gl, WorkPiece w, int slices, Material material)
+	{
+		super (gl);
+		work = w;
+		this.slices = slices;
+		this.material = new Material (material);
+	}
+	
 	public void draw ()
 	{
 		/* the size of the arc is determined by the number of slices */
