@@ -14,7 +14,7 @@ public class Arduino extends PApplet
 	{
 		/* get a list of all active ports */
 		String ports[] = Serial.list ();
-		Timer t = new Timer (2500);
+		Timer t = new Timer (1500);
 		
 		/* try every port, looking for the handshake from the Arduino board */
 		boolean handshake = false;

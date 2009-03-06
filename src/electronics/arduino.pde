@@ -37,7 +37,20 @@
 			{
 				RadiusCounterClockwise (128, 500);
 			}
+			if (val == 'C')
+			{
+				TestZeroPower();
+			}
 		}
+	}
+	
+	void TestZeroPower()
+	{
+		digitalWrite (RCW, HIGH);
+		analogWrite (RCWPWM, 0);
+		delay (1000);
+		digitalWrite (RCW, LOW);
+		digitalWrite (RCWPWM, LOW);
 	}
 
 	void RadiusClockwise (int power, int duration)
@@ -49,7 +62,7 @@
 			delay (50);
 		}
 		digitalWrite (RCW, LOW);
-		digitalWrite (RCWPWM, LOW);
+		digitalWrite (RCWPWM, HIGH);
 	}
 
 	void RadiusCounterClockwise (int power, int duration)
