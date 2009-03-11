@@ -4,7 +4,6 @@ import java.io.*;
 
 import simplerjogl.*;
 import simplerjogl.shell.*;
-import visualizer.*;
 
 public class gcodeParserApp
 {
