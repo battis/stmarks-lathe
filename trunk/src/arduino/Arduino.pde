@@ -1,4 +1,4 @@
-//developed primarily by P.Lim;
+//developed primarily by P.Lim and B. Garey;
 	int RCW = 3; // enable clockwise radius motor control
 	int RPWM = 5; // control radius motor power level (PWM)
 	int RCCW = 9; // enable counter-clockwise radius motor control
