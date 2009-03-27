@@ -1,7 +1,11 @@
+//developed primarily by P.Lim;
 	int RCW = 3; // enable clockwise radius motor control
 	int RPWM = 5; // control radius motor power level (PWM)
 	int RCCW = 9; // enable counter-clockwise radius motor control
-
+	int XCW = 10;
+	int XPWM = 6;
+	int XCCW = 11;
+	int EM = 12;
 	char ARDUINO_HANDSHAKE = '@';
 
 	void setup ()
@@ -27,80 +31,134 @@
 		if (Serial.available ())
 		{
 			char val = Serial.read ();
-			if (val == '1')
+			if (val == 1)
 			{
-				VerticalIn (255, 500);
+                int turns = Serial.read();
+                int power = Serial.read();
+                HorizontalLeft (turns, power);
 			}
-			if (val == '2')
+			if (val == 2)
 			{
-				VerticalOut (255, 500);
+				int turns = Serial.read();
+                int power = Serial.read();
+				HorizontalRight (turns,power);
 			}
-		
-			if (val == '4')
+			if (val == 3)//useful?
 			{
-			HorizontalLeft (255,500)
+				int turns = Serial.read();
+                int power = Serial.read();
+                Serial.print (turns, DEC);
+                Serial.print (power, DEC);
 			}
-			if (val == '5')
+			if (val == 4)
 			{
-			HorizontalLeft & VerticalIn (255,500)
+				int turns = Serial.read();
+                int power = Serial.read();
+				VerticalIn (turns, power);
 			}
-			if (val == '6')
+			if (val == 5)
 			{
-			HorizontalLeft & VerticalOut (255,500)
+				int turns = Serial.read();
+                int power = Serial.read();
+				HorizontalLeft (turns, power);
+				VerticalIn (turns, power);
 			}
-			if (val == '8')
+			if (val == 6)
 			{
-			HorizontalRight (255,500)
+				int turns = Serial.read();
+                int power = Serial.read();
+				HorizontalRight (turns, power);
+				VerticalIn (turns, power);
 			}
-			if (val == '9')
+			if (val == 7);
 			{
-			HorizontalRight & VerticalIn (255,500)
+				int turns = Serial.read();
+                int power = Serial.read();
+                Serial.print (turns, DEC);
+                Serial.print (power, DEC);
 			}
-			if (val == '10')
-			{
-			HorizontalRight & VerticalOut (255,500)
+			if (val == 8)
+			{	
+				int turns = Serial.read();
+                int power = Serial.read();
+				VerticalOut (turns, power);
 			}
-			if (val == '11')
+			if (val == 9)
 			{
-			HorizontalRight & VerticalIn (255,500)
+				int turns = Serial.read();
+                int power = Serial.read();
+				HorizontalLeft (turns, power);
+				VerticalOut (turns, power);
+			}
+			if (val == 10)
+			{
+				int turns = Serial.read();
+                int power = Serial.read();
+				HorizontalRight (turns, power);
+				VerticalOut (turns, power);
+			}
+			if (val == 11)
+			{
+				int turns = Serial.read();
+                int power = Serial.read();
+                Serial.print (turns, DEC);
+                Serial.print (power, DEC);
 			}	
-			if (val>= '128')
+			if (val >= 128)
 			{
-			Stop
+				Serial.print ("Stop");
 			}		
 		}
 	}
 
-	void VeritcalIn (int power, int duration)
+void VerticalIn (int turns, int power)
 	{
 		analogWrite (RPWM, power);
 		digitalWrite (RCW, HIGH);
-		delay (duration);
+
+                /* this is a totally arbitrary delay time -- in reality, 
+                we're going to be reading inputs from the encoder pins, 
+                and counting the number of turns that the motor makes. 
+                If we don't see the motor turn within a "reasonable" period
+                of time, we will abort and send a message to the computer. */
+		delay (turns * 100);
 		digitalWrite (RCW, LOW);
 		digitalWrite (RPWM, LOW);
-	}
 
+                /* we need to think about what kind of information that
+                we're sending back to the computer. We need to send error
+                messages if we fail to turn the motor the desired number of
+                turns. We need to send some sort of confirmation/update if
+                we did turn the motor the right number of times. Perhaps
+                it would be useful for the program to know how long it took
+                us to turn the motor that number of turns? */
+	}
 	void VerticalOut (int power, int duration)
 	{
 		analogWrite (RPWM, power);
 		digitalWrite (RCCW, HIGH);
-		delay (500);
+		delay (turns * 100);
 		digitalWrite (RCCW, LOW);
 		digitalWrite (RPWM, LOW);
 	}
 	void HorizontalRight (int power, int duration)
 	{
-		analogWrite (RPWM, power);
-		digitalWrite (RCCW, HIGH);
-		delay (500);
-		digitalWrite (RCCW, LOW);
-		digitalWrite (RPWM, LOW);
+		analogWrite (XPWM, power);
+		digitalWrite (XCCW, HIGH);
+		delay (turns * 100);
+		digitalWrite (XCCW, LOW);
+		digitalWrite (XPWM, LOW);
 	}
 	void HorizontalLeft (int power, int duration)
-		{
-		analogWrite (RPWM, power);
-		digitalWrite (RCCW, HIGH);
-		delay (500);
-		digitalWrite (RCCW, LOW);
-		digitalWrite (RPWM, LOW);
+	{
+		analogWrite (XPWM, power);
+		digitalWrite (XCW, HIGH);
+		delay (turns * 100);
+		digitalWrite (XCW, LOW);
+		digitalWrite (XPWM, LOW);
+	}
+	void Stop (int power, int duration)
+	{
+		analogWrite (EM, power);
+		
 	}
