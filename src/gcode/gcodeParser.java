@@ -44,17 +44,13 @@ public class gcodeParser
 							target.add (new Vertex (-y, x)); 
 						}
 					}
-					/*in the jungle the mighty jungle the lion sleeps to night
-
-					Schedule for tomorrow
-					Canada vs. America (WBC 2009) 2:00 pm saturday on ESPN 2 */
-
+				
 
 				} while (!isGCode());
 			}
 		}
 	}
-	//3.1415926535897932384626433832795028841971693993751058209494458923074168062862089986280348253421170679
+	
 	protected void nextToken()
 	{
 		token = file.next ();
