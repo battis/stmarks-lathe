@@ -8,7 +8,7 @@ public class ElectronicsTest extends arduino.Arduino
 {	
 	private static final long serialVersionUID = 1L;
 	private int testCount;
-	private Timer timer = new Timer (3000);
+	private Timer timer = new Timer (5000);
 	private Toolkit tool = Toolkit.getDefaultToolkit ();
 
 	public void setup()
@@ -37,17 +37,36 @@ public class ElectronicsTest extends arduino.Arduino
 		{
 			testCount++;
 			
-			System.out.println ("Testing RCW");
+			/*attemption only R on, then only X on, then both on, then both off
+			 * then R on in other direction, same with X, then both, and finish with each off
+			 */
+			
+			System.out.println ("Testing RCWR");
 			portWrite('A');
 
-			System.out.println ("Testing RCW");
-			portWrite('A');
+			System.out.println ("Testing RCWX");
+			portWrite('D');
 
-			System.out.println ("Testing RCCW");
+			System.out.println ("Testing RCWboth");
+			portWrite('G');
+			
+			System.out.println ("Testing Zero Power");
+			portWrite ('C');
+			portWrite ('F');
+			
+			System.out.println ("Testing RCCWR");
 			portWrite('B');
+
+			System.out.println ("Testing RCCWX");
+			portWrite('E');
+
+			System.out.println ("Testing RCCWboth");
+			portWrite('H');
 
 			System.out.println ("Testing Zero Power");
 			portWrite ('C');
+			portWrite ('F');
+			
 		}
 		else if (testCount == 2)
 		{

@@ -1,7 +1,7 @@
-	int RCW = 3; // enable clockwise radius motor control
-	int RCWPWM = 5; // control radius motor power level (PWM)
-	int RCCW = 9; // enable counter-clockwise radius motor control
-	int RCCWPWM = 10;
+	int RCW = 3; // enable clockwise radius motor control - 3 on arduino to pin 1 on h-bridge
+	int RCWPWM = 5; // control radius motor power level (PWM) - 5 on arduino opposite to pin 2 and actual to 7 on h-bridge
+	int RCCW = 9; // enable counter-clockwise radius motor control - 9 on arduino to pin 9 on h-bridge
+	int RCCWPWM = 10; // ?? check 
 
 	char ARDUINO_HANDSHAKE = '@';
 
