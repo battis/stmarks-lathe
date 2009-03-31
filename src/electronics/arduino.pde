@@ -3,6 +3,12 @@
 	int XEn = 9; // enable counter-clockwise radius motor control - 9 on arduino to pin 9 on h-bridge
 	int XDir = 10; // 10 on arduino inverted to pin 15 and actual to 10 on h-bridge
 
+        int ENABLE = HIGH;
+        int DISABLE = LOW;
+
+        int CLOCKWISE = LOW;
+        int COUNTER_CLOCKWISE = HIGH;        
+
         
 	char ARDUINO_HANDSHAKE = '@';
 
@@ -32,27 +38,19 @@
 			char val = Serial.read ();
 			if (val == 'A')
 			{
-				RadiusClockwiseR (128, 500);
+				RadiusClockwise (128, 500);
 			}
 			if (val == 'B')
 			{
-				RadiusCounterClockwiseR (128, 500);
-			}
-			if (val == 'C')
-			{
-				TestZeroPowerR();
+				RadiusCounterClockwise (128, 500);
 			}
                         if (val == 'D')
                         {
-                                RadiusClockwiseX (128, 500);
+                                XClockwise (128, 500);
                         }
                         if (val == 'E')
 			{
-				RadiusCounterClockwiseX (128, 500);
-			}
-                        if (val == 'F')
-			{
-				TestZeroPowerX();
+				XCounterClockwise (128, 500);
 			}
                         if (val == 'G')
                         {
@@ -70,102 +68,69 @@
                   digitalWrite (i, LOW);
                 }
 	}
-	
-	void TestZeroPowerR()
-	{
-		digitalWrite (REn, HIGH);
-		analogWrite (RDir, 0);
-		delay (1000);
-		digitalWrite (REn, LOW);
-		digitalWrite (RDir, LOW);
-	}
-        void TestZeroPowerX()
+        
+        void SetBothZeroPower()
         {
-                digitalWrite (XEn, HIGH);
-                analogWrite (XDir, 0);
+                analogWrite (RDir, CLOCKWISE);
+                analogWrite (XDir, CLOCKWISE);
+                digitalWrite (REn, ENABLE);
+                digitalWrite (XEn, ENABLE);
                 delay (1000);
-                digitalWrite (XEn, LOW);
-                digitalWrite (XDir, LOW);
+                digitalWrite (REn, DISABLE);
+                digitalWrite (XEn, DISABLE);
         }
-	void RadiusClockwiseR (int power, int duration)
+        
+	void RadiusClockwise (int power, int duration)
 	{
-		digitalWrite (REn, HIGH);
-		/*for (int i = 0; i < 5; i++ )
-		{
-			analogWrite (RCWPWM, i * 50);
-			delay (500);
-		}*/
-                digitalWrite (RDir, LOW);
+                analogWrite (RDir, CLOCKWISE);
+		digitalWrite (REn, ENABLE);
                 delay (4000);
-                digitalWrite (REn, LOW);
-		digitalWrite (RDir, HIGH);
+                digitalWrite (REn, DISABLE);
 	}
 
-        void RadiusClockwiseX (int power, int duration)
+        void XClockwise (int power, int duration)
         {
-                digitalWrite (XEn, HIGH);
-                //see commented out area in above method, add or no?
-                digitalWrite (XDir, LOW);
+                analogWrite (XDir, CLOCKWISE);
+                digitalWrite (XEn, ENABLE);
                 delay (4000);
-                digitalWrite (XEn, LOW);
-                digitalWrite (XDir, HIGH);
+                digitalWrite (XEn, DISABLE);
         }  
-	void RadiusCounterClockwiseR (int power, int duration)
+        
+	void RadiusCounterClockwise (int power, int duration)
 	{
-                digitalWrite (REn, HIGH);
-		/*for (int i = 0; i < 5; i++ )
-		{
-			analogWrite (RCWPWM, i * 50);
-			delay (500);
-		}*/
-                digitalWrite (RDir, HIGH);
+                analogWrite (RDir, COUNTER_CLOCKWISE);
+                digitalWrite (REn, ENABLE);
                 delay (4000);
-                digitalWrite (REn, LOW);
-		digitalWrite (RDir, HIGH);
-		/*digitalWrite (XEn, HIGH);
-		for (int i = 0; i < 5; i++ )
-		{
-			analogWrite (XDir, i * 50);
-			delay (500);
-		}
-		digitalWrite (XEn, LOW);
-		digitalWrite (XDir, LOW);*/
+                digitalWrite (REn, DISABLE);
 	}
 
-        void RadiusCounterClockwiseX (int power, int duration)
+        void XCounterClockwise (int power, int duration)
         {
-                digitalWrite (XEn, HIGH);
-                //see commented out area in above method, add or no?
-                digitalWrite (XDir, HIGH);
+                analogWrite (XDir, COUNTER_CLOCKWISE);
+                digitalWrite (XEn, ENABLE);
                 delay (4000);
-                digitalWrite (XEn, LOW);
-                digitalWrite (XDir, HIGH);
-                //see commented out area in above method, add or no?
+                digitalWrite (XEn, DISABLE);
         }
         
         void SetBothRunClockwise (int power, int duration)
         {
-                digitalWrite (REn, HIGH);
-                digitalWrite (XEn, HIGH);
-                digitalWrite (RDir, LOW);
-                digitalWrite (XDir, LOW);
+                analogWrite (RDir, CLOCKWISE);
+                analogWrite (XDir, CLOCKWISE);
+                digitalWrite (REn, ENABLE);
+                digitalWrite (XEn, ENABLE);
                 delay (4000);
-                digitalWrite (REn, LOW);
-                digitalWrite (XEn, LOW);
-                digitalWrite (RDir, HIGH);
-                digitalWrite (XDir, HIGH);
+                digitalWrite (REn, DISABLE);
+                digitalWrite (XEn, DISABLE);
         }
         
         void SetBothRunCounterClockwise (int power, int duration)
         {
-                digitalWrite (REn, HIGH);
-                digitalWrite (XEn, HIGH);
-                digitalWrite (RDir, HIGH);
-                digitalWrite (XDir, HIGH);
+                analogWrite (RDir, COUNTER_CLOCKWISE);
+                analogWrite (XDir, COUNTER_CLOCKWISE);
+                digitalWrite (REn, ENABLE);
+                digitalWrite (XEn, ENABLE);
                 delay (4000);
-                digitalWrite (REn, LOW);
-                digitalWrite (XEn, LOW);
-		digitalWrite (RDir, HIGH);
-                digitalWrite (XDir, HIGH);
+                digitalWrite (REn, DISABLE);
+                digitalWrite (XEn, DISABLE);
         }
 

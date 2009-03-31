@@ -41,33 +41,25 @@ public class ElectronicsTest extends arduino.Arduino
 			 * then R on in other direction, same with X, then both, and finish with each off
 			 */
 			
-			System.out.println ("Testing RCWR");
+			System.out.println ("Testing RadiusClockwise");
 			portWrite('A');
 
-			System.out.println ("Testing RCWX");
+			System.out.println ("Testing XClockwise");
 			portWrite('D');
 
-			System.out.println ("Testing RCWboth");
+			System.out.println ("Testing SetBothRunClockwise");
 			portWrite('G');
 			
-			System.out.println ("Testing Zero Power");
-			portWrite ('C');
-			portWrite ('F');
-			
-			System.out.println ("Testing RCCWR");
+			System.out.println ("Testing RadiusCounterClockwise");
 			portWrite('B');
 
-			System.out.println ("Testing RCCWX");
+			System.out.println ("Testing XCounterClockwise");
 			portWrite('E');
 
-			System.out.println ("Testing RCCWboth");
+			System.out.println ("Testing SetBothRunCounterClockwise");
 			portWrite('H');
-
-			System.out.println ("Testing Zero Power");
-			portWrite ('C');
-			portWrite ('F');
-			
 		}
+		
 		else if (testCount == 2)
 		{
 			System.out.println ("Ending Electronics Testing sequence");
