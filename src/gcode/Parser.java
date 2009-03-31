@@ -34,7 +34,7 @@ public class Parser
 			}
 			else
 			{
-				if ((c == 'G') || (c == 'M'))
+				if ((c == 'G') || (c == 'M') /* || (the current bBuffer is "full) */)
 				{
 					nextBlock();
 				}
