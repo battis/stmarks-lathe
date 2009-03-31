@@ -5,7 +5,7 @@
 	int XCW = 10;
 	int XPWM = 6;
 	int XCCW = 11;
-	int EM = 12;
+	int EM = 13;
 	char ARDUINO_HANDSHAKE = '@';
 
 	void setup ()
@@ -18,6 +18,10 @@
 		pinMode (RCW, OUTPUT);
 		pinMode (RCCW, OUTPUT);
 		pinMode (RPWM, OUTPUT);
+		pinMode (XCW, OUTPUT);
+		pinMOde (XCCW, OUTPUT);
+		pinMode (XPWM, OUTPUT);
+		pinMode (EM, OUTPUT);
 	}
 
 	void loop ()
@@ -36,25 +40,28 @@
                 int turns = Serial.read();
                 int power = Serial.read();
                 HorizontalLeft (turns, power);
+                Serial.print (turns, DEC);
+                Serial.print (power, DEC);
 			}
 			if (val == 2)
 			{
 				int turns = Serial.read();
                 int power = Serial.read();
 				HorizontalRight (turns,power);
+				Serial.print (turns, DEC);
+                Serial.print (power, DEC);
 			}
 			if (val == 3)//useful?
 			{
-				int turns = Serial.read();
-                int power = Serial.read();
-                Serial.print (turns, DEC);
-                Serial.print (power, DEC);
+			    Serial.print (111);   
 			}
 			if (val == 4)
 			{
 				int turns = Serial.read();
                 int power = Serial.read();
 				VerticalIn (turns, power);
+				Serial.print (turns, DEC);
+                Serial.print (power, DEC);
 			}
 			if (val == 5)
 			{
@@ -62,6 +69,8 @@
                 int power = Serial.read();
 				HorizontalLeft (turns, power);
 				VerticalIn (turns, power);
+				Serial.print (turns, DEC);
+                Serial.print (power, DEC);
 			}
 			if (val == 6)
 			{
@@ -69,6 +78,8 @@
                 int power = Serial.read();
 				HorizontalRight (turns, power);
 				VerticalIn (turns, power);
+				Serial.print (turns, DEC);
+                Serial.print (power, DEC);
 			}
 			if (val == 7);
 			{
@@ -82,6 +93,8 @@
 				int turns = Serial.read();
                 int power = Serial.read();
 				VerticalOut (turns, power);
+				Serial.print (turns, DEC);
+                Serial.print (power, DEC);
 			}
 			if (val == 9)
 			{
@@ -89,6 +102,8 @@
                 int power = Serial.read();
 				HorizontalLeft (turns, power);
 				VerticalOut (turns, power);
+				Serial.print (turns, DEC);
+                Serial.print (power, DEC);
 			}
 			if (val == 10)
 			{
@@ -96,6 +111,8 @@
                 int power = Serial.read();
 				HorizontalRight (turns, power);
 				VerticalOut (turns, power);
+				Serial.print (turns, DEC);
+                Serial.print (power, DEC);
 			}
 			if (val == 11)
 			{
@@ -103,6 +120,18 @@
                 int power = Serial.read();
                 Serial.print (turns, DEC);
                 Serial.print (power, DEC);
+			}	
+			if (val == 16)
+			{
+				
+			}	
+			if (val == 32)
+			{
+				
+			}	
+			if (val == 64)
+			{
+				
 			}	
 			if (val >= 128)
 			{
@@ -157,8 +186,12 @@ void VerticalIn (int turns, int power)
 		digitalWrite (XCW, LOW);
 		digitalWrite (XPWM, LOW);
 	}
-	void Stop (int power, int duration)
+	void Stop ()
 	{
-		analogWrite (EM, power);
-		
+		digitalWrite (EM, HIGH);
+		digitalWrite (XCW, LOW);
+		digitalWrite (XCCW, LOW);
+		digitalWrite (RCW, LOW);
+		digitalWrite (RCCW, LOW);
+		digitialWrite (EM, LOW);//?
 	}
