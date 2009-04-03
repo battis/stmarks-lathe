@@ -7,6 +7,7 @@ import java.util.*;
 public class Block extends ArrayList<Segment>
 {
 	private boolean delete;
+	private boolean ifFullI, ifFullJ, ifFullX, ifFullY;
 	private Integer lineNumber;
 	private Character commandSet;
 	private Double command;
@@ -14,6 +15,10 @@ public class Block extends ArrayList<Segment>
 	public Block()
 	{
 		super();
+		ifFullI = false;
+		ifFullJ = false;
+		ifFullX = false;
+		ifFullY = false;
 		delete = false;
 		lineNumber = null;
 		commandSet = null;
@@ -32,8 +37,25 @@ public class Block extends ArrayList<Segment>
 				commandSet = s.getLetter ();
 				command = s.getNumber ();
 				return true;
+			case 'I':
+				ifFullI = true;
+				return super.add (s);
+			case 'J':
+				ifFullJ = true;
+				return super.add (s);
+			case 'X':
+				ifFullX = true;
+				return super.add (s);
+			case 'Y':
+				ifFullY = true;
+				return super.add (s);
 			default:
 				return super.add (s);
+				
+		}
+		if (ifFullI=true && ifFullJ=true && ifFullX=true && ifFullY=true)
+		{
+			//end the set
 		}
 	}
 
@@ -107,4 +129,5 @@ public class Block extends ArrayList<Segment>
 
 		return s;
 	}
+
 }
