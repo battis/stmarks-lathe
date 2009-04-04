@@ -34,7 +34,7 @@ public class Parser
 			}
 			else
 			{
-				if ((c == 'G') || (c == 'M') /* || (the current bBuffer is "full) */)
+				if ((c == 'G') || (c == 'M') /* || (bBuffer.isComplete())*/)
 				{
 					nextBlock();
 				}
@@ -67,6 +67,11 @@ public class Parser
 				nBuffer = new String();
 			}
 			bBuffer.add (sBuffer);
+			if (bBuffer.isComplete())
+			{
+				program.add (bBuffer);
+				bBuffer = new Block();
+			}
 		}
 		sBuffer = new Segment();
 	}

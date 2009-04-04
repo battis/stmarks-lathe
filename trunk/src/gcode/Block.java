@@ -53,12 +53,13 @@ public class Block extends ArrayList<Segment>
 				return super.add (s);
 				
 		}
-		if (ifFullI=true && ifFullJ=true && ifFullX=true && ifFullY=true)
-		{
-			//end the set
-		}
 	}
 
+	public boolean isComplete()
+	{
+		return ((ifFullI==true) && (ifFullJ==true) && (ifFullX==true) && (ifFullY==true));
+	}
+	
 	public void setDelete (boolean b)
 	{
 		delete = b;
