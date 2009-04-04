@@ -136,11 +136,13 @@
 			if (val >= 128)
 			{
 				Serial.print ("Stop");
-			}		
+			}	
+			If duration . . .>=20
+			val = whatever number time commands are.	
 		}
 	}
 
-void VerticalIn (int turns, int power)
+	void VerticalIn (int turns, int power)
 	{
 		analogWrite (RPWM, power);
 		digitalWrite (RCW, HIGH);
@@ -194,4 +196,16 @@ void VerticalIn (int turns, int power)
 		digitalWrite (RCW, LOW);
 		digitalWrite (RCCW, LOW);
 		digitialWrite (EM, LOW);//?
+	}
+	void OK ()
+	{
+	
+	}
+	void CO ()
+	{
+	
+	}
+	void TO ()
+	{
+	
 	}
