@@ -2,6 +2,8 @@ package gcode;
 import java.io.*;
 import java.util.*;
 
+import lathe.WorkPiece;
+
 public class Parser
 {
 	private char file[];
@@ -84,5 +86,17 @@ public class Parser
 			s = s.concat (b.toString());
 		}
 		return s;
+	}
+
+	public WorkPiece getVertexShape()
+	{
+		WorkPiece w = new WorkPiece();
+		for (Block b : program)
+		{
+			// figure out what command this block is
+			// add those vertices to the workpiece
+			// 		w.add (new Vertex (x, y));
+		}
+		return w;
 	}
 }
