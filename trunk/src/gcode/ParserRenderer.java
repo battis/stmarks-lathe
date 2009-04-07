@@ -10,10 +10,10 @@ public class ParserRenderer extends Renderer
 	private WorkPiece w;
 	private Light light;
 	
-	public ParserRenderer (gcodeParser gcp)
+	public ParserRenderer (Parser p)
 	{
 		super();
-		w = gcp.getTarget ();
+		w = p.getVertexShape();
 	}
 	
 	public void init()
