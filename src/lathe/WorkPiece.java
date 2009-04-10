@@ -34,7 +34,7 @@ public class WorkPiece extends VertexShape
 	 * pre: 0 <= position <= length
 	 * 
 	 * @param distance
-	 *            measured from work piece's zero
+	 *        measured from work piece's zero
 	 * @return the radius at position, -1 if distance > length
 	 * @deprecated use getY()
 	 */

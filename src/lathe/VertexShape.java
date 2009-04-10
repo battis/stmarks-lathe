@@ -7,11 +7,9 @@ import simplerjogl.*;
 
 public class VertexShape extends ArrayList<Vertex>
 {
-	protected final double PRECISION = 0.0000001;
-
+	protected final double PRECISION = 0.00000001;
 	/**
 	 * pre: length and radius are non-negative values
-	 * 
 	 * @param length
 	 * @param radius
 	 */
@@ -19,10 +17,8 @@ public class VertexShape extends ArrayList<Vertex>
 	{
 		super ();
 	}
-
 	/**
 	 * pre: 0 <= distance <= length
-	 * 
 	 * @param distance
 	 * @return the rightmost vertex with an x-coordinate less than or equal
 	 *         to distance, null if no such vertex exists
@@ -43,10 +39,8 @@ public class VertexShape extends ArrayList<Vertex>
 		}
 		return null;
 	}
-
 	/**
 	 * pre: 0 <= distance <= length
-	 * 
 	 * @param distance
 	 * @return the leftmost vertex v such that v.x > distance, null if no
 	 *         such vertex exists
@@ -62,7 +56,6 @@ public class VertexShape extends ArrayList<Vertex>
 		}
 		return null;
 	}
-
 	/**
 	 * TODO There could be more than one vertex at a particular
 	 * X-coordinate!
@@ -81,7 +74,6 @@ public class VertexShape extends ArrayList<Vertex>
 		}
 		return null;
 	}
-
 	public double getY (double x)
 	{
 		/*
@@ -117,7 +109,6 @@ public class VertexShape extends ArrayList<Vertex>
 			}
 		}
 	}
-
 	/**
 	 * @return length of shape (assumes that shape starts at x = 0)
 	 */
