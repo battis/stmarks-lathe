@@ -30,13 +30,8 @@ public class LatheLayout extends Model
 	private Material green;
 	private Material white;
 
-
 	public void display()
 	{
-		//glu.gluLookAt(0, 0, 14,    // eye location
-			//0, 0, 0,    // focal point
-			//0, 1, 0);    // up vector
-
 		gl.glPushMatrix ();
 		red.use ();
 		gl.glTranslatef(-1.25f, 1, .5f);
@@ -52,9 +47,7 @@ public class LatheLayout extends Model
 		glut.glutSolidCube(1);
 		gl.glPopMatrix();
 
-
 		gl.glPushMatrix ();
-
 
 		gl.glPushMatrix ();
 		blue.use ();
@@ -64,7 +57,6 @@ public class LatheLayout extends Model
 		glut.glutWireCylinder(.1f, 1, 10, 10);
 		gl.glPopMatrix();
 
-
 		gl.glPushMatrix ();
 		blue.use ();
 		gl.glTranslatef(.9f, 1.1f, -2f);
@@ -73,41 +65,16 @@ public class LatheLayout extends Model
 		gl.glPopMatrix();
 
 		gl.glPopMatrix();
-
-
-
 		gl.glPushMatrix ();
 		white.use ();
 		gl.glScalef(5, .25f, 6);
 		glut.glutSolidCube(1);
 		gl.glPopMatrix();
 
-
-		/*gl.glPushMatrix ();
-		red.use ();
-
-		gl.glTranslatef(1.5f, .4f, 0);
-		gl.glPushMatrix ();
-
-		gl.glPushMatrix ();
-		gl.glTranslatef(.15f, .8f, 0);
-		gl.glScalef(.25f, .15f, .15f);
-		glut.glutSolidCube(1);
-		gl.glPopMatrix();
-
-		gl.glTranslatef(.375f, .5f, 0);
-		gl.glScalef(.25f, 1, .3f);
-		glut.glutSolidCube(1);
-		gl.glPopMatrix();*/
-
-
 		gl.glScalef(1, .25f, .5f);
 		glut.glutSolidCube(1);
 		gl.glPopMatrix();
 
 		t+=1;
-
-
 	}
-
 }
