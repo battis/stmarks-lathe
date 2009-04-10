@@ -15,10 +15,7 @@ public class VisualLathe extends Model
 	{
 		super (gl);
 	}
-
 	public void draw ()
 	{
-		
-
 	}
 }

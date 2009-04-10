@@ -1,22 +1,17 @@
-
 package visualizer;
-
 import javax.media.opengl.*;
 import lathe.*;
-
 import simplerjogl.*;
 
 public class VisualTool extends Model
 {
 	public Tool tool;
-	
 	public VisualTool (GL gl)
 	{
 		super (gl);
 		
 		tool = new Tool();
 	}
-
 	public void draw ()
 	{
 		red.use();
