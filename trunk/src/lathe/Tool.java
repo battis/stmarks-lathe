@@ -1,18 +1,12 @@
-
 package lathe;
-
 import java.util.*;
 
 import simplerjogl.Vertex;
 
 /**
  * Tool
- * 
  * An object to represent the actual tool that is being used to cut the
  * work piece.
- * 
- * 
- * 
  * @author Seth Battis
  */
 public class Tool extends VertexShape
@@ -22,12 +16,12 @@ public class Tool extends VertexShape
 		super ();
 
 		// TODO these are totally arbitrary values!
-		add (new Vertex (1, 2));
-		add (new Vertex (2, 1));
-		add (new Vertex (2.5, 2));
+		add (new Vertex (1.4, 2));
+		add (new Vertex (1.85, 1));
+		add (new Vertex (2.2, 2));
 	}
 
-	public void move (double dx, double dy, WorkPiece work) // Chris Becker
+	public void move (double dx, double dy, WorkPiece work)
 	{
 		/* move every vertex of the tool surface the specified distance */
 		for (Vertex v : this)
@@ -35,16 +29,12 @@ public class Tool extends VertexShape
 			v.setX (v.getX () + dx);
 			v.setY (v.getY () + dy);
 		}
-
 		cut (work);
 	}
-
 	/**
 	 * Remove vertices from the work piece that are contained within the
 	 * tool
-	 * 
 	 * TODO this should maybe in the WorkPiece object
-	 * 
 	 * @param work
 	 */
 	protected void cullVertices (VertexShape s)
@@ -68,14 +58,13 @@ public class Tool extends VertexShape
 
 	public void cut (WorkPiece work)
 	{
-
 		/*
 		 * check to see if any tool vertices are now within the volume of
 		 * the work piece. If so, we need to make a cut in the work piece
 		 * to reflect this, shaping the work piece around the surface of
 		 * the tool.
 		 */
-		for (int j = 0; j < this.size (); j++ ) // Chris Becker
+		for (int j = 0; j < this.size (); j++ )
 		{
 			Vertex v = this.get (j);
 			if (work.contains (v))
@@ -163,7 +152,6 @@ public class Tool extends VertexShape
 
 				/* index of right work piece vertex */
 				int i = work.indexOf (workRight);
-
 				/*
 				 * inserting new vertices _before_ right work piece vertex.
 				 * we make our insertions in reverse order because we as we
@@ -175,12 +163,10 @@ public class Tool extends VertexShape
 				work.add (i, right);
 				work.add (i, new Vertex (v));
 				work.add (i, left);
-
 				cullVertices (work);
 			}
 		}
 	}
-
 	/**
 	 * Computes the intersection of lines ab and pq
 	 * 
@@ -199,7 +185,6 @@ public class Tool extends VertexShape
 		{
 			return null;
 		}
-
 		/* slope-intercept formula for line ab */
 		double m1 = (a.getY () - b.getY ()) / (a.getX () - b.getX ());
 		double b1 = a.getY () - (m1 * a.getX ());
@@ -207,7 +192,6 @@ public class Tool extends VertexShape
 		/* slope-intercept formula for line pq */
 		double m2 = (p.getY () - q.getY ()) / (p.getX () - q.getX ());
 		double b2 = p.getY () - (m2 * p.getX ());
-
 		/*
 		 * If the lines are parallel (slopes are equal), there is no
 		 * intersection so we return null -- otherwise we compute the
@@ -233,7 +217,6 @@ public class Tool extends VertexShape
 			return new Vertex (x, y);
 		}
 	}
-
 	/**
 	 * The vertex v is contained in the volume of the tool
 	 * 
