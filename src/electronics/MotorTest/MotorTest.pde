@@ -133,4 +133,3 @@ void SetBothRunCounterClockwise (int power, int duration)
   digitalWrite (REn, DISABLE);
   digitalWrite (XEn, DISABLE);
 }
-
