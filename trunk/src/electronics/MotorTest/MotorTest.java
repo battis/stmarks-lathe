@@ -1,10 +1,10 @@
-package electronics;
+package electronics.MotorTest;
 
 import java.awt.*;
 
 import arduino.*;
 
-public class ElectronicsTest extends arduino.Arduino
+public class MotorTest extends arduino.Arduino
 {	
 	private static final long serialVersionUID = 1L;
 	private int testCount;
