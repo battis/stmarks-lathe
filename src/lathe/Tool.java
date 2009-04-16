@@ -15,10 +15,11 @@ public class Tool extends VertexShape
 	{
 		super ();
 
-		// TODO these are totally arbitrary values!
-		add (new Vertex (1.4, 2));
-		add (new Vertex (1.85, 1));
-		add (new Vertex (2.2, 2));
+		// tool shape approximation courtesy of Mr. Wells
+		add (new Vertex (1.6, 3.2));
+		add (new Vertex (1.8, 2.2));
+		add (new Vertex (2, 2));
+		add (new Vertex (1.8, 3));
 	}
 
 	public void move (double dx, double dy, WorkPiece work)
