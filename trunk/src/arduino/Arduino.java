@@ -102,24 +102,6 @@ public class Arduino extends PApplet
 		t.reset ();
 		while (t.isRunning()) {}
 		
-		System.out.println ("Testing OK");
-		port.write(16);
-	
-		t.reset();
-		while (t.isRunning()) {}
-		
-		System.out.println ("Testing CO");
-		port.write(32);
-	
-		t.reset();
-		while (t.isRunning()) {}
-		
-		System.out.println ("Testing TO");
-		port.write(64);
-	
-		t.reset();
-		while (t.isRunning()) {}
-		
 		System.out.println ("Testing EM");
 		port.write (128);
 		
