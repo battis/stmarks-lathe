@@ -121,18 +121,7 @@
 			{
 				Serial.print (31);
 			}	
-			if (val == 16)
-			{
-				
-			}	
-			if (val == 32)
-			{
-				
-			}	
-			if (val == 64)
-			{
-				
-			}	
+
 			if (val >= 128)
 			{
 				Serial.print ("Stop");
