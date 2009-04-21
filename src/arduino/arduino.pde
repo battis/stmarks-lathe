@@ -11,6 +11,10 @@ int CLOCKWISE = LOW;
 int COUNTER_CLOCKWISE = HIGH;        
 
 // Message (msg) bit indices
+int msg_XCW = 1;
+int msg_XCCW = 2;
+int msg_RCW = 4;
+int msg_RCCW = 8;
 int OK = 16;
 int CHICKEN_OUT = 32;
 int TIME_OUT= 64;
