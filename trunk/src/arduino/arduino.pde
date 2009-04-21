@@ -152,14 +152,14 @@ void RCW (int turns, int power)
   analogWrite (XPWM, power);
   int time = millis();
   digitalWrite (XCCW, HIGH);
- while (turns != reqTurns && PARAMS_USED[CO_BIT] != true)
+ while (turns != reqTurns && PARAMS_USED[32] != true)
   {
     int elapsed = time-millis();
     if (elapsed > 20)
     {
       digitalWrite (XEn, DISABLE);
-      PARAMS[CO_BIT] = elapsed;
-      PARAMS_USED[CO_BIT];
+      PARAMS[32] = elapsed;
+      PARAMS_USED[32];
     }
   /* this is a totally arbitrary delay time -- in reality, 
    we're going to be reading inputs from the encoder pins, 
@@ -183,14 +183,14 @@ void RCCW (int power, int duration)
   analogWrite (RPWM, power);
   int time = millis();
   digitalWrite (RCCW, HIGH);
- while (turns != reqTurns && PARAMS_USED[CO_BIT] != true)
+ while (turns != reqTurns && PARAMS_USED[32] != true)
   {
     int elapsed = time-millis();
     if (elapsed > 20)
     {
       digitalWrite (XEn, DISABLE);
-      PARAMS[CO_BIT] = elapsed;
-      PARAMS_USED[CO_BIT];
+      PARAMS[32] = elapsed;
+      PARAMS_USED[32];
     }
   digitalWrite (RCCW, LOW);
   digitalWrite (RPWM, LOW);
@@ -201,14 +201,14 @@ void XCCW(int power, int duration)
    int time = millis();
   digitalWrite (XCCW, HIGH);
 
- while (turns != reqTurns && PARAMS_USED[CO_BIT] != true)
+ while (turns != reqTurns && PARAMS_USED[32] != true)
   {
     int elapsed = time-millis();
     if (elapsed > 20)
     {
       digitalWrite (XEn, DISABLE);
-      PARAMS[CO_BIT] = elapsed;
-      PARAMS_USED[CO_BIT];
+      PARAMS[32] = elapsed;
+      PARAMS_USED[32];
     }
   digitalWrite (XCCW, LOW);
   digitalWrite (XPWM, LOW);
@@ -220,14 +220,14 @@ void XCW (int power, int duration)
   analogWrite (XDir, COUNTER_CLOCKWISE);
   int time = millis();
   digitalWrite (XEn, ENABLE);
-  while (turns != reqTurns && PARAMS_USED[CO_BIT] != true)
+  while (turns != reqTurns && PARAMS_USED[32] != true)
   {
     int elapsed = time-millis();
     if (elapsed > 20)
     {
       digitalWrite (XEn, DISABLE);
-      PARAMS[CO_BIT] = elapsed;
-      PARAMS_USED[CO_BIT];
+      PARAMS[32] = elapsed;
+      PARAMS_USED[32];
     }
   }
   digitalWrite (XEn, DISABLE);
