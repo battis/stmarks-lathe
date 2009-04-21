@@ -50,7 +50,7 @@ void loop ()
     {
       int turns = Serial.read();
       int power = Serial.read();
-      HorizontalLeft (turns, power);
+      XCW (turns, power);
       Serial.print (turns, DEC);
       Serial.print (power, DEC);
     }
@@ -58,7 +58,7 @@ void loop ()
     {
       int turns = Serial.read();
       int power = Serial.read();
-      HorizontalRight (turns,power);
+      XCCW (turns,power);
       Serial.print (turns, DEC);
       Serial.print (power, DEC);
     }
@@ -70,7 +70,7 @@ void loop ()
     {
       int turns = Serial.read();
       int power = Serial.read();
-      VerticalIn (turns, power);
+      RCW(turns, power);
       Serial.print (turns, DEC);
       Serial.print (power, DEC);
     }
@@ -78,8 +78,8 @@ void loop ()
     {
       int turns = Serial.read();
       int power = Serial.read();
-      HorizontalLeft (turns, power);
-      VerticalIn (turns, power);
+      XCW (turns, power);
+      RCW (turns, power);
       Serial.print (turns, DEC);
       Serial.print (power, DEC);
     }
@@ -87,8 +87,8 @@ void loop ()
     {
       int turns = Serial.read();
       int power = Serial.read();
-      HorizontalRight (turns, power);
-      VerticalIn (turns, power);
+      XCCW (turns, power);
+      RCW (turns, power);
       Serial.print (turns, DEC);
       Serial.print (power, DEC);
     }
@@ -100,7 +100,7 @@ void loop ()
     {	
       int turns = Serial.read();
       int power = Serial.read();
-      VerticalOut (turns, power);
+      RCCW (turns, power);
       Serial.print (turns, DEC);
       Serial.print (power, DEC);
     }
@@ -108,8 +108,8 @@ void loop ()
     {
       int turns = Serial.read();
       int power = Serial.read();
-      HorizontalLeft (turns, power);
-      VerticalOut (turns, power);
+      XCW (turns, power);
+      RCCW (turns, power);
       Serial.print (turns, DEC);
       Serial.print (power, DEC);
     }
@@ -117,8 +117,8 @@ void loop ()
     {
       int turns = Serial.read();
       int power = Serial.read();
-      HorizontalRight (turns, power);
-      VerticalOut (turns, power);
+      XCCW (turns, power);
+      RCCW (turns, power);
       Serial.print (turns, DEC);
       Serial.print (power, DEC);
     }
@@ -140,7 +140,7 @@ void loop ()
   }
 }
 
-void VerticalIn (int turns, int power)
+void RCW (int turns, int power)
 {
   analogWrite (RPWM, power);
   digitalWrite (RCW, HIGH);
@@ -162,7 +162,7 @@ void VerticalIn (int turns, int power)
    it would be useful for the program to know how long it took
    us to turn the motor that number of turns? */
 }
-void VerticalOut (int power, int duration)
+void RCCW (int power, int duration)
 {
   analogWrite (RPWM, power);
   digitalWrite (RCCW, HIGH);
@@ -170,7 +170,7 @@ void VerticalOut (int power, int duration)
   digitalWrite (RCCW, LOW);
   digitalWrite (RPWM, LOW);
 }
-void HorizontalRight (int power, int duration)
+void XCCW(int power, int duration)
 {
   analogWrite (XPWM, power);
   digitalWrite (XCCW, HIGH);
@@ -180,7 +180,7 @@ void HorizontalRight (int power, int duration)
 }
 
 // "model" motor controller -- awaiting encoder goodness
-void HorizontalLeft (int power, int duration)
+void XCW (int power, int duration)
 {
   analogWrite (XDir, COUNTER_CLOCKWISE);
   int time = millis();
