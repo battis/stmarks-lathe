@@ -144,7 +144,19 @@ void RCW (int turns, int power)
 {
   analogWrite (RPWM, power);
   digitalWrite (RCW, HIGH);
-
+{
+  analogWrite (XPWM, power);
+  int time = millis();
+  digitalWrite (XCCW, HIGH);
+ while (turns != reqTurns && PARAMS_USED[CO_BIT] != true)
+  {
+    int elapsed = time-millis();
+    if (elapsed > 20)
+    {
+      digitalWrite (XEn, DISABLE);
+      PARAMS[CO_BIT] = elapsed;
+      PARAMS_USED[CO_BIT];
+    }
   /* this is a totally arbitrary delay time -- in reality, 
    we're going to be reading inputs from the encoder pins, 
    and counting the number of turns that the motor makes. 
@@ -165,16 +177,35 @@ void RCW (int turns, int power)
 void RCCW (int power, int duration)
 {
   analogWrite (RPWM, power);
+  int time = millis();
   digitalWrite (RCCW, HIGH);
-  delay (turns * 100);
+ while (turns != reqTurns && PARAMS_USED[CO_BIT] != true)
+  {
+    int elapsed = time-millis();
+    if (elapsed > 20)
+    {
+      digitalWrite (XEn, DISABLE);
+      PARAMS[CO_BIT] = elapsed;
+      PARAMS_USED[CO_BIT];
+    }
   digitalWrite (RCCW, LOW);
   digitalWrite (RPWM, LOW);
 }
 void XCCW(int power, int duration)
 {
   analogWrite (XPWM, power);
+   int time = millis();
   digitalWrite (XCCW, HIGH);
-  delay (turns * 100);
+
+ while (turns != reqTurns && PARAMS_USED[CO_BIT] != true)
+  {
+    int elapsed = time-millis();
+    if (elapsed > 20)
+    {
+      digitalWrite (XEn, DISABLE);
+      PARAMS[CO_BIT] = elapsed;
+      PARAMS_USED[CO_BIT];
+    }
   digitalWrite (XCCW, LOW);
   digitalWrite (XPWM, LOW);
 }
