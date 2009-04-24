@@ -15,9 +15,12 @@ int msg_XCW = 1;
 int msg_XCCW = 2;
 int msg_RCW = 4;
 int msg_RCCW = 8;
-int OK = 16;
-int CHICKEN_OUT = 32;
-int TIME_OUT= 64;
+int OK_BIT = 16;
+int OK = 3;
+int CHICKEN_OUT_BIT = 32;
+int CHICKEN_OUT = 2;
+int TIME_OUT_BIT = 64;
+int TIME_OUT = 1;
 int msg = 0;
 bool PARAMS_USED = new bool [10];
 int PARAMS = new int [10];
@@ -207,8 +210,8 @@ void XCCW(int power, int duration)
     if (elapsed > 20)
     {
       digitalWrite (XEn, DISABLE);
-      PARAMS[32] = elapsed;
-      PARAMS_USED[32];
+      PARAMS[CHICKEN_OUT] = elapsed;
+      PARAMS_USED[CHICKEN_OUT];
     }
   digitalWrite (XCCW, LOW);
   digitalWrite (XPWM, LOW);
@@ -220,18 +223,25 @@ void XCW (int power, int duration)
   analogWrite (XDir, COUNTER_CLOCKWISE);
   int time = millis();
   digitalWrite (XEn, ENABLE);
-  while (turns != reqTurns && PARAMS_USED[32] != true)
+  while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
     if (elapsed > 20)
     {
       digitalWrite (XEn, DISABLE);
-      PARAMS[32] = elapsed;
-      PARAMS_USED[32];
+      PARAMS[CHICKEN_OUT] = elapsed;
+      PARAMS_USED[CHICKEN_OUT];
     }
-  }
+  
   digitalWrite (XEn, DISABLE);
 }
+  if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
+    (
+    PARAMS[OK] = elapsed;
+    PARAMS_USED[OK];
+  }
+   digitalWrite (XEn, ENABLE);
+  
 void Stop ()
 {
   digitalWrite (EM, HIGH);
