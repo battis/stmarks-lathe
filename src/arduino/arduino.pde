@@ -3,6 +3,7 @@ int REn = 3; // enable clockwise radius motor control - 3 on arduino to pin 1 on
 int RDir = 5; // control radius motor power level (PWM) - 5 on arduino inverted to pin 2 and actual to 7 on h-bridge
 int XEn = 9; // enable counter-clockwise radius motor control - 9 on arduino to pin 9 on h-bridge
 int XDir = 10; // 10 on arduino inverted to pin 15 and actual to 10 on h-bridge
+int EM = 13;
 
 // voltage levels
 int ENABLE = HIGH;
@@ -33,12 +34,10 @@ void setup ()
   /* send handshake to computer */
   Serial.print (ARDUINO_HANDSHAKE);
 
-  pinMode (RCW, OUTPUT);
-  pinMode (RCCW, OUTPUT);
-  pinMode (RPWM, OUTPUT);
-  pinMode (XCW, OUTPUT);
-  pinMOde (XCCW, OUTPUT);
-  pinMode (XPWM, OUTPUT);
+  pinMode (REn, OUTPUT);
+  pinMode (RDir, OUTPUT);
+  pinMode (XEn, OUTPUT);
+  pinMOde (XDir, OUTPUT);
   pinMode (EM, OUTPUT);
 }
 
@@ -149,18 +148,15 @@ void loop ()
 
 void RCW (int turns, int power)
 {
-  analogWrite (RPWM, power);
-  digitalWrite (RCW, HIGH);
-{
-  analogWrite (XPWM, power);
+  analogWrite (RDir, CLOCKWISE);
   int time = millis();
-  digitalWrite (XCCW, HIGH);
+  digitalWrite (REn, ENABLE);
  while (turns != reqTurns && PARAMS_USED[32] != true)
   {
     int elapsed = time-millis();
     if (elapsed > 20)
     {
-      digitalWrite (XEn, DISABLE);
+      digitalWrite (REn, DISABLE);
       PARAMS[32] = elapsed;
       PARAMS_USED[32];
     }
@@ -168,10 +164,9 @@ void RCW (int turns, int power)
    we're going to be reading inputs from the encoder pins, 
    and counting the number of turns that the motor makes. 
    If we don't see the motor turn within a "reasonable" period
-   of time, we will abort and send a message to the computer. */
-  delay (turns * 100);
-  digitalWrite (RCW, LOW);
-  digitalWrite (RPWM, LOW);
+   of time, we will abort and send a message to the computer. 
+  delay (turns * 100);*/
+  digitalWrite (REn, DISABLE);
 
   /* we need to think about what kind of information that
    we're sending back to the computer. We need to send error
@@ -183,26 +178,26 @@ void RCW (int turns, int power)
 }
 void RCCW (int power, int duration)
 {
-  analogWrite (RPWM, power);
+  analogWrite (RDir, COUNTER_CLOCKWISE);
   int time = millis();
-  digitalWrite (RCCW, HIGH);
+  digitalWrite (REn, ENABLE);
  while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
     if (elapsed > 20)
     {
-      digitalWrite (XEn, DISABLE);
+      digitalWrite (REn, DISABLE);
       PARAMS[32] = elapsed;
       PARAMS_USED[32];
     }
-  digitalWrite (RCCW, LOW);
-  digitalWrite (RPWM, LOW);
+  digitalWrite (REn, DISABLE);
 }
+
 void XCCW(int power, int duration)
 {
-  analogWrite (XPWM, power);
+  analogWrite (XDir, COUNTER_CLOCKWISE);
    int time = millis();
-  digitalWrite (XCCW, HIGH);
+  digitalWrite (XEn, ENABLE);
 
  while (turns != reqTurns && PARAMS_USED[32] != true)
   {
@@ -213,14 +208,13 @@ void XCCW(int power, int duration)
       PARAMS[CHICKEN_OUT] = elapsed;
       PARAMS_USED[CHICKEN_OUT];
     }
-  digitalWrite (XCCW, LOW);
-  digitalWrite (XPWM, LOW);
+  digitalWrite (XEn, DISABLE);
 }
 
-// "model" motor controller -- awaiting encoder goodness
-void XCW (int power, int duration)
+
+void XCW (int power, int duration)// "model" motor controller -- awaiting encoder goodness
 {
-  analogWrite (XDir, COUNTER_CLOCKWISE);
+  analogWrite (XDir, CLOCKWISE);
   int time = millis();
   digitalWrite (XEn, ENABLE);
   while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
@@ -245,10 +239,8 @@ void XCW (int power, int duration)
   
 void Stop ()
 {
-  digitalWrite (EM, HIGH);
-  digitalWrite (XCW, LOW);
-  digitalWrite (XCCW, LOW);
-  digitalWrite (RCW, LOW);
-  digitalWrite (RCCW, LOW);
-  digitialWrite (EM, LOW);//?
+  digitalWrite (EM, ENABLE);
+  digitalWrite (XEn, DISABLE);
+  digitalWrite (REn, DISABLE);
+  digitalWrite (EM, DISABLE);//?
 }
