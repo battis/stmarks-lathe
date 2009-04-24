@@ -1,6 +1,4 @@
 package lathe;
-import java.util.*;
-
 import simplerjogl.Vertex;
 
 /**
@@ -16,10 +14,13 @@ public class Tool extends VertexShape
 		super ();
 
 		// tool shape approximation courtesy of Mr. Wells
-		add (new Vertex (1.6, 3.2));
+		/*add (new Vertex (1.6, 3.2));
 		add (new Vertex (1.8, 2.2));
 		add (new Vertex (2, 2));
-		add (new Vertex (1.8, 3));
+		add (new Vertex (1.8, 3));*/
+		add (new Vertex (1.5, 2));
+		add (new Vertex (2, 1));
+		add (new Vertex (2.5, 2));
 	}
 
 	public void move (double dx, double dy, WorkPiece work)
@@ -55,6 +56,7 @@ public class Tool extends VertexShape
 				}
 			}
 		}
+		this.simplification();
 	}
 
 	public void cut (WorkPiece work)
@@ -168,6 +170,7 @@ public class Tool extends VertexShape
 			}
 		}
 	}
+	
 	/**
 	 * Computes the intersection of lines ab and pq
 	 * 
@@ -187,12 +190,12 @@ public class Tool extends VertexShape
 			return null;
 		}
 		/* slope-intercept formula for line ab */
-		double m1 = (a.getY () - b.getY ()) / (a.getX () - b.getX ());
-		double b1 = a.getY () - (m1 * a.getX ());
+		double m1 = RoundToPrecision ((a.getY () - b.getY ()) / (a.getX () - b.getX ()));
+		double b1 = RoundToPrecision (a.getY () - (m1 * a.getX ()));
 
 		/* slope-intercept formula for line pq */
-		double m2 = (p.getY () - q.getY ()) / (p.getX () - q.getX ());
-		double b2 = p.getY () - (m2 * p.getX ());
+		double m2 = RoundToPrecision ((p.getY () - q.getY ()) / (p.getX () - q.getX ()));
+		double b2 = RoundToPrecision (p.getY () - (m2 * p.getX ()));
 		/*
 		 * If the lines are parallel (slopes are equal), there is no
 		 * intersection so we return null -- otherwise we compute the
@@ -205,7 +208,7 @@ public class Tool extends VertexShape
 		 * TODO what if intersection is outside the volume of the tool
 		 * and/or work piece?
 		 */
-		if (Math.abs (m1 - m2) < PRECISION)
+		if (RoundToPrecision (m1 - m2) == 0)
 		{
 			System.out.println ("no point of intersection: " + a.toString2D () + " to " + b.toString2D () + " is parallel to " + p.toString2D () + " to " + q.toString2D ());
 			return null;
@@ -213,8 +216,8 @@ public class Tool extends VertexShape
 		else
 		{
 			/* solve for (x, y) at intersection of pq and ab */
-			double x = (b2 - b1) / (m1 - m2);
-			double y = (m1 * x) + b1;
+			double x = RoundToPrecision ((b2 - b1) / (m1 - m2));
+			double y = RoundToPrecision ((m1 * x) + b1);
 			return new Vertex (x, y);
 		}
 	}
