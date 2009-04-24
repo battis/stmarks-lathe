@@ -186,7 +186,7 @@ void RCCW (int power, int duration)
   analogWrite (RPWM, power);
   int time = millis();
   digitalWrite (RCCW, HIGH);
- while (turns != reqTurns && PARAMS_USED[32] != true)
+ while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
     if (elapsed > 20)
@@ -240,6 +240,7 @@ void XCW (int power, int duration)
     PARAMS[OK] = elapsed;
     PARAMS_USED[OK];
   }
+  message+= OK_BIT;
    digitalWrite (XEn, ENABLE);
   
 void Stop ()
