@@ -7,6 +7,10 @@ import simplerjogl.*;
 
 public class VertexShape extends ArrayList<Vertex>
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected final double PRECISION = 0.00000001;
 	/**
 	 * pre: length and radius are non-negative values
@@ -56,64 +60,94 @@ public class VertexShape extends ArrayList<Vertex>
 		}
 		return null;
 	}
-	/**
-	 * TODO There could be more than one vertex at a particular
-	 * X-coordinate!
-	 * 
-	 * @param distance
-	 * @return the first vertex with X-coordinate at distance
-	 */
-	public Vertex atX (double distance)
+
+
+	public void simplification ()
 	{
-		for (Vertex v : this)
+		Vertex  a=null, b=null;
+		for (Vertex c: this)
 		{
-			if (v.getX () == distance)
+			if((a!=null)&& (b!=null))
 			{
-				return v;
+				double m1 = RoundToPrecision ((a.getY () - c.getY ()) / (a.getX () - c.getX ()));
+				double b1 = RoundToPrecision (a.getY () - (m1 * a.getX ()));
+				
+				// calculate value of y = m * Bx + b1
+				// if y == By, then B is on the line AC,
+				//		then delete B from the list
 			}
+			a=b;
+			b=c;
 		}
-		return null;
 	}
-	public double getY (double x)
+
+
+
+
+/**
+ * TODO There could be more than one vertex at a particular
+ * X-coordinate!
+ * 
+ * @param distance
+ * @return the first vertex with X-coordinate at distance
+ */
+public Vertex atX (double distance)
+{
+	for (Vertex v : this)
+	{
+		if (v.getX () == distance)
+		{
+			return v;
+		}
+	}
+	return null;
+}
+public double getY (double x)
+{
+	/*
+	 * make sure that the x is actually within the boundaries of the
+	 * shape
+	 */
+	if (x < this.get (0).getX () || x > this.get (this.size () - 1).getX ())
+	{
+		return -0.0;
+	}
+	else
 	{
 		/*
-		 * make sure that the x is actually within the boundaries of the
-		 * shape
+		 * check to see if there is a vertex at the point that we're
+		 * looking at
 		 */
-		if (x < this.get (0).getX () || x > this.get (this.size () - 1).getX ())
+		Vertex v = this.atX (x);
+		if (v != null)
 		{
-			return -0.0;
+			return v.getY ();
 		}
 		else
 		{
 			/*
-			 * check to see if there is a vertex at the point that we're
-			 * looking at
+			 * draw a line between the vertex to the left of the given
+			 * x-coordinate and the vertex to the right and calculate
+			 * the y-coordinate at the given x-coordinate on that line
 			 */
-			Vertex v = this.atX (x);
-			if (v != null)
-			{
-				return v.getY ();
-			}
-			else
-			{
-				/*
-				 * draw a line between the vertex to the left of the given
-				 * x-coordinate and the vertex to the right and calculate
-				 * the y-coordinate at the given x-coordinate on that line
-				 */
-				Vertex l = this.leftOf (x), r = this.rightOf (x);
-				double m = (l.getY () - r.getY ()) / (l.getX () - r.getX ());
-				double b = l.getY () - (m * l.getX ());
-				return (m * x) + b;
-			}
+			Vertex l = this.leftOf (x), r = this.rightOf (x);
+			double m = (l.getY () - r.getY ()) / (l.getX () - r.getX ());
+			double b = l.getY () - (m * l.getX ());
+			return (m * x) + b;
 		}
 	}
-	/**
-	 * @return length of shape (assumes that shape starts at x = 0)
-	 */
-	public double length ()
-	{
-		return this.get (this.size () - 1).getX ();
-	}
+}
+
+public double RoundToPrecision (double n)
+{
+	return (double) Math.round(n / PRECISION) * PRECISION;
+}
+
+/**
+ * @return length of shape (assumes that shape starts at x = 0)
+ */
+public double length ()
+{
+	return this.get (this.size () - 1).getX ();
+}
 }

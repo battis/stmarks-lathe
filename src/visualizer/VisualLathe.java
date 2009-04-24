@@ -9,8 +9,6 @@ import simplerjogl.*;
 
 public class VisualLathe extends Model
 {	
-	private Lathe lathe;
-	
 	public VisualLathe (GL gl)
 	{
 		super (gl);

@@ -1,7 +1,5 @@
 package visualizer;
 
-import java.awt.event.KeyEvent;
-
 import javax.media.opengl.GL;
 
 import simplerjogl.*;

@@ -41,7 +41,7 @@ public class VisualizerRenderer extends Renderer
 	{
 		glu.gluLookAt(2, 1, 11, 
 					  2, 0, 0, 
-					  0, -1, 0);
+					  0, 1, 0);
 		tool.draw();
 		visual.draw ();
 		
