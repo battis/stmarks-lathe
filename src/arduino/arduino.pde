@@ -157,18 +157,17 @@ void RCW (int turns, int power)
     if (elapsed > 20)
     {
       digitalWrite (REn, DISABLE);
-      PARAMS[32] = elapsed;
+      //PARAMS[32] = elapsed;
       PARAMS_USED[32];
     }
     digitalWrite (REn, DISABLE);
 }
  if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
     (
-    PARAMS[OK] = elapsed;
+    //PARAMS[OK] = elapsed;
     PARAMS_USED[OK];
   }
-  message+= OK_BIT;
-   digitalWrite (XEn, ENABLE);
+  msg+= OK_BIT;
   }
     
   /* this is a totally arbitrary delay time -- in reality, 
@@ -177,7 +176,6 @@ void RCW (int turns, int power)
    If we don't see the motor turn within a "reasonable" period
    of time, we will abort and send a message to the computer. 
   delay (turns * 100);*/
-  digitalWrite (REn, DISABLE);
 
   /* we need to think about what kind of information that
    we're sending back to the computer. We need to send error
@@ -208,8 +206,7 @@ void RCCW (int power, int duration)
     PARAMS[OK] = elapsed;
     PARAMS_USED[OK];
   }
-  message+= OK_BIT;
-   digitalWrite (XEn, ENABLE);
+  msg+= OK_BIT;
   }
 
 void XCCW(int power, int duration)
@@ -234,8 +231,7 @@ void XCCW(int power, int duration)
     PARAMS[OK] = elapsed;
     PARAMS_USED[OK];
   }
-  message+= OK_BIT;
-   digitalWrite (XEn, ENABLE);
+  msg+= OK_BIT;
   }
 
 
@@ -261,8 +257,7 @@ void XCW (int power, int duration)// "model" motor controller -- awaiting encode
     PARAMS[OK] = elapsed;
     PARAMS_USED[OK];
   }
-  message+= OK_BIT;
-   digitalWrite (XEn, ENABLE);
+  msg+= OK_BIT;
    }
   
 void Stop ()
