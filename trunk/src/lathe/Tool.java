@@ -56,7 +56,7 @@ public class Tool extends VertexShape
 				}
 			}
 		}
-		this.simplification();
+		s.simplify();
 	}
 
 	public void cut (WorkPiece work)
