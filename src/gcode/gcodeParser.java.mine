@@ -1,0 +1,26 @@
+package gcode;
+
+import java.util.*;
+import java.io.*;
+
+public class gcodeParser
+{
+	public static void main (String[] args) throws IOException
+	{
+		Scanner file = new Scanner (new BufferedReader (new FileReader ("Sample G-Codes/gcode.DXF")));
+		
+		while (file.hasNext ())
+		{
+			System.out.println (file.nextLine ());
+		}
+	}
+	
+	private double x, y;
+/* take the y coordinate of gcode and make it x, take x of gcode and make it -y*/
+f
+	public gcodeParser (double x,double y)
+	{
+		this.x=-y;
+		this.y=x;
+	}
+}

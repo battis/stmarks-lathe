@@ -10,10 +10,10 @@ public class ParserApp
 	{
 		Parser p = new Parser ("Sample G-Codes/gcode.DXF");
 		System.out.println (p);
-		ParserRenderer renderer = new ParserRenderer (p);
-		Frame frame = Frame.createFrame ("Sample SimplerJOGL App", true);
-		frame.addGLEventListener (renderer);
-		frame.start();
+		//ParserRenderer renderer = new ParserRenderer (p);
+		//Frame frame = Frame.createFrame ("Sample SimplerJOGL App", true);
+		//frame.addGLEventListener (renderer);
+		//frame.start();
 	}
 
 }
