@@ -9,7 +9,14 @@ int EM = 13;
 int ENABLE = HIGH;
 int DISABLE = LOW;
 int CLOCKWISE = LOW;
-int COUNTER_CLOCKWISE = HIGH;        
+int COUNTER_CLOCKWISE = HIGH;    
+
+//Turn counting
+int CHANGE_COUNTER = 0;
+int XEn1_Val = 0;
+int XEn1_OldVal = 0; 
+int REn1_Val = 0;
+int REn1_OldVal = 0;     
 
 // Message (msg) bit indices
 int msg_XCW = 1;
@@ -18,6 +25,7 @@ int msg_RCW = 4;
 int msg_RCCW = 8;
 int OK_BIT = 16;
 int OK = 3;
+int CHICKEN_OUT_WAIT_TIME = 20;
 int CHICKEN_OUT_BIT = 32;
 int CHICKEN_OUT = 2;
 int TIME_OUT_BIT = 64;
@@ -146,98 +154,102 @@ void loop ()
   }
 }
 
-void RCW (int turns, int power)
+void RCW (int turns, int reqTurns)
 {
   analogWrite (RDir, CLOCKWISE);
   int time = millis();
   digitalWrite (REn, ENABLE);
- while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
+  while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
-    if (elapsed > 20)
+    if (elapsed > CHICKEN_OUT_WAIT_TIME)
     {
       digitalWrite (REn, DISABLE);
-      //PARAMS[32] = elapsed;
-      PARAMS_USED[32];
+      //PARAMS[CHICKEN_OUT] = elapsed;
+      PARAMS_USED[CHICKEN_OUT];
+      msg += CHICKEN_OUT_BIT;
+      digitalWrite (REn, DISABLE);??
     }
-    digitalWrite (REn, DISABLE);
-}
- if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
-    (
+    
+  }
+  
+  if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
+  {
     //PARAMS[OK] = elapsed;
     PARAMS_USED[OK];
+    msg+= OK_BIT;
   }
-  msg+= OK_BIT;
-  }
-    
-  /* this is a totally arbitrary delay time -- in reality, 
-   we're going to be reading inputs from the encoder pins, 
-   and counting the number of turns that the motor makes. 
-   If we don't see the motor turn within a "reasonable" period
-   of time, we will abort and send a message to the computer. 
-  delay (turns * 100);*/
-
-  /* we need to think about what kind of information that
-   we're sending back to the computer. We need to send error
-   messages if we fail to turn the motor the desired number of
-   turns. We need to send some sort of confirmation/update if
-   we did turn the motor the right number of times. Perhaps
-   it would be useful for the program to know how long it took
-   us to turn the motor that number of turns? */
+  
 }
-void RCCW (int power, int duration)
+
+/* this is a totally arbitrary delay time -- in reality, 
+ we're going to be reading inputs from the encoder pins, 
+ and counting the number of turns that the motor makes. 
+ If we don't see the motor turn within a "reasonable" period
+ of time, we will abort and send a message to the computer. 
+ delay (turns * 100);*/
+
+/* we need to think about what kind of information that
+ we're sending back to the computer. We need to send error
+ messages if we fail to turn the motor the desired number of
+ turns. We need to send some sort of confirmation/update if
+ we did turn the motor the right number of times. Perhaps
+ it would be useful for the program to know how long it took
+ us to turn the motor that number of turns? */
+
+void RCCW (int power, int reqTurns)
 {
   analogWrite (RDir, COUNTER_CLOCKWISE);
   int time = millis();
   digitalWrite (REn, ENABLE);
- while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
+  while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
-    if (elapsed > 20)
+    if (elapsed > CHICKEN_OUT_WAIT_TIME)
     {
       digitalWrite (REn, DISABLE);
-      PARAMS[32] = elapsed;
-      PARAMS_USED[32];
+      PARAMS[CHICKEN_OUT] = elapsed;
+      PARAMS_USED[CHICKEN_OUT];
+      msg += CHICKEN_OUT_BIT;
     }
-  digitalWrite (REn, DISABLE);
-}
- if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
-    (
+    digitalWrite (REn, DISABLE);
+  }
+  if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
+  {
     PARAMS[OK] = elapsed;
     PARAMS_USED[OK];
+    msg += OK_BIT;
   }
-  msg+= OK_BIT;
-  }
+}
 
-void XCCW(int power, int duration)
+void XCCW(int power, int reqTurns)
 {
   analogWrite (XDir, COUNTER_CLOCKWISE);
-   int time = millis();
+  int time = millis();
   digitalWrite (XEn, ENABLE);
-
- while (turns != reqTurns && PARAMS_USED[32] != true)
+  while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
-    if (elapsed > 20)
+    if (elapsed > CHICKEN_OUT_WAIT_TIME)
     {
       digitalWrite (XEn, DISABLE);
       PARAMS[CHICKEN_OUT] = elapsed;
       PARAMS_USED[CHICKEN_OUT];
+      msg += CHICKEN_OUT_BIT;
     }
-  digitalWrite (XEn, DISABLE);
-}
- if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
-    (
+    digitalWrite (XEn, DISABLE);
+  }
+  if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
+  {
     PARAMS[OK] = elapsed;
     PARAMS_USED[OK];
+    msg+= OK_BIT;
   }
-  msg+= OK_BIT;
-  }
+}
 
-
-void XCW (int power, int duration)// "model" motor controller -- awaiting encoder goodness
+void XCW (int power, int reqTurns)// "model" motor controller -- awaiting encoder goodness
 {
-  analogWrite (XDir, CLOCKWISE);
+  analogWrite (XDir, reqTurns);
   int time = millis();
   digitalWrite (XEn, ENABLE);
   while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
@@ -248,18 +260,18 @@ void XCW (int power, int duration)// "model" motor controller -- awaiting encode
       digitalWrite (XEn, DISABLE);
       PARAMS[CHICKEN_OUT] = elapsed;
       PARAMS_USED[CHICKEN_OUT];
+      msg += CHICKEN_OUT_BIT;
     }
-  
-  digitalWrite (XEn, DISABLE);
-}
+    digitalWrite (XEn, DISABLE);
+  }
   if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
-    (
+  {
     PARAMS[OK] = elapsed;
     PARAMS_USED[OK];
+    msg+= OK_BIT;
   }
-  msg+= OK_BIT;
-   }
-  
+ }
+
 void Stop ()
 {
   digitalWrite (EM, ENABLE);
