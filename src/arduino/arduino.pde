@@ -170,7 +170,19 @@ void RCW (int turns, int reqTurns)
       msg += CHICKEN_OUT_BIT;
       digitalWrite (REn, DISABLE);??
     }
-    
+    else
+    {
+      REn1_OldVal = REn1_Val;
+      REn1_Val = digitalRead (REn1);
+      if (REn1_Val ! = Ren _OldVal)
+      {
+      	change_counter ++;
+      } 
+      if (change_counter == 4)
+      {	
+      	turns ++;
+      	change_counter == 0;
+      }  //right???
   }
   
   if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
@@ -255,7 +267,7 @@ void XCW (int power, int reqTurns)// "model" motor controller -- awaiting encode
   while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
-    if (elapsed > 20)
+    if (elapsed > CHICKEN_OUT_WAIT_TIME)
     {
       digitalWrite (XEn, DISABLE);
       PARAMS[CHICKEN_OUT] = elapsed;
