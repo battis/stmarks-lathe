@@ -82,11 +82,9 @@ public class VertexShape extends ArrayList<Vertex>
 				// calculate value of y = slope * Bx + intercept
 				double y = RoundToPrecision (slope * b.getX () + intercept);
 				// if y == By, then B is on the line AC,
-				System.out.println ("Comparing " + y + " and " + b.getY ());
 				if (RoundToPrecision (y - b.getY ()) == 0)
 				{
 					// then delete B from the list
-					System.out.println ("removing " + b + " from the shape");
 					this.remove (b);
 					bRemoved = true;
 					i--;
