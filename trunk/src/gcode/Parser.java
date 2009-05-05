@@ -10,6 +10,7 @@ public class Parser
 	private Block bBuffer;
 	private Segment sBuffer;
 	private String nBuffer;
+	private boolean parentheseslock;
 	private ArrayList<Block> program;
 
 	public Parser (String fileName) throws IOException
@@ -21,22 +22,32 @@ public class Parser
 		{
 			fString = fString.concat (fScanner.nextLine ().toUpperCase ());
 		}
+		parentheseslock = false;
 		file = fString.toCharArray ();
 		nBuffer = new String();
 
 		for (char c : file)
 		{
-			if ((c == '%') || (c == ' '))
+			if (c == '(')
 			{
-				// ignore this
+				parentheseslock = true;
+			}
+			else if (c == ')')
+			{
+				parentheseslock = false;
+			}
+			else if ((c == '%') || (c == ' ') || parentheseslock)
+			{
+				 //do nothing;
 			}
 			else if (Character.isDigit (c) || (c == '.') || (c == '-') || (c == '+'))
 			{
 				nBuffer = nBuffer.concat (String.valueOf (c));
 			}
+			
 			else
 			{
-				if ((c == 'G') || (c == 'M') /* || (bBuffer.isComplete())*/)
+				if ((c == 'G') || (c == 'M')  /* || (bBuffer.isComplete())*/)
 				{
 					nextBlock();
 				}
@@ -67,6 +78,10 @@ public class Parser
 			{
 				sBuffer.setNumber (Double.valueOf (nBuffer));
 				nBuffer = new String();
+			}
+			if( bBuffer == null)
+			{
+				bBuffer = new Block ();
 			}
 			bBuffer.add (sBuffer);
 			if (bBuffer.isComplete())
