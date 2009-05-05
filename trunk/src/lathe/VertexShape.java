@@ -11,7 +11,7 @@ public class VertexShape extends ArrayList<Vertex>
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected final double PRECISION = 0.00000001;
+	protected final double PRECISION = 0.000000001;
 
 	/**
 	 * pre: length and radius are non-negative values
@@ -70,7 +70,7 @@ public class VertexShape extends ArrayList<Vertex>
 	public void simplify ()
 	{
 		Vertex a = null, b = null;
-		for (int i = 0; i < this.length (); i++)
+		for (int i = 0; i < this.size (); i++)
 		{
 			Vertex c = this.get(i);
 			boolean bRemoved = false;

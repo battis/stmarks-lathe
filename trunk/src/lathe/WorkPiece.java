@@ -26,8 +26,10 @@ public class WorkPiece extends VertexShape
 		super ();
 		this.add (new Vertex (0, 0));
 		this.add (new Vertex (0, radius));
+		this.add (new Vertex (length/2, radius));
 		this.add (new Vertex (length, radius));
 		this.add (new Vertex (length, 0));
+		this.simplify ();
 	}
 
 	/**
