@@ -1,10 +1,12 @@
+
 package lathe;
+
 import simplerjogl.Vertex;
 
 /**
- * Tool
- * An object to represent the actual tool that is being used to cut the
- * work piece.
+ * Tool An object to represent the actual tool that is being used to cut
+ * the work piece.
+ * 
  * @author Seth Battis
  */
 public class Tool extends VertexShape
@@ -14,10 +16,10 @@ public class Tool extends VertexShape
 		super ();
 
 		// tool shape approximation courtesy of Mr. Wells
-		/*add (new Vertex (1.6, 3.2));
-		add (new Vertex (1.8, 2.2));
-		add (new Vertex (2, 2));
-		add (new Vertex (1.8, 3));*/
+		/*
+		 * add (new Vertex (1.6, 3.2)); add (new Vertex (1.8, 2.2)); add
+		 * (new Vertex (2, 2)); add (new Vertex (1.8, 3));
+		 */
 		add (new Vertex (1.5, 2));
 		add (new Vertex (2, 1));
 		add (new Vertex (2.5, 2));
@@ -33,10 +35,11 @@ public class Tool extends VertexShape
 		}
 		cut (work);
 	}
+
 	/**
 	 * Remove vertices from the work piece that are contained within the
-	 * tool
-	 * TODO this should maybe in the WorkPiece object
+	 * tool TODO this should maybe in the WorkPiece object
+	 * 
 	 * @param work
 	 */
 	protected void cullVertices (VertexShape s)
@@ -56,7 +59,7 @@ public class Tool extends VertexShape
 				}
 			}
 		}
-		s.simplify();
+		s.simplify ();
 	}
 
 	public void cut (WorkPiece work)
@@ -119,18 +122,52 @@ public class Tool extends VertexShape
 					Vertex wl = workLeft, wr = workRight;
 					do
 					{
+						/*
+						 * we are defining two left-to-right lines (wl-wr
+						 * and toolLeft-v, where wl and wr are adjacent
+						 * vertices in the workpiece, v is the vertex of
+						 * the tool that entered the workpiece and caused
+						 * to make this cut and toolLeft is the vertex
+						 * immediately to the left of v in the tool) and
+						 * computing their intersection
+						 */
 						left = intersection (wl, wr, toolLeft, v);
-						wr = wl;
-						wl = work.leftOf (wr.getX ());
+
+						if (left == null)
+						{
+							/*
+							 * sliding wr and wl over one vertex to the
+							 * left (wl becomes wr, and wl is the next
+							 * vertex to the left), in anticipation of no
+							 * intersection between the two lines (i.e.
+							 * left -- the left intersection -- is null)
+							 */
+							wr = wl;
+							wl = work.leftOf (wr.getX ());
+							if (wl == null)
+							{
+								System.err.println ("ran off the left end of the workpiece in search of a line that intersects the tool");
+								System.exit (0);
+							}
+						}
 					} while (left == null);
 
 					wl = workLeft;
 					wr = workRight;
 					do
 					{
+						/* see above, same idea */
 						right = intersection (wl, wr, v, toolRight);
-						wl = wr;
-						wr = work.rightOf (wl.getX ());
+						if (right == null)
+						{
+							wl = wr;
+							wr = work.rightOf (wl.getX ());
+							if (wr == null)
+							{
+								System.err.println ("ran off the right end of the workpiece in search of a line to intersect the tool");
+								System.exit (0);
+							}
+						}
 					} while (right == null);
 				}
 				else
@@ -170,7 +207,7 @@ public class Tool extends VertexShape
 			}
 		}
 	}
-	
+
 	/**
 	 * Computes the intersection of lines ab and pq
 	 * 
@@ -190,11 +227,11 @@ public class Tool extends VertexShape
 			return null;
 		}
 		/* slope-intercept formula for line ab */
-		double m1 = RoundToPrecision ((a.getY () - b.getY ()) / (a.getX () - b.getX ()));
+		double m1 = RoundToPrecision ( (a.getY () - b.getY ()) / (a.getX () - b.getX ()));
 		double b1 = RoundToPrecision (a.getY () - (m1 * a.getX ()));
 
 		/* slope-intercept formula for line pq */
-		double m2 = RoundToPrecision ((p.getY () - q.getY ()) / (p.getX () - q.getX ()));
+		double m2 = RoundToPrecision ( (p.getY () - q.getY ()) / (p.getX () - q.getX ()));
 		double b2 = RoundToPrecision (p.getY () - (m2 * p.getX ()));
 		/*
 		 * If the lines are parallel (slopes are equal), there is no
@@ -210,17 +247,17 @@ public class Tool extends VertexShape
 		 */
 		if (RoundToPrecision (m1 - m2) == 0)
 		{
-			System.out.println ("no point of intersection: " + a.toString2D () + " to " + b.toString2D () + " is parallel to " + p.toString2D () + " to " + q.toString2D ());
 			return null;
 		}
 		else
 		{
 			/* solve for (x, y) at intersection of pq and ab */
-			double x = RoundToPrecision ((b2 - b1) / (m1 - m2));
-			double y = RoundToPrecision ((m1 * x) + b1);
+			double x = RoundToPrecision ( (b2 - b1) / (m1 - m2));
+			double y = RoundToPrecision ( (m1 * x) + b1);
 			return new Vertex (x, y);
 		}
 	}
+
 	/**
 	 * The vertex v is contained in the volume of the tool
 	 * 
