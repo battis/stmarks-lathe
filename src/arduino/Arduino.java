@@ -109,4 +109,52 @@ public class Arduino extends PApplet
 		while (t.isRunning()) {}
 		
 	}
+	public void XCW (int turns, int power)
+	{
+		port.write(1);
+		port.write (turns);
+		port.write (power);
+	}
+	public void XCCW (int turns, int power)
+	{
+		port.write(2);
+		port.write (turns);
+		port.write (power);
+	}
+	public void RCW (int turns, int power)
+	{
+		port.write(4);
+		port.write (turns);
+		port.write (power);
+	}
+	public void XCWandRCW (int turns, int power)
+	{
+		port.write(5);
+		port.write (turns);
+		port.write (power);
+	}
+	public void XCCWandRCW (int turns, int power)
+	{
+		port.write(6);
+		port.write (turns);
+		port.write (power);
+	}
+	public void RCCW (int turns, int power)
+	{
+		port.write(8);
+		port.write (turns);
+		port.write (power);
+	}
+	public void XCWandRCCW (int turns, int power)
+	{
+		port.write(49);
+		port.write (turns);
+		port.write (power);
+	}
+	public void XCCWandRCCW (int turns, int power)
+	{
+		port.write(10);
+		port.write (turns);
+		port.write (power);
+	}
 }
