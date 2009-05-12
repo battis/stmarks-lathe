@@ -6,7 +6,6 @@ int XDir = 10; // 10 on arduino inverted to pin 15 and actual to 10 on h-bridge
 int EM = 13;
 
 // voltage levels
-int ENABLE = HIGH;
 int DISABLE = LOW;
 int CLOCKWISE = LOW;
 int COUNTER_CLOCKWISE = HIGH;    
@@ -154,11 +153,12 @@ void loop ()
   }
 }
 
-void RCW (int turns, int reqTurns)
+void RCW (int reqTurns, int powerLevel)
 {
+  int turns = 0;  
   analogWrite (RDir, CLOCKWISE);
   int time = millis();
-  digitalWrite (REn, ENABLE);
+  analogWrite (REn, powerLevel);
   while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
@@ -173,7 +173,7 @@ void RCW (int turns, int reqTurns)
     {
       REn1_OldVal = REn1_Val;
       REn1_Val = digitalRead (REn1);
-      if (REn1_Val ! = Ren _OldVal)
+      if (REn1_Val ! = REn _OldVal)
       {
         change_counter ++;
       } 
@@ -181,7 +181,7 @@ void RCW (int turns, int reqTurns)
       {	
         turns ++;
         change_counter == 0;
-      }  //
+      }  
     }
     digitalWrite (REn, DISABLE);
 
