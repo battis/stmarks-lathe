@@ -114,4 +114,21 @@ public class Parser
 		}
 		return w;
 	}
+	public void translate ()
+	{
+		/*
+		 * if(G-code == 01)
+		 * {
+		 * (y(destination)-y(current position))==y;
+		 * (x(destination)-x(current position))==x;
+		 *  turn xknob 187*x @power
+		 *  turn yknob 187*y @power
+		 *  	horizontal = yknob @power 0, xknob @ power 255; 
+		 *  	vertical = xknob @power 0, yknob @ power 255; 
+		 *  	one degree towards vertical up til 45 degrees, yknob increases by 255/90 power
+		 *  	after 45 degrees, xknob decreases 255/90 power, while yknob stays at 255
+		 *  to find the angle, acrtan(y/x)
+		 * }
+		 */
+	}
 }
