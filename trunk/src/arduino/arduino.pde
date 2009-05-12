@@ -32,7 +32,7 @@ int TIME_OUT = 1;
 int msg = 0;
 bool PARAMS_USED = new bool [10];
 int PARAMS = new int [10];
-char ARDUINO_HANDSHAKE = '@';
+char ARDUINO_HANDSHAKE = '@';3
 
 void setup ()
 {
@@ -210,11 +210,12 @@ void RCW (int reqTurns, int powerLevel)
  it would be useful for the program to know how long it took
  us to turn the motor that number of turns? */
 
-void RCCW (int power, int reqTurns)
+void RCCW (int reqTurns, int powerLevel)
 {
+  int turns = 0;
   analogWrite (RDir, COUNTER_CLOCKWISE);
   int time = millis();
-  digitalWrite (REn, ENABLE);
+  analogWrite (REn, powerLevel);
   while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
@@ -235,11 +236,12 @@ void RCCW (int power, int reqTurns)
   }
 }
 
-void XCCW(int power, int reqTurns)
+void XCCW(int reqTurns, int powerLevel)
 {
+  int turns = 0;
   analogWrite (XDir, COUNTER_CLOCKWISE);
   int time = millis();
-  digitalWrite (XEn, ENABLE);
+  analogWrite (XEn, powerLevel);	
   while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
@@ -260,11 +262,12 @@ void XCCW(int power, int reqTurns)
   }
 }
 
-void XCW (int power, int reqTurns)// "model" motor controller -- awaiting encoder goodness
+void XCW (int reqTurns, int powerLevel)// "model" motor controller -- awaiting encoder goodness
 {
-  analogWrite (XDir, reqTurns);
+  int turns = 0;
+  analogWrite (XDir, Clockwise);
   int time = millis();
-  digitalWrite (XEn, ENABLE);
+  analogWrite (XEn, powerLevel);
   while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
