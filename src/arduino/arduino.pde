@@ -183,8 +183,9 @@ void RCW (int reqTurns, int powerLevel)
         change_counter == 0;
       }  
     }
+  }
     digitalWrite (REn, DISABLE);
-    }
+    
 
     if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
     {
@@ -193,7 +194,7 @@ void RCW (int reqTurns, int powerLevel)
       msg+= OK_BIT;
     }
 	}
-  }
+  
 
 /* this is a totally arbitrary delay time -- in reality, 
  we're going to be reading inputs from the encoder pins, 
@@ -249,8 +250,9 @@ void RCCW (int reqTurns, int powerLevel)
         change_counter == 0;
       }  
     }
+}
     digitalWrite (REn, DISABLE);
-    }
+    
 
     if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
     {
@@ -287,9 +289,9 @@ void XCCW(int reqTurns, int powerLevel)
   }
       else
     {
-      REn1_OldVal = REn1_Val;
-      REn1_Val = digitalRead (REn1);
-      if (REn1_Val ! = REn _OldVal)
+      XEn1_OldVal = XEn1_Val;
+      XEn1_Val = digitalRead (XEn1);
+      if (XEn1_Val ! = XEn _OldVal)
       {
         change_counter ++;
       } 
@@ -299,7 +301,7 @@ void XCCW(int reqTurns, int powerLevel)
         change_counter == 0;
       }  
     }
-    digitalWrite (REn, DISABLE);
+    digitalWrite (XEn, DISABLE);
 
     if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
     {
@@ -309,8 +311,8 @@ void XCCW(int reqTurns, int powerLevel)
     }
 
   }
-}
-}
+
+
 
 void XCW (int reqTurns, int powerLevel)// "model" motor controller -- awaiting encoder goodness
 {
@@ -330,9 +332,9 @@ void XCW (int reqTurns, int powerLevel)// "model" motor controller -- awaiting e
     }
     else
     {
-      REn1_OldVal = REn1_Val;
-      REn1_Val = digitalRead (REn1);
-      if (REn1_Val ! = REn _OldVal)
+      XEn1_OldVal = XEn1_Val;
+      XEn1_Val = digitalRead (REn1);
+      if (XEn1_Val ! = XEn _OldVal)
       {
         change_counter ++;
       } 
@@ -342,9 +344,9 @@ void XCW (int reqTurns, int powerLevel)// "model" motor controller -- awaiting e
         change_counter == 0;
       }  
     }
-    
-    digitalWrite (XEn, DISABLE);
   }
+    digitalWrite (XEn, DISABLE);
+  
   if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
   {
     PARAMS[OK] = elapsed;
