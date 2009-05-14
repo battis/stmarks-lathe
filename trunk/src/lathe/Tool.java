@@ -14,15 +14,18 @@ public class Tool extends VertexShape
 	public Tool ()
 	{
 		super ();
-
+		
 		// tool shape approximation courtesy of Mr. Wells
-		/*
-		 * add (new Vertex (1.6, 3.2)); add (new Vertex (1.8, 2.2)); add
-		 * (new Vertex (2, 2)); add (new Vertex (1.8, 3));
-		 */
-		add (new Vertex (1.5, 2));
+		/*add (new Vertex (1.6, 3.2)); 
+		add (new Vertex (1.8, 2.2)); 
+		add (new Vertex (2, 2)); 
+		add (new Vertex (2.0, 3));
+		*/
+		
+		// tool shape approximation courtesy of Inyoung Back
+		add (new Vertex (1.2, 2));
 		add (new Vertex (2, 1));
-		add (new Vertex (2.5, 2));
+		add (new Vertex (2.2, 2));
 	}
 
 	public void move (double dx, double dy, WorkPiece work)
@@ -32,6 +35,11 @@ public class Tool extends VertexShape
 		{
 			v.setX (v.getX () + dx);
 			v.setY (v.getY () + dy);
+			if (v.getY() < 0)
+			{
+				System.err.println ("Tool has cut entirely through the workpiece");
+				System.exit (0);
+			}
 		}
 		cut (work);
 	}
@@ -94,8 +102,15 @@ public class Tool extends VertexShape
 				 * a single tool vertex enclosed within the volume of the
 				 * work piece?
 				 */
-				Vertex toolLeft = this.leftOf (v.getX ());
-				Vertex toolRight = this.rightOf (v.getX ());
+				
+				if ((this.indexOf (v) == 0) || (this.indexOf (v) == this.size() - 1))
+				{
+					System.err.println ("Unsafe tool interaction with workpiece");
+					System.exit (0);
+				}
+				Vertex toolLeft = this.get (this.indexOf (v) - 1);
+				
+				Vertex toolRight = this.get (this.indexOf (v) + 1);
 
 				/*
 				 * calculate the intersection points of the three lines
@@ -172,23 +187,56 @@ public class Tool extends VertexShape
 				}
 				else
 				{
-					Vertex wl = workLeft, wv = workV;
+					Vertex wl = workLeft, wr = workV;
 					do
 					{
-						left = intersection (wl, wv, toolLeft, v);
-						wv = wl;
-						wl = work.leftOf (wv.getX ());
+						/*
+						 * we are defining two left-to-right lines (wl-wr
+						 * and toolLeft-v, where wl and wr are adjacent
+						 * vertices in the workpiece, v is the vertex of
+						 * the tool that entered the workpiece and caused
+						 * to make this cut and toolLeft is the vertex
+						 * immediately to the left of v in the tool) and
+						 * computing their intersection
+						 */
+						left = intersection (wl, wr, toolLeft, v);
+
+						if (left == null)
+						{
+							/*
+							 * sliding wr and wl over one vertex to the
+							 * left (wl becomes wr, and wl is the next
+							 * vertex to the left), in anticipation of no
+							 * intersection between the two lines (i.e.
+							 * left -- the left intersection -- is null)
+							 */
+							wr = wl;
+							wl = work.leftOf (wr.getX ());
+							if (wl == null)
+							{
+								System.err.println ("ran off the left end of the workpiece in search of a line that intersects the tool");
+								System.exit (0);
+							}
+						}
 					} while (left == null);
 
-					Vertex wr = workRight;
-					wv = workV;
+					wl = workV;
+					wr = workRight;
 					do
 					{
-						right = intersection (wv, wr, v, toolRight);
-						wv = wr;
-						wr = work.rightOf (wv.getX ());
-					} while (right == null);
-				}
+						/* see above, same idea */
+						right = intersection (wl, wr, v, toolRight);
+						if (right == null)
+						{
+							wl = wr;
+							wr = work.rightOf (wl.getX ());
+							if (wr == null)
+							{
+								System.err.println ("ran off the right end of the workpiece in search of a line to intersect the tool");
+								System.exit (0);
+							}
+						}
+					} while (right == null);				}
 
 				/* index of right work piece vertex */
 				int i = work.indexOf (workRight);
