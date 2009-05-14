@@ -184,6 +184,7 @@ void RCW (int reqTurns, int powerLevel)
       }  
     }
     digitalWrite (REn, DISABLE);
+    }
 
     if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
     {
@@ -191,9 +192,8 @@ void RCW (int reqTurns, int powerLevel)
       PARAMS_USED[OK];
       msg+= OK_BIT;
     }
-
+	}
   }
-}
 
 /* this is a totally arbitrary delay time -- in reality, 
  we're going to be reading inputs from the encoder pins, 
@@ -219,7 +219,8 @@ void RCCW (int reqTurns, int powerLevel)
   while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
-    if (elapsed > CHICKEN_OUT_WAIT_TIME)
+    
+  if (elapsed > CHICKEN_OUT_WAIT_TIME)
     {
       digitalWrite (REn, DISABLE);
       PARAMS[CHICKEN_OUT] = elapsed;
@@ -234,7 +235,31 @@ void RCCW (int reqTurns, int powerLevel)
     PARAMS_USED[OK];
     msg += OK_BIT;
   }
-}
+   else
+    {
+      REn1_OldVal = REn1_Val;
+      REn1_Val = digitalRead (REn1);
+      if (REn1_Val ! = REn _OldVal)
+      {
+        change_counter ++;
+      } 
+      if (change_counter == 4)
+      {	
+        turns ++;
+        change_counter == 0;
+      }  
+    }
+    digitalWrite (REn, DISABLE);
+    }
+
+    if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
+    {
+      //PARAMS[OK] = elapsed;
+      PARAMS_USED[OK];
+      msg+= OK_BIT;
+    }
+
+  }
 
 void XCCW(int reqTurns, int powerLevel)
 {
@@ -260,6 +285,31 @@ void XCCW(int reqTurns, int powerLevel)
     PARAMS_USED[OK];
     msg+= OK_BIT;
   }
+      else
+    {
+      REn1_OldVal = REn1_Val;
+      REn1_Val = digitalRead (REn1);
+      if (REn1_Val ! = REn _OldVal)
+      {
+        change_counter ++;
+      } 
+      if (change_counter == 4)
+      {	
+        turns ++;
+        change_counter == 0;
+      }  
+    }
+    digitalWrite (REn, DISABLE);
+
+    if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
+    {
+      //PARAMS[OK] = elapsed;
+      PARAMS_USED[OK];
+      msg+= OK_BIT;
+    }
+
+  }
+}
 }
 
 void XCW (int reqTurns, int powerLevel)// "model" motor controller -- awaiting encoder goodness
@@ -278,6 +328,21 @@ void XCW (int reqTurns, int powerLevel)// "model" motor controller -- awaiting e
       PARAMS_USED[CHICKEN_OUT];
       msg += CHICKEN_OUT_BIT;
     }
+    else
+    {
+      REn1_OldVal = REn1_Val;
+      REn1_Val = digitalRead (REn1);
+      if (REn1_Val ! = REn _OldVal)
+      {
+        change_counter ++;
+      } 
+      if (change_counter == 4)
+      {	
+        turns ++;
+        change_counter == 0;
+      }  
+    }
+    
     digitalWrite (XEn, DISABLE);
   }
   if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
@@ -286,6 +351,7 @@ void XCW (int reqTurns, int powerLevel)// "model" motor controller -- awaiting e
     PARAMS_USED[OK];
     msg+= OK_BIT;
   }
+  
 }
 
 void Stop ()
