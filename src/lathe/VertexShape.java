@@ -67,6 +67,26 @@ public class VertexShape extends ArrayList<Vertex>
 		return null;
 	}
 
+	public Vertex prev (Vertex v)
+	{
+		int i=this.indexOf (v);
+		if (i<=0)
+		{
+			return null;
+		}
+		return this.get (i-1);
+	}
+	
+	public Vertex next (Vertex q)
+	{
+		int i=this.lastIndexOf (q);
+		if (0<=i)
+		{
+			return null;
+		}
+		return this.get (i+1);
+	}
+	
 	public void simplify ()
 	{
 		Vertex a = null, b = null;
@@ -85,6 +105,7 @@ public class VertexShape extends ArrayList<Vertex>
 				if (RoundToPrecision (y - b.getY ()) == 0)
 				{
 					// then delete B from the list
+
 					this.remove (b);
 					bRemoved = true;
 					i--;
