@@ -67,7 +67,7 @@ public class Tool extends VertexShape
 				}
 			}
 		}
-		s.simplify ();
+		// s.simplify ();
 	}
 
 	public void cut (WorkPiece work)
@@ -318,6 +318,6 @@ public class Tool extends VertexShape
 		{
 			return false;
 		}
-		return RoundToPrecision(v.getY () - y) == 0;
+		return RoundToPrecision(v.getY () - y) > 0;
 	}
 }

@@ -63,7 +63,7 @@ public class WorkPiece extends VertexShape
 		{
 			return false;
 		}
-		return RoundToPrecision (y - v.getY ()) == 0;
+		return RoundToPrecision (y - v.getY ()) > 0;
 	}
 
 	/**
