@@ -12,7 +12,7 @@ public class VertexShape extends ArrayList<Vertex>
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected final int PRECISION = 8; // power of 10
+	protected final int PRECISION = 7; // power of 10
 
 	/**
 	 * pre: length and radius are non-negative values
@@ -197,7 +197,6 @@ public class VertexShape extends ArrayList<Vertex>
 	{
 		BigDecimal big = new BigDecimal (n);
 		big = big.setScale (PRECISION, RoundingMode.HALF_UP);
-		System.out.println ("Rounding " + n + " to " + big.doubleValue ());
 		return big.doubleValue ();
 	}
 
@@ -207,5 +206,11 @@ public class VertexShape extends ArrayList<Vertex>
 	public double length ()
 	{
 		return this.get (this.size () - 1).getX ();
+	}
+	
+	public boolean add (Vertex v)
+	{
+		Vertex w = new Vertex (RoundToPrecision (v.getX()), RoundToPrecision (v.getY()));
+		return super.add (w);
 	}
 }
