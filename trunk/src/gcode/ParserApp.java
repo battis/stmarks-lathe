@@ -1,6 +1,5 @@
 package gcode;
 import java.io.*;
-
 import simplerjogl.Frame;
 
 

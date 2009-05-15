@@ -114,18 +114,8 @@ public class Parser
 		}
 		return w;
 	}
-	public void translate ()
-	{
-		/*
-		 * if(G-code == 01)
-		 * {
-		 * for(int i=0;i<length of the object; i++)
-		 * (y(xcurrent)-y(xold))==y;
-		 * x==1
-		 *  turn xknob 187*x 
-		 *  turn yknob 187*y 
-		 *  }
-		 *  }
-		 */
+
+	public ArrayList<Block> getProgram() {
+		return program;
 	}
 }
