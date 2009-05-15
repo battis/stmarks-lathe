@@ -23,12 +23,12 @@ public class Translator extends Arduino
 	{
 		for (Block b : program)
 		{
-			if(b.=="G1")
+			if(b.getCommandSet() == 'G' && b.getCommand() == 1)
 			{
 				
 			}
 		/*
-		 * if(G-code == 01)
+		 *
 		 * {
 		 * for(int i=0;i<length of the object; i++)
 		 * (y(xcurrent)-y(xold))==y;
