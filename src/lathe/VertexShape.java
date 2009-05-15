@@ -1,6 +1,7 @@
 
 package lathe;
 
+import java.math.*;
 import java.util.*;
 
 import simplerjogl.*;
@@ -11,7 +12,7 @@ public class VertexShape extends ArrayList<Vertex>
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected final double PRECISION = 0.000000001;
+	protected final int PRECISION = 8; // decimal places
 
 	/**
 	 * pre: length and radius are non-negative values
@@ -67,32 +68,50 @@ public class VertexShape extends ArrayList<Vertex>
 		return null;
 	}
 
+	/**
+	 * Find the vertex (if any) immediately prior to the vertex v in the
+	 * shape (if v is in the shape)
+	 * 
+	 * @param v
+	 *            - the vertex to find in the VertexShape
+	 * @return the vertex prior to v in this VertexShape if v is in the
+	 *         shape and there is a vertex prior to it, null otherwise
+	 */
 	public Vertex prev (Vertex v)
 	{
-		int i=this.indexOf (v);
-		if (i<=0)
+		int i = this.indexOf (v);
+		if (i <= 0)
 		{
 			return null;
 		}
-		return this.get (i-1);
+		return this.get (i - 1);
 	}
-	
-	public Vertex next (Vertex q)
+
+	/**
+	 * Find the vertex (if any) immediately after to the vertex v in the
+	 * shape (if v is in the shape)
+	 * 
+	 * @param v
+	 *            - the vertex to find in the VertexShape
+	 * @return the vertex after to v in this VertexShape if v is in the
+	 *         shape and there is a vertex after to it, null otherwise
+	 */
+	public Vertex next (Vertex v)
 	{
-		int i=this.lastIndexOf (q);
-		if (0<=i)
+		int i = this.lastIndexOf (v);
+		if ( (i < 0) || (i == this.size () - 1))
 		{
 			return null;
 		}
-		return this.get (i+1);
+		return this.get (i + 1);
 	}
-	
+
 	public void simplify ()
 	{
 		Vertex a = null, b = null;
-		for (int i = 0; i < this.size (); i++)
+		for (int i = 0; i < this.size (); i++ )
 		{
-			Vertex c = this.get(i);
+			Vertex c = this.get (i);
 			boolean bRemoved = false;
 			if ( (a != null) && (b != null))
 			{
@@ -108,7 +127,7 @@ public class VertexShape extends ArrayList<Vertex>
 
 					this.remove (b);
 					bRemoved = true;
-					i--;
+					i-- ;
 				}
 			}
 			if (!bRemoved)
@@ -176,7 +195,10 @@ public class VertexShape extends ArrayList<Vertex>
 
 	public double RoundToPrecision (double n)
 	{
-		return (double) Math.round (n / PRECISION) * PRECISION;
+		BigDecimal big = new BigDecimal (n);
+		big = big.setScale (PRECISION, BigDecimal.ROUND_HALF_UP);
+		System.out.println ("Rounding " + n + " to " + big.doubleValue ());
+		return big.doubleValue ();
 	}
 
 	/**
