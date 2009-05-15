@@ -33,8 +33,8 @@ public class Tool extends VertexShape
 		/* move every vertex of the tool surface the specified distance */
 		for (Vertex v : this)
 		{
-			v.setX (v.getX () + dx);
-			v.setY (v.getY () + dy);
+			v.setX (RoundToPrecision (v.getX () + dx));
+			v.setY (RoundToPrecision (v.getY () + dy));
 			if (v.getY() < 0)
 			{
 				System.err.println ("Tool has cut entirely through the workpiece");
@@ -301,6 +301,27 @@ public class Tool extends VertexShape
 			/* solve for (x, y) at intersection of pq and ab */
 			double x = RoundToPrecision ( (b2 - b1) / (m1 - m2));
 			double y = RoundToPrecision ( (m1 * x) + b1);
+			
+			if ((x < 0) || (x > 5) || (y < 0) || (y > .75))
+			{
+				System.err.println ("intersection out of whack: ");
+				System.err.println ("    a = " + a.toString2D ());
+				System.err.println ("    b = " + b.toString2D ());
+				System.err.println ("        y = " + m1 + " x + " + b1);
+				System.err.println ("    p = " + p.toString2D ());
+				System.err.println ("    q = " + q.toString2D ());
+				System.err.println ("        y = " + m2 + " x + " + b2);
+				System.err.println ("intersection at " + new Vertex (x, y).toString2D ());
+				if (a.getY() > b.getY())
+				{
+					return a;
+				}
+				else
+				{
+					return b;
+				}
+				//System.exit(0);
+			}
 			return new Vertex (x, y);
 		}
 	}
