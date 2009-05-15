@@ -103,14 +103,13 @@ public class Tool extends VertexShape
 				 * work piece?
 				 */
 				
-				if ((this.indexOf (v) == 0) || (this.indexOf (v) == this.size() - 1))
+				Vertex toolLeft = this.prev (v);
+				Vertex toolRight = this.next (v);
+				if ((toolLeft == null) || (toolRight == null))
 				{
 					System.err.println ("Unsafe tool interaction with workpiece");
 					System.exit (0);
 				}
-				Vertex toolLeft = this.get (this.indexOf (v) - 1);
-				
-				Vertex toolRight = this.get (this.indexOf (v) + 1);
 
 				/*
 				 * calculate the intersection points of the three lines
@@ -319,6 +318,6 @@ public class Tool extends VertexShape
 		{
 			return false;
 		}
-		return (v.getY () - y) > PRECISION;
+		return RoundToPrecision(v.getY () - y) == 0;
 	}
 }
