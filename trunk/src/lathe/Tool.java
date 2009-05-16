@@ -11,17 +11,21 @@ import simplerjogl.Vertex;
  */
 public class Tool extends VertexShape
 {
+	/**
+	 * Saved reference to the current work piece for error checking
+	 */
+	private WorkPiece work;
+	
 	public Tool ()
 	{
 		super ();
-		
+
 		// tool shape approximation courtesy of Mr. Wells
-		/*add (new Vertex (1.6, 3.2)); 
-		add (new Vertex (1.8, 2.2)); 
-		add (new Vertex (2, 2)); 
-		add (new Vertex (2.0, 3));
-		*/
-		
+		/*
+		 * add (new Vertex (1.6, 3.2)); add (new Vertex (1.8, 2.2)); add
+		 * (new Vertex (2, 2)); add (new Vertex (2.0, 3));
+		 */
+
 		// tool shape approximation courtesy of Inyoung Back
 		add (new Vertex (1.2, 2));
 		add (new Vertex (2, 1));
@@ -35,7 +39,7 @@ public class Tool extends VertexShape
 		{
 			v.setX (RoundToPrecision (v.getX () + dx));
 			v.setY (RoundToPrecision (v.getY () + dy));
-			if (v.getY() < 0)
+			if (v.getY () < 0)
 			{
 				System.err.println ("Tool has cut entirely through the workpiece");
 				System.exit (0);
@@ -50,7 +54,7 @@ public class Tool extends VertexShape
 	 * 
 	 * @param work
 	 */
-	protected void cullVertices (VertexShape s)
+	public void cull (VertexShape s)
 	{
 		/*
 		 * check for work piece vertices that are within the tool and need
@@ -61,17 +65,17 @@ public class Tool extends VertexShape
 			Vertex v = s.get (i);
 			if (this.contains (v))
 			{
-				if (s.remove (v))
-				{
-					i-- ;
-				}
+				s.remove (v);
+				i--;
 			}
 		}
-		// s.simplify ();
+		s.simplify ();
 	}
 
 	public void cut (WorkPiece work)
 	{
+		this.work = work;
+		
 		/*
 		 * check to see if any tool vertices are now within the volume of
 		 * the work piece. If so, we need to make a cut in the work piece
@@ -102,10 +106,10 @@ public class Tool extends VertexShape
 				 * a single tool vertex enclosed within the volume of the
 				 * work piece?
 				 */
-				
+
 				Vertex toolLeft = this.prev (v);
 				Vertex toolRight = this.next (v);
-				if ((toolLeft == null) || (toolRight == null))
+				if ( (toolLeft == null) || (toolRight == null))
 				{
 					System.err.println ("Unsafe tool interaction with workpiece");
 					System.exit (0);
@@ -235,7 +239,8 @@ public class Tool extends VertexShape
 								System.exit (0);
 							}
 						}
-					} while (right == null);				}
+					} while (right == null);
+				}
 
 				/* index of right work piece vertex */
 				int i = work.indexOf (workRight);
@@ -250,7 +255,7 @@ public class Tool extends VertexShape
 				work.add (i, right);
 				work.add (i, new Vertex (v));
 				work.add (i, left);
-				cullVertices (work);
+				cull (work);
 			}
 		}
 	}
@@ -301,27 +306,13 @@ public class Tool extends VertexShape
 			/* solve for (x, y) at intersection of pq and ab */
 			double x = RoundToPrecision ( (b2 - b1) / (m1 - m2));
 			double y = RoundToPrecision ( (m1 * x) + b1);
-			
-			if ((x < 0) || (x > 5) || (y < 0) || (y > .75))
+
+			/* if our intersection is wildly out of bounds, don't use it */
+			if ( (x < 0) || (x > work.length ()) || (y < 0) || (y > work.maxRadius ()))
 			{
-				System.err.println ("intersection out of whack: ");
-				System.err.println ("    a = " + a.toString2D ());
-				System.err.println ("    b = " + b.toString2D ());
-				System.err.println ("        y = " + m1 + " x + " + b1);
-				System.err.println ("    p = " + p.toString2D ());
-				System.err.println ("    q = " + q.toString2D ());
-				System.err.println ("        y = " + m2 + " x + " + b2);
-				System.err.println ("intersection at " + new Vertex (x, y).toString2D ());
-				if (a.getY() > b.getY())
-				{
-					return a;
-				}
-				else
-				{
-					return b;
-				}
-				//System.exit(0);
+				return null;
 			}
+			
 			return new Vertex (x, y);
 		}
 	}
@@ -339,6 +330,6 @@ public class Tool extends VertexShape
 		{
 			return false;
 		}
-		return RoundToPrecision(v.getY () - y) > 0;
+		return RoundToPrecision (v.getY () - y) > 0;
 	}
 }

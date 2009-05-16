@@ -124,7 +124,6 @@ public class VertexShape extends ArrayList<Vertex>
 				if (RoundToPrecision (y - b.getY ()) == 0)
 				{
 					// then delete B from the list
-
 					this.remove (b);
 					bRemoved = true;
 					i-- ;
