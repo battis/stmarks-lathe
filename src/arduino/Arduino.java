@@ -21,23 +21,33 @@ public class Arduino extends PApplet
 		boolean handshake = false;
 		for (int i = 0; i < ports.length && !handshake; i++ )
 		{
+			boolean skip = false;
 			System.out.println ("Testing " + ports[i] + "...");
 
 			/* open connection to port */
-			port = new Serial (this, ports[i], 9600);
-
-			/* wait a couple of seconds for a response */
-			t.reset ();
-			while ( (port.available () < 1) && (t.isRunning ()))
-			{}
-
-			/* check any response received against the handshake */
-			if (port.available () > 0)
+			try
 			{
-				if (port.readString ().equals (ARDUINO_HANDSHAKE))
+				port = new Serial (this, ports[i], 9600);
+			}
+			catch (Exception e)
+			{
+				skip = true;
+			}
+			if (!skip)
+			{
+				/* wait a couple of seconds for a response */
+				t.reset ();
+				while ( (port.available () < 1) && (t.isRunning ()))
+				{}
+
+				/* check any response received against the handshake */
+				if (port.available () > 0)
 				{
-					println ("Arduino USB connected to port " + ports[i]);
-					handshake = true;
+					if (port.readString ().equals (ARDUINO_HANDSHAKE))
+					{
+						println ("Arduino USB connected to port " + ports[i]);
+						handshake = true;
+					}
 				}
 			}
 		}

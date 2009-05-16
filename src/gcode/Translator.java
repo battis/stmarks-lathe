@@ -1,7 +1,10 @@
 package gcode;
+import java.io.*;
 import java.util.ArrayList;
 
-import arduino.Arduino;
+import javax.swing.*;
+
+import arduino.*;
 
 public class Translator extends Arduino
 {
@@ -9,13 +12,28 @@ public class Translator extends Arduino
 
 	public Translator ()
 	{
+		super();
 		Parser p = null;
-		try {
-			p = new Parser("H:/Eclipse_Workspace/Lathe SVN/Sample G-Codes/TEST-ROUGH.NC");
-			System.out.println(p);
-		} catch (Exception e) {
-			e.printStackTrace();
+		JFileChooser fc = new JFileChooser ();
+		if (fc.showOpenDialog (this.getParent ()) == JFileChooser.APPROVE_OPTION)
+		{
+			File file = fc.getSelectedFile ();
+			try
+			{
+				p = new Parser (file.getAbsolutePath ());	
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace ();
+				System.exit (0);
+			}
 		}
+		else
+		{
+			System.exit (0);
+		}
+		System.out.println (p);
+		
 		program = p.getProgram();
 	}
 	
