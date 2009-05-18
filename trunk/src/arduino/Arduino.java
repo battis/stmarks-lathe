@@ -53,7 +53,9 @@ public class Arduino extends PApplet
 		}
 		if (!handshake)
 		{
+			/* it's possible that we should just quit the program if the Arduino can't be found... */
 			System.out.println ("Arduino USB was not found.");
+			// System.exit (0);
 		}
 	}
 

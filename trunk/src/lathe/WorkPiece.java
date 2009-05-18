@@ -47,14 +47,13 @@ public class WorkPiece extends VertexShape
 	}
 
 	/**
+	 * TODO What happens if we have an overhang (fail the vertical line
+	 * test) in our shape? This does not take that into account!
+	 * 
 	 * @param v
 	 *            a point in coordinates relative to the work piece's zero
 	 * @return true if v is within the volume o the workpiece, false
 	 *         otherwise
-	 * 
-	 *         TODO What happens if we have an overhang (fail the vertical
-	 *         line test) in our shape? This does not take that into
-	 *         account!
 	 */
 	public boolean contains (Vertex v)
 	{

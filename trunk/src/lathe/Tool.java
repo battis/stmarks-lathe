@@ -320,6 +320,8 @@ public class Tool extends VertexShape
 	/**
 	 * The vertex v is contained in the volume of the tool
 	 * 
+	 * TODO this is a simplistic approach to contains: any vertex above a line drawn between two consecutive points in the tool's VertexShape is considered "contained" -- which fails to take into account more complex tool shapes (e.g. realistic ones with the tool mounted at an angle)
+	 * 
 	 * @param v
 	 * @return
 	 */
