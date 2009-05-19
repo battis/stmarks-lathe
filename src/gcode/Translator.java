@@ -50,13 +50,17 @@ public class Translator extends Arduino
 		double newx, newz;
 		for (Block b : program)
 		{
+			//read in g-code segment. If G-code is g1 (linear), than do the following.
 			if(b.getCommandSet() == 'G' && b.getCommand() == 1)
 			{
 				for (Segment s : b)
 				{
+					//If the read in segment is the Z coordinate
 					if (s.getLetter() == 'Z')
 					{
+						//reset newz
 						newz = s.getNumber();
+		//if the difference between the two zs, turn the knob CW in interval of 1
 						if (newz - z > 0)
 						{
 							for (double i = z; i < newz; i ++)
@@ -64,6 +68,7 @@ public class Translator extends Arduino
 								RCW (255,(int) ((newz - z) * 187));
 							}
 						}
+		//else, if the difference is negative, we turn in counter clockwise
 						else if (newz - z < 0)
 						{
 							for (double i = z; i < newz; i ++)
@@ -71,11 +76,15 @@ public class Translator extends Arduino
 								RCCW (255,(int) ((newz - z) * 187));
 							}
 						}
+				//reset the newz
 						z = newz;
 					}
+					//If the read in segment is the x coordinate
 					if (s.getLetter() == 'X')
 					{
+						//reset newx
 						newx = s.getNumber();
+			//if the difference between the two xs, turn the knob CW in interval of 1
 						if (newx - x > 0)
 						{
 							for (double i = x; i < newx; i ++)
@@ -83,6 +92,7 @@ public class Translator extends Arduino
 								RCW ((int)((newx - x) * 187) , 255);
 							}
 						}
+			//else, if the difference is negative, we turn in counter clockwise
 						else if (newx - x < 0)
 						{
 							for (double i = x; i < newx; i ++)
@@ -90,6 +100,7 @@ public class Translator extends Arduino
 								RCCW ((int)((newx - x) * 187) , 255);
 							}
 						}
+			//reset the newx
 						x = newx;
 					}
 				}
