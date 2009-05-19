@@ -1,5 +1,5 @@
 // I/O pin numbers
-int REn = 3; // enable clockwise radius motor control - 3 on arduino to pin 1 on h-bridge
+int REn1 = 3; // enable clockwise radius motor control - 3 on arduino to pin 1 on h-bridge
 int RDir = 5; // control radius motor power level (PWM) - 5 on arduino inverted to pin 2 and actual to 7 on h-bridge
 int XEn = 9; // enable counter-clockwise radius motor control - 9 on arduino to pin 9 on h-bridge
 int XDir = 10; // 10 on arduino inverted to pin 15 and actual to 10 on h-bridge
@@ -30,9 +30,10 @@ int CHICKEN_OUT = 2;
 int TIME_OUT_BIT = 64;
 int TIME_OUT = 1;
 int msg = 0;
-bool PARAMS_USED = new bool [10];
-int PARAMS = new int [10];
-char ARDUINO_HANDSHAKE = '@';3
+bool PARAMS_USED[10];
+int PARAMS[10];
+char ARDUINO_HANDSHAKE = '@';
+
 
 void setup ()
 {
@@ -41,10 +42,10 @@ void setup ()
   /* send handshake to computer */
   Serial.print (ARDUINO_HANDSHAKE);
 
-  pinMode (REn, OUTPUT);
+  pinMode (REn1, OUTPUT);
   pinMode (RDir, OUTPUT);
   pinMode (XEn, OUTPUT);
-  pinMOde (XDir, OUTPUT);
+  pinMode (XDir, OUTPUT);
   pinMode (EM, OUTPUT);
 }
 
@@ -158,13 +159,13 @@ void RCW (int reqTurns, int powerLevel)
   int turns = 0;  
   analogWrite (RDir, CLOCKWISE);
   int time = millis();
-  analogWrite (REn, powerLevel);
+  analogWrite (REn1, powerLevel);
   while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
     if (elapsed > CHICKEN_OUT_WAIT_TIME)
     {
-      digitalWrite (REn, DISABLE);
+      digitalWrite (REn1, DISABLE);
       //PARAMS[CHICKEN_OUT] = elapsed;
       PARAMS_USED[CHICKEN_OUT];
       msg += CHICKEN_OUT_BIT;
@@ -173,28 +174,28 @@ void RCW (int reqTurns, int powerLevel)
     {
       REn1_OldVal = REn1_Val;
       REn1_Val = digitalRead (REn1);
-      if (REn1_Val ! = REn _OldVal)
+      if (REn1_Val != REn1_OldVal)
       {
-        change_counter ++;
+        CHANGE_COUNTER ++;
       } 
-      if (change_counter == 4)
+      if (CHANGE_COUNTER == 4)
       {	
         turns ++;
-        change_counter == 0;
+        CHANGE_COUNTER == 0;
       }  
     }
   }
-    digitalWrite (REn, DISABLE);
-    
+  digitalWrite (REn1, DISABLE);
 
-    if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
-    {
-      //PARAMS[OK] = elapsed;
-      PARAMS_USED[OK];
-      msg+= OK_BIT;
-    }
-	}
-  
+
+  if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
+  {
+    //PARAMS[OK] = elapsed;
+    PARAMS_USED[OK];
+    msg+= OK_BIT;
+  }
+}
+
 
 /* this is a totally arbitrary delay time -- in reality, 
  we're going to be reading inputs from the encoder pins, 
@@ -214,21 +215,22 @@ void RCW (int reqTurns, int powerLevel)
 void RCCW (int reqTurns, int powerLevel)
 {
   int turns = 0;
+  int elapsed;
   analogWrite (RDir, COUNTER_CLOCKWISE);
   int time = millis();
-  analogWrite (REn, powerLevel);
+  analogWrite (REn1, powerLevel);
   while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
-    int elapsed = time-millis();
-    
-  if (elapsed > CHICKEN_OUT_WAIT_TIME)
+    elapsed = time-millis();
+
+    if (elapsed > CHICKEN_OUT_WAIT_TIME)
     {
-      digitalWrite (REn, DISABLE);
+      digitalWrite (REn1, DISABLE);
       PARAMS[CHICKEN_OUT] = elapsed;
       PARAMS_USED[CHICKEN_OUT];
       msg += CHICKEN_OUT_BIT;
     }
-    digitalWrite (REn, DISABLE);
+    digitalWrite (REn1, DISABLE);
   }
   if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
   {
@@ -236,32 +238,31 @@ void RCCW (int reqTurns, int powerLevel)
     PARAMS_USED[OK];
     msg += OK_BIT;
   }
-   else
+  else
+  {
+    REn1_OldVal = REn1_Val;
+    REn1_Val = digitalRead (REn1);
+    if (REn1_Val != REn1_OldVal)
     {
-      REn1_OldVal = REn1_Val;
-      REn1_Val = digitalRead (REn1);
-      if (REn1_Val ! = REn _OldVal)
-      {
-        change_counter ++;
-      } 
-      if (change_counter == 4)
-      {	
-        turns ++;
-        change_counter == 0;
-      }  
-    }
-}
-    digitalWrite (REn, DISABLE);
-    
-
-    if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
-    {
-      //PARAMS[OK] = elapsed;
-      PARAMS_USED[OK];
-      msg+= OK_BIT;
-    }
-
+      CHANGE_COUNTER ++;
+    } 
+    if (CHANGE_COUNTER == 4)
+    {	
+      turns ++;
+      CHANGE_COUNTER == 0;
+    }  
   }
+}
+digitalWrite (REn1, DISABLE);
+
+
+if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
+{
+  //PARAMS[OK] = elapsed;
+  PARAMS_USED[OK];
+  msg+= OK_BIT;
+}
+
 
 void XCCW(int reqTurns, int powerLevel)
 {
@@ -287,30 +288,30 @@ void XCCW(int reqTurns, int powerLevel)
     PARAMS_USED[OK];
     msg+= OK_BIT;
   }
-      else
+  else
+  {
+    XEn1_OldVal = XEn1_Val;
+    XEn1_Val = digitalRead (XEn1);
+    if (XEn1_Val ! = XEn _OldVal)
     {
-      XEn1_OldVal = XEn1_Val;
-      XEn1_Val = digitalRead (XEn1);
-      if (XEn1_Val ! = XEn _OldVal)
-      {
-        change_counter ++;
-      } 
-      if (change_counter == 4)
-      {	
-        turns ++;
-        change_counter == 0;
-      }  
-    }
-    digitalWrite (XEn, DISABLE);
-
-    if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
-    {
-      //PARAMS[OK] = elapsed;
-      PARAMS_USED[OK];
-      msg+= OK_BIT;
-    }
-
+      change_counter ++;
+    } 
+    if (change_counter == 4)
+    {	
+      turns ++;
+      change_counter == 0;
+    }  
   }
+  digitalWrite (XEn, DISABLE);
+
+  if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
+  {
+    //PARAMS[OK] = elapsed;
+    PARAMS_USED[OK];
+    msg+= OK_BIT;
+  }
+
+}
 
 
 
@@ -345,15 +346,15 @@ void XCW (int reqTurns, int powerLevel)// "model" motor controller -- awaiting e
       }  
     }
   }
-    digitalWrite (XEn, DISABLE);
-  
+  digitalWrite (XEn, DISABLE);
+
   if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
   {
     PARAMS[OK] = elapsed;
     PARAMS_USED[OK];
     msg+= OK_BIT;
   }
-  
+
 }
 
 void Stop ()
