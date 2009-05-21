@@ -55,7 +55,18 @@ public class Translator extends Arduino
 			
 			if(b.getCommandSet() == 'G' && (b.getCommand() == 2 || b.getCommand() == 3))
 			{
-
+				double arcx, arcy;
+				for (Segment s : b)
+				{
+					if (s.getLetter() == 'I')
+					{
+						arcx = s.getNumber();
+					}
+					if (s.getLetter() == 'J')
+					{
+						arcy = s.getNumber();
+					}
+				}
 			}
 		}
 	}
