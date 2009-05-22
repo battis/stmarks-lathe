@@ -3,6 +3,8 @@ int RDir = 5; // control radius motor power level (PWM) - 5 on arduino inverted 
 int XEn = 9; // enable counter-clockwise radius motor control - 9 on arduino to pin 9 on h-bridge
 int XDir = 10; // 10 on arduino inverted to pin 15 and actual to 10 on h-bridge
 
+int DELAY = 2000; // milliseconds
+
 int ENABLE = HIGH;
 int DISABLE = LOW;
 
@@ -71,65 +73,65 @@ void loop ()
 
 void SetBothZeroPower()
 {
-  analogWrite (RDir, CLOCKWISE);
-  analogWrite (XDir, CLOCKWISE);
+  digitalWrite (RDir, CLOCKWISE);
+  digitalWrite (XDir, CLOCKWISE);
   digitalWrite (REn, ENABLE);
   digitalWrite (XEn, ENABLE);
-  delay (1000);
+  delay (DELAY);
   digitalWrite (REn, DISABLE);
   digitalWrite (XEn, DISABLE);
 }
 
 void RadiusClockwise (int power, int duration)
 {
-  analogWrite (RDir, CLOCKWISE);
+  digitalWrite (RDir, CLOCKWISE);
   digitalWrite (REn, ENABLE);
-  delay (4000);
+  delay (DELAY);
   digitalWrite (REn, DISABLE);
 }
 
 void XClockwise (int power, int duration)
 {
-  analogWrite (XDir, CLOCKWISE);
+  digitalWrite (XDir, CLOCKWISE);
   digitalWrite (XEn, ENABLE);
-  delay (4000);
+  delay (DELAY);
   digitalWrite (XEn, DISABLE);
 }  
 
 void RadiusCounterClockwise (int power, int duration)
 {
-  analogWrite (RDir, COUNTER_CLOCKWISE);
+  digitalWrite (RDir, COUNTER_CLOCKWISE);
   digitalWrite (REn, ENABLE);
-  delay (4000);
+  delay (DELAY);
   digitalWrite (REn, DISABLE);
 }
 
 void XCounterClockwise (int power, int duration)
 {
-  analogWrite (XDir, COUNTER_CLOCKWISE);
+  digitalWrite (XDir, COUNTER_CLOCKWISE);
   digitalWrite (XEn, ENABLE);
-  delay (4000);
+  delay (DELAY);
   digitalWrite (XEn, DISABLE);
 }
 
 void SetBothRunClockwise (int power, int duration)
 {
-  analogWrite (RDir, CLOCKWISE);
-  analogWrite (XDir, CLOCKWISE);
+  digitalWrite (RDir, CLOCKWISE);
+  digitalWrite (XDir, CLOCKWISE);
   digitalWrite (REn, ENABLE);
   digitalWrite (XEn, ENABLE);
-  delay (4000);
+  delay (DELAY);
   digitalWrite (REn, DISABLE);
   digitalWrite (XEn, DISABLE);
 }
 
 void SetBothRunCounterClockwise (int power, int duration)
 {
-  analogWrite (RDir, COUNTER_CLOCKWISE);
-  analogWrite (XDir, COUNTER_CLOCKWISE);
+  digitalWrite (RDir, COUNTER_CLOCKWISE);
+  digitalWrite (XDir, COUNTER_CLOCKWISE);
   digitalWrite (REn, ENABLE);
   digitalWrite (XEn, ENABLE);
-  delay (4000);
+  delay (DELAY);
   digitalWrite (REn, DISABLE);
   digitalWrite (XEn, DISABLE);
 }
