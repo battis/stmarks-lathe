@@ -1,5 +1,5 @@
-int XENC1 = 0;
-int LED = 13;
+int XENC1 = 3;
+int XENC2 = 4;
 
 char ARDUINO_HANDSHAKE = '@';
 
@@ -11,12 +11,11 @@ void setup ()
   Serial.print (ARDUINO_HANDSHAKE);
   
   pinMode (XENC1, INPUT);
-  pinMode (LED, OUTPUT);
+  pinMode (XENC2, INPUT);
 }
 
 void loop()
 {
-  int irvalue = digitalRead (XENC1);
-  digitalWrite (LED, irvalue);
-  Serial.println (irvalue, DEC);
+  Serial.print (digitalRead (XENC1), DEC);
+  Serial.println (digitalRead (XENC2), DEC);
 }
