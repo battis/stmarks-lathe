@@ -168,9 +168,9 @@ void RCW (int reqTurns, int powerLevel)//right clockwise command - directional f
       digitalWrite (REn1, DISABLE);
       PARAMS[CHICKEN_OUT] = elapsed;
       PARAMS_USED[CHICKEN_OUT];
-      msg += CHICKEN_OUT_BIT;//message to tell that we have chickened out and stopped
+      msg += CHICKEN_OUT_BIT;//message to tell that we have chickened out.
     }
-    else
+    else//If there is no problem, this part counts the number of turns.
     {
       REn1_OldVal = REn1_Val;
       REn1_Val = digitalRead (REn1);
@@ -178,21 +178,21 @@ void RCW (int reqTurns, int powerLevel)//right clockwise command - directional f
       {
         CHANGE_COUNTER ++;
       } 
-      if (CHANGE_COUNTER == 4)
+      if (CHANGE_COUNTER == 4)//four changes in the pattern of poker chip equals one full rotation. 
       {	
         turns ++;
         CHANGE_COUNTER == 0;
       }  
     }
   }
-  digitalWrite (REn1, DISABLE);
+  digitalWrite (REn1, DISABLE);//stops the motor once the command has been carried out. 
 
 
-  if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])//has the computer check for problems and if there are no problems then run it
+  if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])//This part confirms that there is no problem executing the command. 
   {
-    //PARAMS[OK] = elapsed;
+    PARAMS[OK] = elapsed;
     PARAMS_USED[OK];
-    msg+= OK_BIT;
+    msg+= OK_BIT;//feedback to the computer saying that everything is fine.
   }
 }
 
@@ -260,9 +260,6 @@ void RCCW (int reqTurns, int powerLevel)
   msg+= OK_BIT;
 }
 }
-
-
-
 
 void XCCW(int reqTurns, int powerLevel)
 {
