@@ -4,7 +4,7 @@ import java.awt.*;
 
 import arduino.*;
 
-public class MotorTest extends arduino.Arduino
+public class MotorTest extends Arduino
 {	
 	private static final long serialVersionUID = 1L;
 	private int testCount;
@@ -60,7 +60,7 @@ public class MotorTest extends arduino.Arduino
 			portWrite('H');
 		}
 		
-		else if (testCount == 2)
+		else if (testCount == 1)
 		{
 			System.out.println ("Ending Electronics Testing sequence");
 			tool.beep();
