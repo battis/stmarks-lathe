@@ -60,7 +60,7 @@ void loop ()
   if (Serial.available ())
   {
     char val = Serial.read ();
-    if (val == 1)
+    if (val == 1)//commands - when # received from computer it calls the move command that corresponds to the #
     {
       int turns = Serial.read();
       int power = Serial.read();
@@ -141,7 +141,7 @@ void loop ()
       Serial.print (31);
     }	
 
-    if (val >= 128)
+    if (val >= 128)//if the input # is too great or the user wishes to end the command, it ends the program
     {
       Serial.print ("Stop");
     }	
@@ -154,7 +154,7 @@ void loop ()
   }
 }
 
-void RCW (int reqTurns, int powerLevel)
+void RCW (int reqTurns, int powerLevel)//right clockwise command - directional for lathe
 {
   int turns = 0;  
   analogWrite (RDir, CLOCKWISE);
