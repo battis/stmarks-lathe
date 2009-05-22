@@ -138,7 +138,7 @@ public class Arduino extends PApplet
 		port.write (1);
 		port.write (turns);
 		port.write (power);
-		waityourturn();
+		waityourturn();// so methods don't overlap. One method waits for the previous command to finish
 	}
 
 	public void XCCW (int turns, int power)
