@@ -123,7 +123,7 @@ public class Arduino extends PApplet
 	 * we wait for that feedback, we shouldn't end up with overlapping
 	 * commands.
 	 */
-	public void waityourturn()
+	public void waityourturn()// this solves the above concern.
 	{
 		ArrayList <Integer> params = new ArrayList<Integer>(); 
 		while (port.available() == 0) {}
@@ -133,6 +133,7 @@ public class Arduino extends PApplet
 			params.add (port.read ()); 
 			} 
 	}
+	
 	public void XCW (int turns, int power)
 	{
 		port.write (1);
