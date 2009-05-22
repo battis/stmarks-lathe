@@ -163,12 +163,12 @@ void RCW (int reqTurns, int powerLevel)//right clockwise command - directional f
   while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
     int elapsed = time-millis();
-    if (elapsed > CHICKEN_OUT_WAIT_TIME)
+    if (elapsed > CHICKEN_OUT_WAIT_TIME)//in case the process is taking too much time, we disable it
     {
       digitalWrite (REn1, DISABLE);
-      //PARAMS[CHICKEN_OUT] = elapsed;
+      PARAMS[CHICKEN_OUT] = elapsed;
       PARAMS_USED[CHICKEN_OUT];
-      msg += CHICKEN_OUT_BIT;
+      msg += CHICKEN_OUT_BIT;//message to tell that we have chickened out and stopped
     }
     else
     {
@@ -188,7 +188,7 @@ void RCW (int reqTurns, int powerLevel)//right clockwise command - directional f
   digitalWrite (REn1, DISABLE);
 
 
-  if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
+  if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])//has the computer check for problems and if there are no problems then run it
   {
     //PARAMS[OK] = elapsed;
     PARAMS_USED[OK];
