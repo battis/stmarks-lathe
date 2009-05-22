@@ -55,7 +55,10 @@ public class Arduino extends PApplet
 		}
 		if (!handshake)
 		{
-			/* it's possible that we should just quit the program if the Arduino can't be found... */
+			/*
+			 * it's possible that we should just quit the program if the
+			 * Arduino can't be found...
+			 */
 			System.out.println ("Arduino USB was not found.");
 			// System.exit (0);
 		}
@@ -123,78 +126,80 @@ public class Arduino extends PApplet
 	 * we wait for that feedback, we shouldn't end up with overlapping
 	 * commands.
 	 */
-	public void waityourturn()// this solves the above concern.
+	public ArduinoMessage waityourturn ()// this solves the above concern.
 	{
-		ArrayList <Integer> params = new ArrayList<Integer>(); 
-		while (port.available() == 0) {}
-		int msg = port.read();
+		while (port.available () == 0)
+		{}
+		ArduinoMessage msg = new ArduinoMessage (port.read ());
 		while (port.available () > 0)
-			{ 
-			params.add (port.read ()); 
-			} 
+		{
+			msg.addParam (port.read ());
+		}
+		return msg;
 	}
-	
-	public void XCW (int turns, int power)
+
+	public ArduinoMessage XCW (int turns, int power)
 	{
 		port.write (1);
 		port.write (turns);
 		port.write (power);
-		waityourturn();// so methods don't overlap. One method waits for the previous command to finish
+		return waityourturn ();// so methods don't overlap. One method waits for
+						// the previous command to finish
 	}
 
-	public void XCCW (int turns, int power)
+	public ArduinoMessage XCCW (int turns, int power)
 	{
 		port.write (2);
 		port.write (turns);
 		port.write (power);
-		waityourturn();
+		return waityourturn ();
 	}
 
-	public void RCW (int turns, int power)
+	public ArduinoMessage RCW (int turns, int power)
 	{
 		port.write (4);
 		port.write (turns);
 		port.write (power);
-		waityourturn();
+		return waityourturn ();
 	}
 
-	public void XCWandRCW (int turns, int power)
+	public ArduinoMessage XCWandRCW (int turns, int power)
 	{
 		port.write (5);
 		port.write (turns);
 		port.write (power);
-		waityourturn();
+		return waityourturn ();
 	}
 
-	public void XCCWandRCW (int turns, int power)
+	public ArduinoMessage XCCWandRCW (int turns, int power)
 	{
 		port.write (6);
 		port.write (turns);
 		port.write (power);
-		waityourturn();
+		return waityourturn ();
 	}
 
-	public void RCCW (int turns, int power)
+	public ArduinoMessage RCCW (int turns, int power)
 	{
 		port.write (8);
 		port.write (turns);
 		port.write (power);
-		waityourturn();
+		return waityourturn ();
 	}
 
-	public void XCWandRCCW (int turns, int power)
+	public ArduinoMessage XCWandRCCW (int turns, int power)
 	{
 		port.write (49);
 		port.write (turns);
 		port.write (power);
-		waityourturn();
+		return waityourturn ();
 	}
 
-	public void XCCWandRCCW (int turns, int power)
+	public ArduinoMessage XCCWandRCCW (int turns, int power)
 	{
 		port.write (10);
 		port.write (turns);
 		port.write (power);
-		waityourturn();
+		return waityourturn ();
 	}
 }
