@@ -189,7 +189,7 @@ public class Arduino extends PApplet
 
 	public ArduinoMessage XCWandRCCW (int turns, int power)
 	{
-		port.write (49);
+		port.write (9);
 		port.write (turns);
 		port.write (power);
 		return waityourturn ();
