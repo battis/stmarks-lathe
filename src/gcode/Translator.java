@@ -108,7 +108,7 @@ public class Translator extends Arduino
 
 			if(b.getCommandSet() == 'G' && (b.getCommand() == 2 || b.getCommand() == 3))
 			{
-				double arcx = 0, arcy = 0, X = 0, Y = 0, distance, a;
+				double arcx = 0, arcy = 0, X = 0, Y = 0, distance; 
 				for (Segment s : b)
 				{
 					if (s.getLetter() == 'I')
@@ -129,12 +129,14 @@ public class Translator extends Arduino
 					}
 				}
 				//finding the distance from the center of the circle to the side.
-				a= Math.pow(((arcx -X)), 2) + Math.pow((arcy-Y), 2);
-				distance = Math.sqrt(a);
+				distance = Math.sqrt(Math.pow(((arcx -X)), 2) + Math.pow((arcy-Y), 2));
+				//pheta 1 =arcsin (pi1/distance)
+				//pheta 2 = arcsin(pi2/distance)
 			}
+			
 		}
 	}
-
+	
 
 
 
