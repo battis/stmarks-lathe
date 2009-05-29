@@ -156,13 +156,14 @@ void loop ()
 
 void RCW (int reqTurns, int powerLevel)//right clockwise command - directional for lathe
 {
-  int turns = 0;  
+  int turns = 0;
+  int elapsed;
   analogWrite (RDir, CLOCKWISE);
   int time = millis();
   analogWrite (REn1, powerLevel);
   while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
-    int elapsed = time-millis();
+    elapsed = time-millis();
     if (elapsed > CHICKEN_OUT_WAIT_TIME)//in case the process is taking too much time, we disable it
     {
       digitalWrite (REn1, DISABLE);
@@ -254,11 +255,11 @@ void RCCW (int reqTurns, int powerLevel)
   }
   digitalWrite (REn1, DISABLE);
   if (!PARAMS_USED[TIME_OUT]||!PARAMS_USED[CHICKEN_OUT])
-{
-  //PARAMS[OK] = elapsed;
-  PARAMS_USED[OK];
-  msg+= OK_BIT;
-}
+  {
+    //PARAMS[OK] = elapsed;
+    PARAMS_USED[OK];
+    msg+= OK_BIT;
+  }
 }
 
 void XCCW(int reqTurns, int powerLevel)
@@ -270,7 +271,7 @@ void XCCW(int reqTurns, int powerLevel)
   analogWrite (XEn1, powerLevel);	
   while (turns != reqTurns && PARAMS_USED[CHICKEN_OUT] != true)
   {
-   elapsed = time-millis();
+    elapsed = time-millis();
     if (elapsed > CHICKEN_OUT_WAIT_TIME)
     {
       digitalWrite (XEn1, DISABLE);
