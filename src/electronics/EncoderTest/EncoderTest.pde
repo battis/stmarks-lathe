@@ -1,5 +1,5 @@
-int XENC1 = 3;
-int XENC2 = 4;
+int XENC1 = 5;
+int XENC2 = 6;
 
 char ARDUINO_HANDSHAKE = '@';
 
